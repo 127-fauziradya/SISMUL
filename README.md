@@ -1,2 +1,2 @@
 # SISMUL
-project sismul klo mau edit, bikin branch, jangan langsung di branch main
+project sismul klo mau edit, bikin branch dulu, jangan langsung di branch main
