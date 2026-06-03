@@ -1,0 +1,317 @@
+/* ==========================================================================
+   FUNLISH STUDIO - Printable Report Stylesheet (A4 PDF Book)
+   ========================================================================== */
+
+/* Report Layout Grid (Screen view) */
+.report-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.report-actions {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: sticky;
+  top: 90px;
+}
+
+.report-actions h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.report-actions p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.report-document {
+  background-color: #ffffff;
+  color: #1e293b;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 50px 60px;
+  min-height: 1000px;
+  font-family: 'Outfit', sans-serif;
+  line-height: 1.6;
+}
+
+.report-page {
+  padding: 40px 0;
+}
+
+.report-page:not(:last-child) {
+  border-bottom: 2px dashed #cbd5e1;
+}
+
+/* Cover Page styling */
+.cover-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 800px;
+  text-align: center;
+  padding: 50px 0;
+  border-bottom: 3px double #94a3b8 !important;
+}
+
+.cover-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+}
+
+.cover-header h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 20px;
+}
+
+.cover-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0284c7;
+  line-height: 1.4;
+  max-width: 650px;
+  margin: 30px auto 0;
+  text-transform: uppercase;
+}
+
+.line-separator {
+  width: 100px;
+  height: 4px;
+  background-color: #0284c7;
+  margin: 0 auto;
+}
+
+.cover-metadata {
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: left;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  padding: 24px 30px;
+  border-radius: 8px;
+}
+
+.meta-row {
+  display: flex;
+  padding: 8px 0;
+}
+
+.meta-row:not(:last-child) {
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.meta-label {
+  font-weight: 600;
+  width: 150px;
+  color: #475569;
+}
+
+.meta-val {
+  color: #0f172a;
+}
+
+.cover-footer {
+  font-weight: 700;
+  color: #475569;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+}
+
+.cover-footer p {
+  margin-bottom: 5px;
+}
+
+/* Document content elements */
+.report-document h2 {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  border-left: 5px solid #0284c7;
+  padding-left: 12px;
+}
+
+.report-document h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+.report-document p {
+  font-size: 0.98rem;
+  margin-bottom: 16px;
+  color: #334155;
+  text-align: justify;
+}
+
+.report-document ol,
+.report-document ul {
+  margin-left: 20px;
+  margin-bottom: 18px;
+  font-size: 0.98rem;
+  color: #334155;
+}
+
+.report-document li {
+  margin-bottom: 8px;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin-left: 0 !important;
+}
+
+.toc-list li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dotted #cbd5e1;
+  padding: 6px 0;
+}
+
+.toc-list li span:first-child {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.toc-list li span:last-child {
+  font-weight: 600;
+  color: #64748b;
+}
+
+.equation {
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 15px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.95rem;
+  text-align: center;
+  color: #0369a1;
+  margin: 18px 0;
+}
+
+.section-divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 40px 0;
+}
+
+/* ==========================================================================
+   Print Media Queries (For PDF / A4 paper print)
+   ========================================================================== */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+    font-size: 12pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hide all interactive elements and outer wrappers */
+  .navbar,
+  .main-footer,
+  .report-actions,
+  .no-print,
+  #portal-siswa-content,
+  #portal-guru-content > section:not(#tab-guideline),
+  .nav-links,
+  .nav-status,
+  .portal-switcher {
+    display: none !important;
+  }
+
+  /* Force display of Guru container for printing Laporan tab */
+  #portal-guru-content {
+    display: block !important;
+  }
+  #tab-guideline {
+    display: block !important;
+  }
+
+  .main-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .report-container {
+    display: block !important;
+  }
+
+  .report-document {
+    background-color: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Force page breaks on specific pages */
+  .report-page {
+    page-break-after: always;
+    page-break-inside: avoid;
+    padding: 2cm 0 !important;
+    border-bottom: none !important;
+  }
+  
+  .report-page:last-child {
+    page-break-after: avoid;
+  }
+
+  .cover-page {
+    height: 100% !important;
+    min-height: 25cm;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    border-bottom: none !important;
+    page-break-after: always;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    color: black !important;
+  }
+
+  h1 { font-size: 24pt !important; }
+  h2 { font-size: 18pt !important; border-left-color: #0284c7 !important; }
+  h3 { font-size: 14pt !important; }
+
+  p, li {
+    font-size: 11pt;
+    color: #111111 !important;
+  }
+
+  .equation {
+    background-color: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #000000 !important;
+    page-break-inside: avoid;
+  }
+
+  .cover-metadata {
+    background-color: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+}

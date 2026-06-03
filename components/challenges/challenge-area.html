@@ -1,0 +1,70 @@
+<div class="challenge-area-container">
+  <div class="challenge-area-header">
+    <button class="btn-back-level" onclick="goBackToLevels()">
+      <i class="fa-solid fa-arrow-left"></i> Kembali ke Menu Level
+    </button>
+    <div class="challenge-title-banner">
+      <span class="challenge-level-badge" id="challenge-level-badge">Level 1 - Easy</span>
+      <h2 id="challenge-title">Petualangan Kosakata</h2>
+      <p id="challenge-desc">Klik kartu kosakata untuk melatih ejaan kata dan mendengarkan cara pengucapannya!</p>
+    </div>
+  </div>
+
+  <div class="challenge-body card">
+    <!-- Vocab Explorer Panel (Level 1) -->
+    <div id="vocab-view" class="challenge-view-panel hide">
+      <div class="vocab-grid-header">
+        <h3><i class="fa-solid fa-volume-high"></i> Klik Kartu Untuk Pengucapan Audio (Web Speech Pronunciation):</h3>
+      </div>
+      <div class="vocab-grid" id="challenge-vocab-grid">
+        <!-- Filled by student-challenges.js -->
+      </div>
+    </div>
+
+    <!-- Dialog / Conversation Panel (Level 2) -->
+    <div id="dialog-view" class="challenge-view-panel hide">
+      <div class="dialog-header-info">
+        <h3><i class="fa-solid fa-comments"></i> Klik Tombol Volume Untuk Mendengarkan Suara Karakter:</h3>
+      </div>
+      <div class="dialog-chat-container" id="challenge-dialog-container">
+        <!-- Filled by student-challenges.js -->
+      </div>
+    </div>
+
+    <!-- Dynamic Quest Quiz Panel (Level 3) -->
+    <div id="quiz-view" class="challenge-view-panel hide">
+      <div class="quiz-header-info">
+        <h3><i class="fa-solid fa-gamepad"></i> Jawab 5 Soal Pilihan Ganda Berikut:</h3>
+      </div>
+      
+      <div class="quiz-question-box" id="challenge-quiz-container">
+        <!-- Filled dynamically by student-challenges.js with 5 randomized questions -->
+      </div>
+      
+      <div class="quiz-actions">
+        <button class="btn-playful primary-playful" id="btn-challenge-submit-quiz" onclick="submitLevelQuiz()">
+          Kirim Jawaban <i class="fa-solid fa-paper-plane"></i>
+        </button>
+        <button class="btn-playful accent-playful" id="btn-challenge-reshuffle-quiz" onclick="reshuffleLevelQuiz()">
+          Acak Soal Baru <i class="fa-solid fa-shuffle"></i>
+        </button>
+      </div>
+
+      <!-- Quiz Result Alert Box -->
+      <div class="quiz-result-alert hide" id="challenge-quiz-result">
+        <div class="result-icon-wrapper">
+          <i class="fa-solid fa-trophy result-icon"></i>
+        </div>
+        <div class="result-text-block">
+          <h4 id="challenge-quiz-result-score">Skor Kamu: 100 / 100</h4>
+          <p id="challenge-quiz-result-feedback">Luar biasa! Semua jawabanmu benar. Kamu hebat sekali!</p>
+        </div>
+        <div class="result-actions">
+          <button class="btn-playful btn-retry" onclick="retryLevelQuiz()">
+            Ulangi Kuis <i class="fa-solid fa-arrows-rotate"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

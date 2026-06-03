@@ -1,0 +1,891 @@
+<section class="lab-dark-container" id="lab-sismul">
+  <div class="section-header-dark">
+    <span class="sub-title-dark">DASHBOARD MULTIMEDIA GURU & DEVELOPER</span>
+    <h2>Lab Pemrosesan & Keamanan Multimedia</h2>
+    <p>Pemrosesan aset media kosa kata, vokal vokal pengajar, dan enkripsi jawaban aplikasi FUNLISH secara waktu-nyata.</p>
+    
+    <!-- Tabbed layout to navigate between DSP sub-modules -->
+    <nav class="nav-links-dark" id="teacher-nav" aria-label="Navigasi Lab">
+      <button class="nav-tab-dark active" data-tab="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
+      <button class="nav-tab-dark" data-tab="teks"><i class="fa-solid fa-file-lines"></i> Teks</button>
+      <button class="nav-tab-dark" data-tab="gambar"><i class="fa-solid fa-image"></i> Gambar</button>
+      <button class="nav-tab-dark" data-tab="audio"><i class="fa-solid fa-wave-square"></i> Audio</button>
+      <button class="nav-tab-dark" data-tab="video"><i class="fa-solid fa-video"></i> Video</button>
+      <button class="nav-tab-dark" data-tab="guideline"><i class="fa-solid fa-book"></i> Laporan/Guideline</button>
+    </nav>
+  </div>
+
+  <!-- ==================== DASHBOARD TAB ==================== -->
+  <div id="tab-dashboard" class="tab-panel active">
+    <div class="hero-banner">
+      <div class="hero-overlay"></div>
+      <div class="hero-body">
+        <p class="hero-subtitle">Pengolahan & Keamanan Sinyal</p>
+        <h1>FUNLISH Studio</h1>
+        <p class="hero-desc">
+          Pusat manajemen dan manipulasi aset multimedia untuk aplikasi FUNLISH. Di sini Guru/Admin dapat melakukan kompresi materi pelajaran, enkripsi kunci jawaban kuis, pemrosesan citra kartu kosakata, DSP audio pelafalan, dan perekaman green screen (chroma key).
+        </p>
+        <div class="hero-badges">
+          <span><i class="fa-solid fa-bolt"></i> 100% Client-Side</span>
+          <span><i class="fa-solid fa-shield-halved"></i> Sandboxed Processing</span>
+          <span><i class="fa-solid fa-file-pdf"></i> Auto PDF Report</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Text Card -->
+      <article class="dash-card">
+        <div class="dash-card-icon blue"><i class="fa-solid fa-file-lines"></i></div>
+        <h3>Kompresi & Keamanan Teks</h3>
+        <p>Kompresi data ringkasan materi menggunakan RLE and Huffman Coding untuk penghematan bandwidth siswa SD, serta Enkripsi XOR untuk mengamankan Kunci Jawaban Kuis.</p>
+        <div class="dash-card-footer">
+          <span class="tech-badge">RLE</span>
+          <span class="tech-badge">Huffman</span>
+          <span class="tech-badge">XOR Cipher</span>
+          <button class="btn-go" onclick="switchLabTab('teks')">Buka <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </article>
+
+      <!-- Image Card -->
+      <article class="dash-card">
+        <div class="dash-card-icon emerald"><i class="fa-solid fa-image"></i></div>
+        <h3>Filter & Keamanan Flashcard</h3>
+        <p>Terapkan filter penajaman konvolusi 3x3 pada gambar kartu kosakata, tambahkan watermark hak cipta, kompresi kualitas JPEG, dan sisipkan teks jawaban dengan steganografi LSB.</p>
+        <div class="dash-card-footer">
+          <span class="tech-badge">Convolution Filter</span>
+          <span class="tech-badge">LSB Stego</span>
+          <span class="tech-badge">JPEG Canvas</span>
+          <button class="btn-go" onclick="switchLabTab('gambar')">Buka <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </article>
+
+      <!-- Audio Card -->
+      <article class="dash-card">
+        <div class="dash-card-icon purple"><i class="fa-solid fa-wave-square"></i></div>
+        <h3>DSP Audio Pelafalan</h3>
+        <p>Saring frekuensi vokal vokal guru dengan filter biquad Web Audio API, kompresi downsampling bitdepth/samplerate, watermark suara frekuensi tinggi, dan visualisasi bar spektrum.</p>
+        <div class="dash-card-footer">
+          <span class="tech-badge">Web Audio DSP</span>
+          <span class="tech-badge">Bitcrusher</span>
+          <span class="tech-badge">Spectrogram</span>
+          <button class="btn-go" onclick="switchLabTab('audio')">Buka <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </article>
+
+      <!-- Video Card -->
+      <article class="dash-card">
+        <div class="dash-card-icon coral"><i class="fa-solid fa-video"></i></div>
+        <h3>Chroma Key Video Guru</h3>
+        <p>Perekaman webcam guru untuk materi video e-learning secara real-time, lengkap dengan pemotongan background warna hijau (Chroma Keying) diganti ruang kelas virtual.</p>
+        <div class="dash-card-footer">
+          <span class="tech-badge">Chroma Key</span>
+          <span class="tech-badge">Realtime Canvas</span>
+          <span class="tech-badge">Webcam API</span>
+          <button class="btn-go" onclick="switchLabTab('video')">Buka <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </article>
+    </div>
+
+    <div class="lab-specs">
+      <div class="spec-title">
+        <h2>Korelasi dengan Pembelajaran FUNLISH</h2>
+        <p>Bagaimana metode pemrosesan multimedia diaplikasikan secara nyata dalam platform pembelajaran bahasa Inggris:</p>
+      </div>
+      <div class="spec-list">
+        <div class="spec-item">
+          <i class="fa-solid fa-compress"></i>
+          <div>
+            <h4>Optimalisasi Bandwidth Siswa</h4>
+            <p>Materi teks pelajaran dikompresi (RLE/Huffman) dan gambar flashcard dikompresi kualitasnya (JPEG) agar siswa dengan jaringan seluler lambat di daerah pedesaan tetap dapat mengakses portal FUNLISH secara lancar.</p>
+          </div>
+        </div>
+        <div class="spec-item">
+          <i class="fa-solid fa-key"></i>
+          <div>
+            <h4>Anti-Contek (Kuis & Jawaban Aman)</h4>
+            <p>Mencegah kebocoran kunci jawaban ujian kuis Kelas 6 dengan mengenkripsi teks kunci menggunakan XOR biner atau menyisipkannya tersembunyi ke dalam bit piksel LSB gambar apel/kucing flashcard.</p>
+          </div>
+        </div>
+        <div class="spec-item">
+          <i class="fa-solid fa-sliders"></i>
+          <div>
+            <h4>Kejelasan Audio & Visual E-learning</h4>
+            <p>Filter biquad memangkas noise dengung AC mic guru agar instruksi pelafalan kata bahasa Inggris terdengar jernih oleh anak-anak, sementara video green screen memberikan visual ruang kelas kartun yang interaktif.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ==================== TEKS TAB ==================== -->
+  <div id="tab-teks" class="tab-panel">
+    <div class="section-header">
+      <h2>Modul Pemrosesan Teks Pelajaran</h2>
+      <p>Eksperimen kompresi data lossless untuk materi dan enkripsi kunci jawaban kuis FUNLISH.</p>
+    </div>
+
+    <div class="workspace-grid">
+      <div class="panel card">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-pen-to-square"></i> Input Materi / Kunci Jawaban</h3>
+        </div>
+        <div class="panel-body">
+          <textarea id="text-input" placeholder="Masukkan materi teks pelajaran atau kunci jawaban di sini..." rows="8">Kunci Jawaban Ujian Kuis Kelas 6 FUNLISH: [1:Elephant, 2:Good Morning, 3:Three, 4:reading]. AAAAAAAAAAAABBBBBBBB</textarea>
+          <div class="input-actions">
+            <button class="btn btn-secondary" onclick="loadSampleText(1)">Ringkasan Materi Pelajaran</button>
+            <button class="btn btn-secondary" onclick="loadSampleText(2)">Data Jawaban Berulang</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel card">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-gear"></i> Kontrol & Hasil Pemrosesan</h3>
+          <div class="tab-sub-nav">
+            <button class="sub-tab active" data-sub="rle">RLE</button>
+            <button class="sub-tab" data-sub="huffman">Huffman</button>
+            <button class="sub-tab" data-sub="xor">XOR Kunci Jawaban</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <!-- RLE -->
+          <div id="sub-panel-rle" class="sub-panel active">
+            <div class="info-box info">
+              <strong>Run-Length Encoding (RLE)</strong> memampatkan materi pelajaran yang berulang. Sangat cocok untuk mengompres data kode atau log aktivitas ujian siswa yang panjang.
+            </div>
+            <button class="btn btn-primary" onclick="processRLE()"><i class="fa-solid fa-compress"></i> Jalankan Kompresi RLE</button>
+            
+            <div class="result-box hide" id="rle-result-container">
+              <h4>Hasil Kompresi RLE:</h4>
+              <div class="code-output" id="rle-output"></div>
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <span class="label">Ukuran Awal</span>
+                  <strong id="rle-size-orig">0 bytes</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="label">Ukuran Kompresi</span>
+                  <strong id="rle-size-comp">0 bytes</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="label">Rasio Hemat</span>
+                  <strong class="text-green" id="rle-ratio">0%</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Huffman -->
+          <div id="sub-panel-huffman" class="sub-panel">
+            <div class="info-box info">
+              <strong>Huffman Coding</strong> mengkodekan teks materi bahasa Inggris dengan panjang bit variabel. Karakter huruf yang paling sering muncul mendapat kode biner terpendek.
+            </div>
+            <button class="btn btn-primary" onclick="processHuffman()"><i class="fa-solid fa-compress"></i> Jalankan Kompresi Huffman</button>
+            
+            <div class="result-box hide" id="huffman-result-container">
+              <h4>Hasil Analisis Huffman:</h4>
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <span class="label">Ukuran Asli (8-bit)</span>
+                  <strong id="huff-size-orig">0 bits</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="label">Ukuran Huffman</span>
+                  <strong id="huff-size-comp">0 bits</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="label">Rasio Hemat</span>
+                  <strong class="text-green" id="huff-ratio">0%</strong>
+                </div>
+              </div>
+              
+              <div class="code-book-container">
+                <h5>Tabel Kode Huffman & Frekuensi:</h5>
+                <div class="table-wrapper">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Huruf</th>
+                        <th>Frekuensi</th>
+                        <th>Kode Biner</th>
+                        <th>Panjang</th>
+                      </tr>
+                    </thead>
+                    <tbody id="huffman-table-body">
+                      <!-- Filled by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- XOR Security -->
+          <div id="sub-panel-xor" class="sub-panel">
+            <div class="info-box warning">
+              <strong>XOR Encryption</strong> mengamankan teks kunci jawaban kuis agar tidak disalin siswa. Hasil berupa nilai heksadesimal acak yang hanya dapat diuraikan/dekripsi kembali jika kunci sandi guru dimasukkan secara tepat.
+            </div>
+            
+            <div class="form-group">
+              <label for="xor-key">Kunci Sandi Guru (Karakter):</label>
+              <input type="text" id="xor-key" value="GURUBING" placeholder="Masukkan kunci..." />
+            </div>
+            
+            <div class="button-group">
+              <button class="btn btn-primary" onclick="encryptXOR()"><i class="fa-solid fa-lock"></i> Enkripsi Kunci</button>
+              <button class="btn btn-accent" onclick="decryptXOR()"><i class="fa-solid fa-lock-open"></i> Dekripsi Kunci</button>
+            </div>
+
+            <div class="result-box hide" id="xor-result-container">
+              <h4 id="xor-status-title">Hasil Kriptografi:</h4>
+              <textarea id="xor-output" readonly rows="4" class="code-output-textarea"></textarea>
+              <p class="small-text text-secondary" id="xor-info-format">Hasil cipher teks biner ditampilkan dalam format Heksadesimal.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== GAMBAR TAB ==================== -->
+  <div id="tab-gambar" class="tab-panel">
+    <div class="section-header">
+      <h2>Modul Pemrosesan Flashcard Gambar</h2>
+      <p>Pemrosesan citra kartu kosakata bahasa Inggris: filter spasial citra, steganografi kunci kuis, watermark hak cipta, dan kompresi JPEG.</p>
+    </div>
+
+    <div class="workspace-layout-split">
+      <aside class="sidebar-controls card">
+        <div class="control-section">
+          <h3><i class="fa-solid fa-file-image"></i> 1. Gambar Kosakata</h3>
+          <div class="file-upload-zone" id="image-dropzone">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p>Unggah gambar kosakata baru (.png/.jpg) atau <strong>klik di sini</strong></p>
+            <input type="file" id="image-file-input" accept="image/*" class="hide" />
+          </div>
+          <div class="image-actions">
+            <button class="btn btn-secondary w-full" id="btn-use-sample-image"><i class="fa-solid fa-image"></i> Gunakan Gambar Sampel</button>
+          </div>
+          <div class="image-meta hide" id="image-meta-info">
+            <span id="img-meta-dims">Dimensi: -</span>
+            <span id="img-meta-size">Ukuran: -</span>
+          </div>
+        </div>
+
+        <div class="control-section border-top">
+          <h3><i class="fa-solid fa-screwdriver-wrench"></i> 2. Menu Pemrosesan</h3>
+          <div class="vertical-sub-tabs">
+            <button class="v-sub-tab active" data-img-sub="filters"><i class="fa-solid fa-wand-magic-sparkles"></i> Filter Sinyal Citra</button>
+            <button class="v-sub-tab" data-img-sub="stego"><i class="fa-solid fa-user-secret"></i> Steganografi LSB</button>
+            <button class="v-sub-tab" data-img-sub="watermark"><i class="fa-solid fa-copyright"></i> Watermark Kartu</button>
+            <button class="v-sub-tab" data-img-sub="compress"><i class="fa-solid fa-file-contract"></i> Kompresi JPEG</button>
+          </div>
+        </div>
+
+        <div class="control-section border-top">
+          <!-- Filter Section -->
+          <div id="img-panel-filters" class="img-sub-panel active">
+            <h4>Filter Piksel & Spasial</h4>
+            
+            <div class="slider-group">
+              <label for="slide-brightness">Kecerahan (Brightness): <span class="badge" id="val-brightness">0</span></label>
+              <input type="range" id="slide-brightness" min="-100" max="100" value="0" />
+            </div>
+
+            <div class="slider-group">
+              <label for="slide-contrast">Kontras (Contrast): <span class="badge" id="val-contrast">0</span></label>
+              <input type="range" id="slide-contrast" min="-100" max="100" value="0" />
+            </div>
+
+            <div class="button-grid-filters">
+              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('grayscale')">Grayscale</button>
+              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('sepia')">Sepia</button>
+              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('invert')">Invert</button>
+              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('blur')">Blur Spasial</button>
+              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('sharpen')">Sharpen Spasial</button>
+              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('sobel')">Deteksi Tepi Sobel</button>
+            </div>
+
+            <button class="btn btn-accent w-full mt-10" onclick="resetImageFilters()"><i class="fa-solid fa-arrows-rotate"></i> Reset Semua Filter</button>
+          </div>
+
+          <!-- Stego Section -->
+          <div id="img-panel-stego" class="img-sub-panel">
+            <h4>Steganografi LSB (Red Channel)</h4>
+            <p class="small-text text-secondary mb-10">Menyembunyikan kunci kuis di dalam bit terendah komponen merah gambar kosakata secara kasat mata.</p>
+            
+            <div class="tab-mini-nav">
+              <button class="mini-tab active" data-mini="stego-encode">Sisipkan Jawaban</button>
+              <button class="mini-tab" data-mini="stego-decode">Baca Jawaban</button>
+            </div>
+
+            <!-- Stego Encode -->
+            <div id="mini-panel-stego-encode" class="mini-panel active">
+              <textarea id="stego-message-input" placeholder="Masukkan teks kunci jawaban kuis..." rows="3">Quiz K6: ELEPHANT, GOOD MORNING, THIRTEEN, FOOTBALL</textarea>
+              <button class="btn btn-primary w-full mt-10" onclick="encodeStego()"><i class="fa-solid fa-mask"></i> Sisipkan ke Gambar</button>
+              <button class="btn btn-secondary w-full mt-5 hide" id="btn-download-stego" onclick="downloadStegoImage()"><i class="fa-solid fa-download"></i> Unduh Hasil (.PNG)</button>
+            </div>
+
+            <!-- Stego Decode -->
+            <div id="mini-panel-stego-decode" class="mini-panel">
+              <p class="small-text mb-10">Unggah gambar stego format PNG ke program, lalu klik ekstrak:</p>
+              <button class="btn btn-accent w-full" onclick="decodeStego()"><i class="fa-solid fa-unlock-keyhole"></i> Baca Pesan Rahasia</button>
+              
+              <div class="result-box hide mt-10" id="stego-decode-result-box">
+                <strong>Teks Tersembunyi:</strong>
+                <div class="code-output text-green" id="stego-decoded-message"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Watermark Section -->
+          <div id="img-panel-watermark" class="img-sub-panel">
+            <h4>Watermark Kepemilikan</h4>
+            
+            <div class="form-group">
+              <label for="wm-text">Teks Watermark:</label>
+              <input type="text" id="wm-text" value="FUNLISH Hak Cipta UMS" />
+            </div>
+
+            <div class="slider-group">
+              <label for="wm-opacity">Opasitas Watermark: <span class="badge" id="val-wm-opacity">0.3</span></label>
+              <input type="range" id="wm-opacity" min="0.1" max="1.0" step="0.05" value="0.3" />
+            </div>
+
+            <div class="slider-group">
+              <label for="wm-size">Ukuran Huruf: <span class="badge" id="val-wm-size">24px</span></label>
+              <input type="range" id="wm-size" min="10" max="80" value="24" />
+            </div>
+
+            <div class="slider-group">
+              <label for="wm-rotation">Sudut Putar: <span class="badge" id="val-wm-rotation">-30°</span></label>
+              <input type="range" id="wm-rotation" min="-180" max="180" value="-30" />
+            </div>
+
+            <div class="form-group">
+              <label for="wm-position">Posisi Penempatan:</label>
+              <select id="wm-position">
+                <option value="center">Di Tengah</option>
+                <option value="top-left">Kiri Atas</option>
+                <option value="top-right">Kanan Atas</option>
+                <option value="bottom-left">Kiri Bawah</option>
+                <option value="bottom-right" selected>Kanan Bawah</option>
+                <option value="repeat">Ulang Penuh (Tile)</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary w-full" onclick="applyWatermark()"><i class="fa-solid fa-copyright"></i> Tempel Watermark</button>
+          </div>
+
+          <!-- Compress Section -->
+          <div id="img-panel-compress" class="img-sub-panel">
+            <h4>Kompresi Lossy Gambar JPEG</h4>
+            <p class="small-text text-secondary mb-10">Kompresi kualitas pixel untuk efisiensi loading browser siswa saat membuka flashcard kosakata.</p>
+            
+            <div class="slider-group">
+              <label for="comp-quality">Kualitas Simpan JPEG: <span class="badge" id="val-comp-quality">70%</span></label>
+              <input type="range" id="comp-quality" min="1" max="100" value="70" />
+            </div>
+
+            <div class="slider-group">
+              <label for="comp-scale">Skala Dimensi Gambar: <span class="badge" id="val-comp-scale">100%</span></label>
+              <input type="range" id="comp-scale" min="10" max="100" step="5" value="100" />
+            </div>
+
+            <button class="btn btn-primary w-full" onclick="compressImage()"><i class="fa-solid fa-file-contract"></i> Hitung Rasio Kompresi</button>
+
+            <div class="result-box hide mt-10" id="img-compress-result">
+              <h4>Hasil Kompresi JPEG:</h4>
+              <div class="stats-grid">
+                <div class="stat-item">
+                  <span class="label">Ukuran Asli</span>
+                  <strong id="img-orig-size-display">0 KB</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="label">Ukuran Baru</span>
+                  <strong id="img-comp-size-display">0 KB</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="label">Rasio Hemat</span>
+                  <strong class="text-green" id="img-compress-ratio">0%</strong>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-sm w-full mt-10" onclick="downloadCompressedImage()"><i class="fa-solid fa-download"></i> Unduh Berkas JPEG</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Display Canvas -->
+      <section class="main-display card">
+        <div class="display-header">
+          <h3><i class="fa-solid fa-eye"></i> Monitor Citra Flashcard</h3>
+          <div class="display-actions">
+            <label class="toggle-control">
+              <input type="checkbox" id="split-compare-chk" />
+              <span class="toggle-label">Bandingkan Sisi (Split)</span>
+            </label>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <div class="canvas-container-inner">
+            <canvas id="image-canvas-source" class="hide"></canvas>
+            <canvas id="image-canvas-display"></canvas>
+            
+            <!-- Split comparison element -->
+            <div id="split-slider-bar" class="split-slider hide"></div>
+            
+            <div class="empty-state-message" id="img-empty-message">
+              <i class="fa-solid fa-image-portrait"></i>
+              <p>Unggah gambar flashcard kosakata baru atau klik "Gunakan Gambar Sampel" untuk memulai pemrosesan citra.</p>
+            </div>
+          </div>
+        </div>
+        <div class="canvas-footer" id="image-canvas-footer">
+          <span class="canvas-info-badge"><i class="fa-solid fa-arrows-left-right"></i> Canvas Aktif</span>
+          <span class="canvas-info-badge" id="canvas-status-msg">Siap</span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ==================== AUDIO TAB ==================== -->
+  <div id="tab-audio" class="tab-panel">
+    <div class="section-header">
+      <h2>Modul DSP Audio Suara Pelafalan</h2>
+      <p>Pemrosesan sinyal suara vokal guru: filter frekuensi audio, simulasi downsampling kompresi, dan visualisasi spektrum vokal.</p>
+    </div>
+
+    <div class="workspace-layout-split">
+      <aside class="sidebar-controls card">
+        <div class="control-section">
+          <h3><i class="fa-solid fa-music"></i> 1. Sumber Suara Guru</h3>
+          <div class="file-upload-zone" id="audio-dropzone">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p>Unggah berkas rekaman suara (.mp3/.wav) atau <strong>klik di sini</strong></p>
+            <input type="file" id="audio-file-input" accept="audio/*" class="hide" />
+          </div>
+          <div class="audio-actions mt-10">
+            <button class="btn btn-secondary w-full" id="btn-use-synth-audio"><i class="fa-solid fa-wand-magic-sparkles"></i> Gunakan Audio Sintetis</button>
+          </div>
+          <div class="audio-meta hide mt-10" id="audio-meta-info">
+            <strong id="audio-meta-name">File: -</strong>
+            <span id="audio-meta-duration">Durasi: -</span>
+          </div>
+        </div>
+
+        <div class="control-section border-top">
+          <h3><i class="fa-solid fa-play"></i> 2. Pengendali Putar</h3>
+          <div class="audio-player-controls">
+            <button class="btn-play" id="btn-audio-play" disabled><i class="fa-solid fa-play"></i> Play</button>
+            <button class="btn-pause" id="btn-audio-pause" disabled><i class="fa-solid fa-pause"></i> Pause</button>
+            <button class="btn-stop" id="btn-audio-stop" disabled><i class="fa-solid fa-stop"></i> Stop</button>
+          </div>
+          <div class="slider-group mt-10">
+            <label for="audio-volume">Volume Suara: <span class="badge" id="val-audio-volume">80%</span></label>
+            <input type="range" id="audio-volume" min="0" max="1" step="0.05" value="0.8" />
+          </div>
+          <div class="slider-group">
+            <label for="audio-speed">Kecepatan Pelafalan: <span class="badge" id="val-audio-speed">1.0x</span></label>
+            <input type="range" id="audio-speed" min="0.5" max="2.0" step="0.1" value="1.0" />
+          </div>
+        </div>
+
+        <div class="control-section border-top">
+          <h3><i class="fa-solid fa-sliders"></i> 3. Filter Frekuensi & Watermark</h3>
+          
+          <div class="form-group">
+            <label for="audio-filter-type">Pilih Filter Sinyal (DSP):</label>
+            <select id="audio-filter-type">
+              <option value="none" selected>Tanpa Filter (Bypass)</option>
+              <option value="lowpass">Low-Pass Filter (Bass Tebal/Redup)</option>
+              <option value="highpass">High-Pass Filter (Potong Humming AC)</option>
+              <option value="bandpass">Band-Pass Filter (Sempit Vokal)</option>
+            </select>
+          </div>
+
+          <div class="slider-group filter-control-el hide">
+            <label for="audio-filter-freq">Frekuensi Cutoff ($f_c$): <span class="badge" id="val-audio-filter-freq">1000 Hz</span></label>
+            <input type="range" id="audio-filter-freq" min="40" max="15000" step="10" value="1000" />
+          </div>
+
+          <div class="slider-group filter-control-el hide">
+            <label for="audio-filter-q">Resonansi Filter (Q): <span class="badge" id="val-audio-filter-q">1.0</span></label>
+            <input type="range" id="audio-filter-q" min="0.1" max="15" step="0.1" value="1.0" />
+          </div>
+
+          <div class="checkbox-group border-top-dash pt-10">
+            <label class="checkbox-control">
+              <input type="checkbox" id="chk-audio-crush" />
+              <span class="checkbox-label"><strong>Downsampling (Bitcrusher)</strong></span>
+            </label>
+          </div>
+
+          <div class="crush-controls hide">
+            <div class="slider-group">
+              <label for="audio-crush-rate">Laju Sampel (Rate): <span class="badge" id="val-audio-crush-rate">44.1 kHz</span></label>
+              <input type="range" id="audio-crush-rate" min="1000" max="44100" step="500" value="44100" />
+            </div>
+            <div class="slider-group">
+              <label for="audio-crush-bits">Resolusi Bit (Bit Depth): <span class="badge" id="val-audio-crush-bits">16-bit</span></label>
+              <input type="range" id="audio-crush-bits" min="2" max="16" step="1" value="16" />
+            </div>
+            <div class="info-box info">
+              <span>Rasio Hemat Bitrate: <strong class="text-green" id="audio-compress-ratio">0%</strong></span>
+            </div>
+          </div>
+
+          <div class="checkbox-group border-top-dash pt-10">
+            <label class="checkbox-control">
+              <input type="checkbox" id="chk-audio-watermark" />
+              <span class="checkbox-label"><strong>Sisipkan Watermark Suara</strong></span>
+            </label>
+          </div>
+          <div class="watermark-controls hide">
+            <p class="small-text text-secondary">Menyuntikkan nada sinus 15.000 Hz konstan sebagai tanda digital kepemilikan audio vokal FUNLISH.</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Display Visualizers -->
+      <section class="main-display card">
+        <div class="display-header">
+          <h3><i class="fa-solid fa-chart-simple"></i> Visualisasi Sinyal Suara Waktu Nyata</h3>
+        </div>
+        
+        <div class="visualizer-container">
+          <div class="visualizer-block">
+            <span class="visualizer-label"><i class="fa-solid fa-grip-lines"></i> Waveform Citra Sinyal (Domain Waktu - Amplitudo)</span>
+            <canvas id="audio-canvas-waveform" width="600" height="150"></canvas>
+          </div>
+
+          <div class="visualizer-block">
+            <span class="visualizer-label"><i class="fa-solid fa-chart-column"></i> Spectrogram Sinyal (Domain Frekuensi - FFT Bar)</span>
+            <canvas id="audio-canvas-frequency" width="600" height="180"></canvas>
+          </div>
+        </div>
+
+        <div class="canvas-footer">
+          <span class="canvas-info-badge"><i class="fa-solid fa-wave-square"></i> AudioContext: <strong id="audio-context-status">Suspended</strong></span>
+          <span class="canvas-info-badge"><i class="fa-solid fa-clock"></i> Waktu Putar: <strong id="audio-time-display">00:00 / 00:00</strong></span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ==================== VIDEO TAB ==================== -->
+  <div id="tab-video" class="tab-panel">
+    <div class="section-header">
+      <h2>Modul Chroma Key Video E-Learning</h2>
+      <p>Pemrosesan frame video: isolasi piksel latar belakang hijau (Chroma Keying) diganti studio sekolah virtual secara real-time.</p>
+    </div>
+
+    <div class="workspace-layout-split">
+      <aside class="sidebar-controls card">
+        <div class="control-section">
+          <h3><i class="fa-solid fa-video-camera"></i> 1. Input Kamera Guru</h3>
+          <div class="video-source-buttons">
+            <button class="btn btn-primary w-full" id="btn-video-webcam"><i class="fa-solid fa-camera"></i> Aktifkan Kamera Web</button>
+          </div>
+          
+          <div class="file-upload-zone mt-10" id="video-dropzone">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p>Seret berkas rekaman video atau klik di sini</p>
+            <input type="file" id="video-file-input" accept="video/*" class="hide" />
+          </div>
+
+          <div class="video-meta hide mt-10" id="video-meta-info">
+            <span id="video-meta-status">Status: -</span>
+          </div>
+        </div>
+
+        <div class="control-section border-top">
+          <h3><i class="fa-solid fa-wand-magic-sparkles"></i> 2. Filter Citra Video</h3>
+          <div class="form-group">
+            <label for="video-filter-select">Filter Frame Piksel:</label>
+            <select id="video-filter-select">
+              <option value="none" selected>Normal (Bypass)</option>
+              <option value="grayscale">Grayscale (Abu-abu)</option>
+              <option value="sepia">Sepia</option>
+              <option value="invert">Invert (Negatif)</option>
+              <option value="sobel">Deteksi Sobel (Garis Tepi)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-section border-top">
+          <h3><i class="fa-solid fa-scissors"></i> 3. Chroma Key (Green Screen)</h3>
+          
+          <div class="checkbox-group">
+            <label class="checkbox-control">
+              <input type="checkbox" id="chk-chromakey" />
+              <span class="checkbox-label"><strong>Aktifkan Chroma Key</strong></span>
+            </label>
+          </div>
+
+          <div class="chromakey-controls-group hide">
+            <div class="form-group">
+              <label for="chroma-color-picker">Pilih Warna Target (Tirai):</label>
+              <div class="color-picker-wrapper">
+                <input type="color" id="chroma-color-picker" value="#39b54a" />
+                <span class="color-text-display">#39B54A (Green Screen)</span>
+              </div>
+            </div>
+
+            <div class="slider-group">
+              <label for="chroma-tolerance">Rentang Toleransi ($T$): <span class="badge" id="val-chroma-tolerance">70</span></label>
+              <input type="range" id="chroma-tolerance" min="10" max="150" value="70" />
+            </div>
+
+            <div class="slider-group">
+              <label for="chroma-smoothness">Kelembutan Tepi (Smooth): <span class="badge" id="val-chroma-smoothness">15</span></label>
+              <input type="range" id="chroma-smoothness" min="1" max="50" value="15" />
+            </div>
+
+            <div class="form-group">
+              <label for="chroma-bg-select">Pilih Gambar Latar Belakang:</label>
+              <select id="chroma-bg-select">
+                <option value="gradient" selected>Gradien Studio (Default)</option>
+                <option value="lab">Kelas Virtual FUNLISH</option>
+                <option value="custom">Unggah Gambar Latar...</option>
+              </select>
+            </div>
+
+            <div class="file-upload-zone hide" id="bg-image-dropzone">
+              <p>Unggah gambar latar baru (.jpg/.png)</p>
+              <input type="file" id="bg-image-input" accept="image/*" class="hide" />
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Video Canvas Display -->
+      <section class="main-display card">
+        <div class="display-header">
+          <h3><i class="fa-solid fa-tv"></i> Monitor Video (Chroma Key Canvas 30 FPS)</h3>
+        </div>
+        
+        <div class="canvas-wrapper">
+          <div class="canvas-container-inner">
+            <video id="video-source-el" loop muted playsinline class="hide"></video>
+            <canvas id="video-canvas-processing" class="hide"></canvas>
+            <canvas id="video-canvas-display"></canvas>
+
+            <div class="empty-state-message" id="video-empty-message">
+              <i class="fa-solid fa-video-slash"></i>
+              <p>Kamera nonaktif. Klik tombol "Aktifkan Kamera Web" atau unggah rekaman video guru untuk memicu chroma keying.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="canvas-footer">
+          <span class="canvas-info-badge"><i class="fa-solid fa-desktop"></i> Monitor: <strong id="video-status-display">Idle</strong></span>
+          <span class="canvas-info-badge"><i class="fa-solid fa-chart-line"></i> Pemrosesan: <strong id="video-fps-display">0 FPS</strong></span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ==================== GUIDELINE TAB ==================== -->
+  <div id="tab-guideline" class="tab-panel">
+    <div class="report-container">
+      <div class="report-actions card">
+        <h4>Aksi Laporan</h4>
+        <p>Cetak buku panduan dan dokumentasi resmi proyek ini dalam berkas PDF A4 untuk dikumpulkan.</p>
+        <button class="btn btn-primary w-full" onclick="window.print()"><i class="fa-solid fa-file-pdf"></i> Ekspor PDF Laporan</button>
+      </div>
+
+      <article class="report-document" id="printable-report">
+        <!-- Page 1: Cover Page -->
+        <div class="report-page cover-page">
+          <div class="cover-header">
+            <h3>LAPORAN RESMI PROJEK AKHIR</h3>
+            <h2>SISTEM MULTIMEDIA (FUNLISH STUDIO)</h2>
+            <div class="line-separator"></div>
+            <h1>PENGEMBANGAN MEDIA EDUKASI BAHASA INGGRIS SD (FUNLISH) DILENGKAPI PUSAT PENGOLAHAN & KEAMANAN MULTIMEDIA</h1>
+          </div>
+          
+          <div class="cover-metadata">
+            <div class="meta-row">
+              <span class="meta-label">Kelompok Penugasan:</span>
+              <span class="meta-val">Kelompok 7, 8, atau 9 UMS</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Tema Utama:</span>
+              <span class="meta-val">Belajar Bahasa Inggris SD Kelas 3-6</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Poin Penilaian:</span>
+              <span class="meta-val">Ketepatan Elemen Media (Kompresi, Keamanan, DSP)</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Pengembangan:</span>
+              <span class="meta-val">HTML5, CSS3, dan Vanilla JavaScript (Pure Client)</span>
+            </div>
+          </div>
+
+          <div class="cover-footer">
+            <p>PROGRAM STUDI INFORMATIKA / ILMU KOMPUTER</p>
+            <p>FAKULTAS KOMUNIKASI DAN INFORMATIKA</p>
+            <p>UNIVERSITAS MUHAMMADIYAH SURAKARTA</p>
+            <p>2026</p>
+          </div>
+        </div>
+
+        <!-- Page 2: Table of Contents & Introduction -->
+        <div class="report-page">
+          <h2>Daftar Isi</h2>
+          <ul class="toc-list">
+            <li><span>1. Pendahuluan & Ringkasan Projek</span><span>Hlm 2</span></li>
+            <li><span>2. Integrasi Pengolahan Media Teks FUNLISH (RLE, Huffman, XOR)</span><span>Hlm 3</span></li>
+            <li><span>3. Pengolahan Media Flashcard Gambar (Konvolusi, Stego, Watermark, JPEG)</span><span>Hlm 4</span></li>
+            <li><span>4. Pengolahan Suara Pelafalan Bahasa Inggris (DSP, Downsampler, Spectrogram)</span><span>Hlm 5</span></li>
+            <li><span>5. Perekaman Video E-Learning (Chroma Key Green Screen, Realtime Filter)</span><span>Hlm 6</span></li>
+            <li><span>6. Buku Manual & Cara Kerja Aplikasi</span><span>Hlm 7</span></li>
+          </ul>
+
+          <div class="section-divider"></div>
+
+          <h2>1. Pendahuluan & Ringkasan Projek</h2>
+          <p>
+            Aplikasi <strong>FUNLISH</strong> dikembangkan untuk memenuhi kriteria penugasan Kelompok 7, 8, dan 9 mata kuliah Sistem Multimedia, Universitas Muhammadiyah Surakarta (UMS). Fokus proyek adalah membangun media edukasi bahasa Inggris interaktif yang menyenangkan bagi anak SD kelas 3 hingga kelas 6.
+          </p>
+          <p>
+            Namun, di samping menyajikan portal pembelajaran (kartu kosakata, pengucapan vokal, dan soal kuis), proyek ini diintegrasikan secara penuh dengan **Pusat Pengolahan & Keamanan Multimedia (FUNLISH Studio)** sebagai Teacher Portal. Hal ini bertujuan untuk secara tepat mempraktikkan pengolahan data digital di balik layar aplikasi, yang meliputi:
+          </p>
+          <ol>
+            <li>
+              <strong>Kompresi Data (Compression):</strong> Untuk mengompres berkas materi (RLE/Huffman) dan kartu gambar (JPEG) sehingga loading aplikasi tetap cepat di jaringan seluler lambat siswa.
+            </li>
+            <li>
+              <strong>Keamanan Data (Security & Steganography):</strong> Mengamankan integritas kunci jawaban ujian kuis Kelas 6 dengan Enkripsi XOR biner maupun LSB steganografi di dalam gambar kosakata.
+            </li>
+            <li>
+              <strong>Pemrosesan Sinyal Digital (Signal Processing):</strong> Meningkatkan kejelasan vokal rekaman pengucapan kata bahasa Inggris menggunakan filter cutoff frekuensi (Web Audio API), filter spasial gambar (konvolusi spasial), dan Chroma Keying video webcam guru secara real-time.
+            </li>
+          </ol>
+        </div>
+
+        <!-- Page 3: Text Processing Module Theory -->
+        <div class="report-page">
+          <h2>2. Integrasi Pengolahan Media Teks FUNLISH</h2>
+          
+          <h3>A. Kompresi Lossless Run-Length Encoding (RLE)</h3>
+          <p>
+            RLE digunakan untuk memampatkan data teks pelajaran yang berulang. Algoritma ini berjalan dengan merangkum untaian huruf sejenis yang berurutan (run) menjadi huruf tunggal dan frekuensinya (misal: "AAAAABBB" -> "A5B3"). Persamaan hitung rasio penghematan memori ($C_R$) dirumuskan sebagai:
+          </p>
+          <div class="equation">
+            $$C_R = \left( 1 - \frac{\text{Ukuran Terkompresi}}{\text{Ukuran Asli}} \right) \times 100\%$$
+          </div>
+
+          <h3>B. Kompresi Lossless Huffman Coding</h3>
+          <p>
+            Huffman Coding adalah kompresi entropi berbasis biner variabel-panjang. Setiap karakter unik dalam teks dianalisis frekuensi kemunculannya. Karakter dengan probabilitas kemunculan tertinggi ($P(x_i)$) diberikan kode bit terpendek guna menghasilkan reduksi data biner yang signifikan untuk penyimpanan database materi.
+          </p>
+
+          <h3>C. Keamanan XOR Kunci Jawaban</h3>
+          <p>
+            Untuk mencegah siswa kelas 6 membobol kunci kuis lewat inspeksi konsol browser, teks kunci dienkripsi menggunakan operasi gerbang logika XOR eksklusif. Persamaan matematika kriptografi XOR dirumuskan:
+          </p>
+          <div class="equation">
+            $$\text{Ciphertext } (C_i) = P_i \oplus K_{(i \bmod L)}$$
+            $$\text{Plaintext } (P_i) = C_i \oplus K_{(i \bmod L)}$$
+          </div>
+          <p>
+            Operasi ini bersifat simetris; mengenkripsi ulang ciphertext Hex dengan Kunci ($K$) yang sama akan mengembalikan plaintext ($P$) secara presisi.
+          </p>
+        </div>
+
+        <!-- Page 4: Image Processing Theory -->
+        <div class="report-page">
+          <h2>3. Pengolahan Media Flashcard Gambar</h2>
+
+          <h3>A. Pemrosesan Citra: Filter Konvolusi Matriks</h3>
+          <p>
+            Aplikasi FUNLISH mengandalkan kartu gambar kosakata (flashcard). Guru dapat memodifikasi citra kartu menggunakan matriks konvolusi spasial $3 \times 3$ yang memanipulasi piksel $g(x,y)$ berdasarkan piksel tetangga $f(x,y)$:
+          </p>
+          <div class="equation">
+            $$g(x,y) = \sum_{s=-1}^{1} \sum_{t=-1}^{1} \omega(s,t) \cdot f(x+s, y+t)$$
+          </div>
+          <p>
+            Operasi ini meliputi filter <strong>Sharpen</strong> (menajamkan batas objek kartu), <strong>Blur</strong> (memotong frekuensi tinggi spasial), dan <strong>Sobel Edge Detection</strong> (menghitung magnitude gradien horizontal/vertikal citra untuk deteksi tepi).
+          </p>
+
+          <h3>B. Keamanan: Steganografi LSB (Least Significant Bit)</h3>
+          <p>
+            Steganografi LSB menyembunyikan kunci jawaban kuis di dalam bit terendah (bit ke-0) komponen warna merah piksel gambar flashcard. Perubahan bit 0 ini hanya merubah intensitas warna piksel sebesar $1/255$ tingkat, sehingga perbedaan tersebut tidak tampak secara visual. Format output wajib berupa PNG (lossless) agar bit LSB tidak rusak oleh kompresi warna JPEG.
+          </p>
+
+          <h3>C. Kompresi JPEG & Watermarking</h3>
+          <p>
+            Penyisipan watermark digital mencegah pencurian kartu kosakata karya sekolah dengan rumus pencampuran linier parameter transparansi $\alpha$ (opacity):
+          </p>
+          <div class="equation">
+            $$O(x,y) = (1 - \alpha) \cdot I(x,y) + \alpha \cdot W(x,y)$$
+          </div>
+          <p>
+            Sementara kompresi JPEG lossy menurunkan file size kartu gambar secara drastis melalui pengurangan resolusi visual canvas dan penyesuaian kualitas encoding JPEG (1% - 100%).
+          </p>
+        </div>
+
+        <!-- Page 5: Audio Processing Theory -->
+        <div class="report-page">
+          <h2>4. Pengolahan Suara Pelafalan Bahasa Inggris</h2>
+
+          <h3>A. Biquad Filters DSP (Web Audio API)</h3>
+          <p>
+            Kejelasan pelafalan kata bahasa Inggris sangat penting bagi anak SD. Sinyal audio rekaman guru dialirkan secara terarah melalui node BiquadFilterNode untuk pemrosesan frekuensi digital:
+          </p>
+          <ul>
+            <li><strong>Low-Pass Filter:</strong> Memotong frekuensi di atas batas cutoff ($f_c$), meloloskan bass suara agar terasa penuh.</li>
+            <li><strong>High-Pass Filter:</strong> Memotong gemuruh rendah dan kebisingan AC ruangan dari mikrofon guru di bawah $f_c$.</li>
+            <li><strong>Band-Pass Filter:</strong> Memfokuskan pita frekuensi sempit khusus vokal manusia.</li>
+          </ul>
+
+          <h3>B. Simulasi Downsampling Kompresi</h3>
+          <p>
+            Simulasi kompresi lossy audio mereproduksi penurunan laju sampel (downsampling) dan kedalaman bit (bit depth) melalui ScriptProcessorNode. Laju sampel dibatasi (misal 44,1 kHz ke 8 kHz) dan amplitudo dikuantisasi (16-bit ke 4-bit) untuk mensimulasikan bitrate terkompresi yang menghemat data seluler siswa.
+          </p>
+
+          <h3>C. Visualizer Spectrogram & Watermark</h3>
+          <p>
+            Aplikasi menggambar spektrum suara siswa/guru secara real-time di canvas menggunakan algoritma **Fast Fourier Transform (FFT)** dari AnalyserNode. Selain itu, guru dapat menyuntikkan nada sinus 15.000 Hz sebagai watermark audio pelafalan untuk melindungi lisensi suara sekolah.
+          </p>
+        </div>
+
+        <!-- Page 6: Video Processing & User Manual -->
+        <div class="report-page">
+          <h2>5. Perekaman Video E-Learning (Chroma Key)</h2>
+
+          <h3>A. Pemrosesan Video Canvas</h3>
+          <p>
+            Untuk membuat materi video pengajaran interaktif, kamera web guru diproses secara frame-by-frame pada canvas penampung dengan frame rate 30 FPS memanfaatkan callback perulangan <code>requestAnimationFrame</code>.
+          </p>
+
+          <h3>B. Algoritma Chroma Keying</h3>
+          <p>
+            Teknik Chroma Key mengisolasi tirai hijau latar belakang guru. Jarak warna Euclidean piksel $(R_p, G_p, B_p)$ terhadap warna kunci target $(R_t, G_t, B_t)$ dihitung:
+          </p>
+          <div class="equation">
+            $$\text{Jarak Warna } (d) = \sqrt{(R_p - R_t)^2 + (G_p - G_t)^2 + (B_p - B_t)^2}$$
+          </div>
+          <p>
+            Piksel dengan jarak $d$ di bawah batas toleransi ($T$) akan diset nilai opasitas Alpha channel-nya menjadi $0$ (transparan penuh). Piksel transparan ini kemudian ditumpuk (composited) secara real-time di atas gambar latar kelas virtual kartun FUNLISH yang menarik bagi anak-anak.
+          </p>
+          
+          <div class="section-divider"></div>
+
+          <h2>6. Buku Manual & Cara Kerja Aplikasi</h2>
+          <ol>
+            <li>
+              <strong>Portal Siswa (FUNLISH):</strong> Siswa memilih kelas belajar. Di Kelas 3, 4, 5, siswa mengeklik flashcard bergambar untuk memicu suara pengucapan bahasa Inggris asli. Di Kelas 6, siswa menjawab kuis pilihan ganda. Kunci jawaban dibaca dan divalidasi langsung oleh biner program.
+            </li>
+            <li>
+              <strong>FUNLISH Studio:</strong> Pengelola mengakses menu Lab SISMUL di bagian bawah halaman. Di modul teks, guru mengompres teks atau mengenkripsi kunci XOR. Di modul gambar, guru mengunggah flashcard, menerapkan filter spasial, memasukkan stego, membubuhkan watermark, atau mengompres JPEG. Di modul audio, guru menyaring suara vokal, mengaktifkan downsampling, atau menyalakan watermark audio. Di modul video, guru mengaktifkan kamera web dan menyalakan chroma key.
+            </li>
+          </ol>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

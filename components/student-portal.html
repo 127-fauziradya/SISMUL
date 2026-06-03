@@ -1,0 +1,184 @@
+<!-- Hero Banner -->
+<section class="hero-student" id="home">
+  <div class="hero-bubble-decor decor-1"></div>
+  <div class="hero-bubble-decor decor-2"></div>
+  <div class="hero-student-body">
+    <span class="eyebrow-student" data-i18n="hero_eyebrow">Let's Learn English!</span>
+    <h1 data-i18n="hero_title">Belajar Bahasa Inggris Jadi Lebih Seru!</h1>
+    <p data-i18n="hero_desc">
+      Selamat datang di FUNLISH! Media interaktif gratis untuk membantu siswa SD kelas 3 sampai 6 belajar kosakata, percakapan dasar, mendengarkan pelafalan, dan latihan kuis seru.
+    </p>
+    <div class="hero-buttons">
+      <a href="#kelas" class="btn-playful primary-playful" id="btn-hero-start">
+        <span data-i18n="hero_btn">Mulai Belajar Sekarang</span> <i class="fa-solid fa-arrow-down"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Grade Selection Card Grid -->
+<section class="kelas-section" id="kelas">
+  <div class="section-title-student">
+    <span class="sub-title" data-i18n="grade_sub">PILIH LEVEL BELAJAR KAMU</span>
+    <h2 data-i18n="grade_title">Pilih Kelas Belajar</h2>
+    <p data-i18n="grade_desc">Pilih kelas kamu untuk memulai petualangan kosakata bahasa Inggris baru!</p>
+  </div>
+
+  <div class="kelas-grid">
+    <!-- Grade 3 Card -->
+    <article class="kelas-card-playful grade-3" onclick="loadStudentGrade(3)">
+      <div class="card-emoji blue-bg"><i class="fa-solid fa-book"></i></div>
+      <h3>Kelas 3 SD</h3>
+      <p data-i18n="grade_3_desc">Greetings, Numbers, and Colors (Salam, Angka, dan Warna dasar).</p>
+      <button class="btn-playful btn-card-blue">
+        <span data-i18n="grade_enter">Masuk Kelas</span> <i class="fa-solid fa-door-open"></i>
+      </button>
+    </article>
+
+    <!-- Grade 4 Card -->
+    <article class="kelas-card-playful grade-4" onclick="loadStudentGrade(4)">
+      <div class="card-emoji yellow-bg"><i class="fa-solid fa-puzzle-piece"></i></div>
+      <h3>Kelas 4 SD</h3>
+      <p data-i18n="grade_4_desc">Daily routines, animals, and common places (Aktivitas harian & hewan sekitar).</p>
+      <button class="btn-playful btn-card-yellow">
+        <span data-i18n="grade_enter">Masuk Kelas</span> <i class="fa-solid fa-door-open"></i>
+      </button>
+    </article>
+
+    <!-- Grade 5 Card -->
+    <article class="kelas-card-playful grade-5" onclick="loadStudentGrade(5)">
+      <div class="card-emoji green-bg"><i class="fa-solid fa-comments"></i></div>
+      <h3>Kelas 5 SD</h3>
+      <p data-i18n="grade_5_desc">Introduce yourself, describe people, and hobbies (Perkenalan & hobi).</p>
+      <button class="btn-playful btn-card-green">
+        <span data-i18n="grade_enter">Masuk Kelas</span> <i class="fa-solid fa-door-open"></i>
+      </button>
+    </article>
+
+    <!-- Grade 6 Card -->
+    <article class="kelas-card-playful grade-6" onclick="loadStudentGrade(6)">
+      <div class="card-emoji coral-bg"><i class="fa-solid fa-graduation-cap"></i></div>
+      <h3>Kelas 6 SD</h3>
+      <p data-i18n="grade_6_desc">Reading short texts and Mini Exam practice (Teks pendek & Latihan Soal Ujian).</p>
+      <button class="btn-playful btn-card-coral">
+        <span data-i18n="grade_enter">Masuk Kelas</span> <i class="fa-solid fa-door-open"></i>
+      </button>
+    </article>
+  </div>
+</section>
+
+<!-- Active Lesson/Challenge Panel (Populated dynamically) -->
+<section class="lesson-panel-student hide" id="lesson-panel-siswa" aria-live="polite">
+  <!-- Dynamic components (level-select.html, challenge-area.html) are loaded here -->
+</section>
+
+<!-- Learning Method info -->
+<section class="support-section-student" id="metode">
+  <div class="section-title-student">
+    <span class="sub-title" data-i18n="method_sub">TENTANG MEDIA BELAJAR</span>
+    <h2 data-i18n="method_title">Metode Belajar FUNLISH</h2>
+    <p data-i18n="method_desc">Materi interaktif dan menyenangkan agar anak mudah mengingat.</p>
+  </div>
+  <div class="methods-grid">
+    <div class="method-card" onclick="openMethodGradeSelector(1)" style="cursor: pointer;">
+      <i class="fa-solid fa-language text-blue"></i>
+      <h4>Vocabulary</h4>
+      <p data-i18n="method_vocab_desc">Hafalkan kata baru lewat contoh benda, gambar, dan latihan pengulangan.</p>
+    </div>
+    <div class="method-card" onclick="openMethodGradeSelector(1)" style="cursor: pointer;">
+      <i class="fa-solid fa-spell-check text-coral"></i>
+      <h4>Spelling</h4>
+      <p data-i18n="method_spelling_desc">Latih ejaan huruf demi huruf dengan mendengarkan pelafalan bahasa Inggris.</p>
+    </div>
+    <div class="method-card" onclick="openMethodGradeSelector(2)" style="cursor: pointer;">
+      <i class="fa-solid fa-comments text-green"></i>
+      <h4>Grammar</h4>
+      <p data-i18n="method_grammar_desc">Pelajari tata bahasa dasar, kata ganti, kata kerja, dan susunan kalimat pendek.</p>
+    </div>
+    <div class="method-card" onclick="openMethodGradeSelector(3)" style="cursor: pointer;">
+      <i class="fa-solid fa-pen text-yellow"></i>
+      <h4>Quiz</h4>
+      <p data-i18n="method_quiz_desc">Kerjakan latihan ringan untuk mengukur pemahaman setiap selesai belajar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- About Us Section -->
+<section class="about-section-student" id="about">
+  <div class="about-container-student">
+    <div class="about-copy">
+      <span class="eyebrow-student" data-i18n="about_eyebrow">Siapa Kami?</span>
+      <h2 data-i18n="about_title">Tentang FUNLISH</h2>
+      <p data-i18n="about_desc">
+        FUNLISH adalah sebuah platform media edukasi bahasa Inggris interaktif yang dirancang khusus untuk siswa Sekolah Dasar kelas 3 hingga kelas 6. Kami menggabungkan metode belajar visual (flashcards) dan auditori (Web Speech pelafalan vokal) untuk memberikan pengalaman belajar yang tak terlupakan bagi anak-anak.
+      </p>
+      <div class="stats-student">
+        <div class="stat-card-student">
+          <strong>12+</strong>
+          <span data-i18n="about_stat_vocab">Kosakata Aktif</span>
+        </div>
+        <div class="stat-card-student">
+          <strong>100%</strong>
+          <span data-i18n="about_stat_free">Gratis & Aman</span>
+        </div>
+        <div class="stat-card-student">
+          <strong>UMS</strong>
+          <span data-i18n="about_stat_major">Informatika</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual card" style="padding: 20px; display: flex; justify-content: center; align-items: center; background-color: white;">
+      <img src="assets/images/sample.png" alt="E-learning Illustration" style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);" />
+    </div>
+  </div>
+</section>
+
+<!-- Modal Selector Kelas untuk Metode Belajar -->
+<div class="audio-start-overlay hide" id="method-grade-modal-overlay" style="z-index: 999; background: rgba(30, 41, 59, 0.75); display: flex; align-items: center; justify-content: center; position: fixed; inset: 0; padding: 20px; animation: fadeIn 0.3s ease;">
+  <div class="card" style="width: 440px; background-color: white; border: 3px solid #e2ecd9; border-radius: 24px; padding: 35px 30px; box-shadow: 0 12px 28px rgba(0,0,0,0.15); text-align: center; position: relative;">
+    <button onclick="closeMethodGradeModal()" style="position: absolute; top: 15px; right: 15px; background: transparent; border: none; font-size: 1.4rem; color: #94a3b8; cursor: pointer; transition: color 0.2s ease;" onmouseover="this.style.color='#ff6b6b'" onmouseout="this.style.color='#94a3b8'"><i class="fa-solid fa-xmark"></i></button>
+    
+    <div style="background-color: #e0f2fe; width: 64px; height: 64px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: #1cb0f6; margin: 0 auto 20px; box-shadow: 0 4px 0 rgba(0,0,0,0.05);"><i class="fa-solid fa-graduation-cap"></i></div>
+    
+    <h3 style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.4rem; color: #1e293b; margin-bottom: 8px;">Pilih Kelas Belajar</h3>
+    <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 25px; line-height: 1.45;">Pilih tingkatan kelas Anda untuk langsung memulai metode pembelajaran ini!</p>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <button class="btn-playful btn-card-blue" onclick="selectMethodGrade(3)" style="font-size: 0.95rem; padding: 12px; width: 100%; border: none;">Kelas 3 SD</button>
+      <button class="btn-playful btn-card-yellow" onclick="selectMethodGrade(4)" style="font-size: 0.95rem; padding: 12px; width: 100%; border: none;">Kelas 4 SD</button>
+      <button class="btn-playful btn-card-green" onclick="selectMethodGrade(5)" style="font-size: 0.95rem; padding: 12px; width: 100%; border: none;">Kelas 5 SD</button>
+      <button class="btn-playful btn-card-coral" onclick="selectMethodGrade(6)" style="font-size: 0.95rem; padding: 12px; width: 100%; border: none;">Kelas 6 SD</button>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Section -->
+<section class="contact-section-student" id="contact">
+  <div class="contact-container-student">
+    <div class="contact-visual card" style="padding: 30px; display: flex; flex-direction: column; gap: 15px; background: white; border-radius: 24px;">
+      <h3 style="font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 1.3rem; color: #1e293b;" data-i18n="contact_form_title">Kirim Pesan Seru Kamu!</h3>
+      <input type="text" id="contact-name" placeholder="Tulis namamu..." style="padding: 12px 16px; border: 2px solid #e2ecd9; border-radius: 12px; font-family: inherit; font-size: 0.95rem; width: 100%;" />
+      <textarea id="contact-message" placeholder="Tulis pesanmu ke guru bahasa Inggris di sini..." rows="4" style="padding: 12px 16px; border: 2px solid #e2ecd9; border-radius: 12px; font-family: inherit; font-size: 0.95rem; resize: none; width: 100%;"></textarea>
+      <button class="btn-playful primary-playful" style="font-size: 0.95rem; padding: 10px 20px; align-self: flex-start;" onclick="alert('Pesanmu telah terkirim! Terima kasih telah menghubungi FUNLISH!')">
+        <span data-i18n="contact_form_btn">Kirim Pesan</span> <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+    <div class="contact-copy">
+      <span class="eyebrow-student" data-i18n="contact_eyebrow">Hubungi Kami</span>
+      <h2 data-i18n="contact_title">Ada Pertanyaan?</h2>
+      <p data-i18n="contact_desc">
+        Jika Anda memiliki masukan, saran, atau ingin bekerjasama dalam pengembangan media pembelajaran SISMUL lainnya, jangan ragu untuk menghubungi kami melalui kontak resmi Kelompok 7, 8, 9 Informatika UMS di bawah ini:
+      </p>
+      <div class="contact-list-student">
+        <a href="mailto:support@funlish.ums.ac.id" class="contact-link-student">
+          <i class="fa-solid fa-envelope"></i>
+          <span>support@funlish.ums.ac.id</span>
+        </a>
+        <a href="tel:+6281234567890" class="contact-link-student">
+          <i class="fa-solid fa-phone"></i>
+          <span>+62 812-3456-7890</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

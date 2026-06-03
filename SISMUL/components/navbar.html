@@ -1,0 +1,55 @@
+<div class="nav-container">
+  <a class="logo" href="#home" id="app-logo">
+    <i class="fa-solid fa-graduation-cap logo-icon"></i>
+    <span>FUN<span class="highlight">LISH</span></span>
+  </a>
+  
+  <!-- Navigation Menu Wrapper (collapsible on mobile) -->
+  <div class="nav-menu-wrapper" id="nav-menu-wrapper">
+    <!-- Navigation links for FUNLISH Main Page -->
+    <nav class="nav-links" id="student-nav" aria-label="Navigasi Utama">
+      <a class="nav-tab active" href="#home"><i class="fa-solid fa-house"></i> Beranda</a>
+      <a class="nav-tab" href="#kelas"><i class="fa-solid fa-book-open"></i> Pilih Kelas</a>
+      <a class="nav-tab" href="#metode"><i class="fa-solid fa-lightbulb"></i> Metode Belajar</a>
+      <a class="nav-tab" href="#about"><i class="fa-solid fa-circle-info"></i> About Us</a>
+      <a class="nav-tab" href="#contact"><i class="fa-solid fa-address-book"></i> Kontak</a>
+    </nav>
+    
+    <!-- Navigation links for Admin Page -->
+    <nav class="nav-links" id="admin-nav" aria-label="Navigasi Admin" style="display: none;">
+      <a class="nav-tab" href="crud.html" id="nav-admin-crud"><i class="fa-solid fa-pen-to-square"></i> Kelola Kuis (CRUD)</a>
+      <a class="nav-tab" href="admin.html" id="nav-admin-lab"><i class="fa-solid fa-flask"></i> Lab SISMUL (DSP)</a>
+    </nav>
+    
+    <!-- Actions (Language Switcher, Portal/Logout Switcher, & Status) -->
+    <div class="nav-actions">
+      <!-- Language Switcher (Indonesian / English) -->
+      <div class="language-switcher">
+        <button class="btn-switch student active" id="btn-lang-id" onclick="setAppLanguage('id')">
+          🇮🇩 ID
+        </button>
+        <button class="btn-switch student" id="btn-lang-en" onclick="setAppLanguage('en')">
+          🇬🇧 EN
+        </button>
+      </div>
+      
+      <!-- Link to Dedicated Admin Dashboard Page (Directs to Login first) -->
+      <div class="portal-switcher">
+        <a href="login.html" target="_blank" class="btn-switch teacher" id="btn-admin-dashboard" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-user-gear"></i> Admin
+        </a>
+      </div>
+
+      <div class="nav-status">
+        <span class="status-indicator online"></span>
+        <span class="status-text" id="status-text-display">Web Speech / Web Audio OK</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Hamburger Menu Button -->
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu">
+    <span class="hamburger"></span>
+  </button>
+</div>
+
