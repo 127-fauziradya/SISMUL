@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FUNLISH | Login Admin</title>
+
+  <script>
+    if (sessionStorage.getItem("funlish_admin_logged_in") === "true") {
+      const params = new URLSearchParams(window.location.search);
+      window.location.href = params.get("redirect") || "crud.html";
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #a7f3d0 0%, #fef08a 100%);
+      --primary: #1cb0f6;
+      --primary-dark: #0093d9;
+      --secondary: #ffc800;
+      --secondary-dark: #d9aa00;
+      --accent: #58cc02;
+      --accent-dark: #43a000;
+      --danger: #ff6b6b;
+      --danger-dark: #e65252;
+      --neutral-dark: #1e293b;
+      --neutral-light: #f8fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Floating background bubbles */
+    .bubble {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: floatUp 8s infinite ease-in-out;
+    }
+    .b1 { width: 120px; height: 120px; top: 10%; left: 10%; animation-delay: 0s; }
+    .b2 { width: 180px; height: 180px; bottom: 10%; right: 10%; animation-delay: 2s; }
+    .b3 { width: 80px; height: 80px; top: 70%; left: 20%; animation-delay: 4s; }
+    .b4 { width: 100px; height: 100px; top: 20%; right: 25%; animation-delay: 1s; }
+
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    /* Login Card Container */
+    .login-container {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 3px solid rgba(255, 255, 255, 0.5);
+      border-radius: 28px;
+      padding: 40px 35px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+      z-index: 10;
+      position: relative;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      text-align: center;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .logo-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--neutral-dark);
+      text-decoration: none;
+      margin-bottom: 8px;
+    }
+
+    .logo-header i {
+      color: var(--primary);
+    }
+
+    .logo-header span .highlight {
+      color: var(--primary);
+    }
+
+    .login-container h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--neutral-dark);
+      margin-bottom: 8px;
+    }
+
+    .login-container p {
+      color: #64748b;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--neutral-dark);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 16px;
+      color: #94a3b8;
+      font-size: 1rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px 14px 44px;
+      border: 2px solid #cbd5e1;
+      background-color: white;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--neutral-dark);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(28, 176, 246, 0.15);
+    }
+
+    /* Alert Message */
+    .alert-danger {
+      background-color: #fee2e2;
+      border: 2px solid #fecaca;
+      color: #991b1b;
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      animation: shake 0.4s ease;
+    }
+
+    .hide {
+      display: none !important;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+
+    /* Buttons */
+    .btn-login {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: 99px;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      background-color: var(--secondary);
+      color: #5c4300;
+      box-shadow: 0 6px 0 var(--secondary-dark);
+      transition: all 0.2s ease;
+      user-select: none;
+      text-decoration: none;
+      margin-bottom: 15px;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 var(--secondary-dark);
+    }
+
+    .btn-login:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 var(--secondary-dark);
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      color: #475569;
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-back:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating bubbles -->
+  <div class="bubble b1"></div>
+  <div class="bubble b2"></div>
+  <div class="bubble b3"></div>
+  <div class="bubble b4"></div>
+
+  <!-- Login Card -->
+  <div class="login-container">
+    <a class="logo-header" href="index.html">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <span>FUN<span class="highlight">LISH</span></span>
+    </a>
+    <h2>Admin Login</h2>
+    <p>Silakan masuk menggunakan kredensial pengajar Anda untuk mengelola materi kuis dan mengakses Lab SISMUL.</p>
+
+    <!-- Error Alert Box -->
+    <div id="error-alert" class="alert-danger hide">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <span id="error-text">Username atau password salah!</span>
+    </div>
+
+    <!-- Login Form -->
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="username">Username Admin:</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-user"></i>
+          <input type="text" id="username" required placeholder="Masukkan username..." autofocus />
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 25px;">
+        <label for="password">Password:</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-key"></i>
+          <input type="password" id="password" required placeholder="Masukkan password..." />
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">
+        Masuk Dashboard <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </form>
+
+    <a href="index.html" class="btn-back">
+      <i class="fa-solid fa-house"></i> Kembali ke Beranda Siswa
+    </a>
+  </div>
+
+  <script>
+    function handleLogin(event) {
+      event.preventDefault();
+      
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value;
+      const alertBox = document.getElementById("error-alert");
+      const alertText = document.getElementById("error-text");
+
+      // Validate credentials
+      if (user === "admin" && pass === "admin123") {
+        // Save session in sessionStorage (expires when browser window is closed)
+        sessionStorage.setItem("funlish_admin_logged_in", "true");
+        
+        // Hide alerts and redirect
+        alertBox.classList.add("hide");
+        const params = new URLSearchParams(window.location.search);
+        window.location.href = params.get("redirect") || "crud.html";
+      } else {
+        // Trigger shaking animation and display warning
+        alertBox.classList.remove("hide");
+        // Reset animation trigger
+        alertBox.style.animation = 'none';
+        alertBox.offsetHeight; /* trigger reflow */
+        alertBox.style.animation = null; 
+        
+        if (user !== "admin") {
+          alertText.textContent = "Username salah atau tidak terdaftar!";
+        } else {
+          alertText.textContent = "Password yang Anda masukkan salah!";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -36,7 +36,7 @@ const server = http.createServer((req, res) => {
   // Resolve absolute file path inside the root directory
   let filePath;
   if (cleanUrl === '/' || cleanUrl === '/index.html') {
-    filePath = path.join(__dirname, 'pages', 'index.html');
+    filePath = path.join(__dirname, 'index.html');
   } else {
     // If cleanUrl starts with a slash, it will be resolved relative to __dirname
     filePath = path.join(__dirname, cleanUrl);

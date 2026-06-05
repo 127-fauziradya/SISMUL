@@ -544,7 +544,7 @@ async function loadStudentGrade(grade) {
   try {
     let html;
     try {
-      const response = await fetch("/components/challenges/level-select.html");
+      const response = await fetch("components/challenges/level-select.html");
       if (!response.ok) throw new Error("Fetch failed");
       html = await response.text();
     } catch (e) {
@@ -603,7 +603,7 @@ async function startLevel(level) {
   try {
     let html;
     try {
-      const response = await fetch("/components/challenges/challenge-area.html");
+      const response = await fetch("components/challenges/challenge-area.html");
       if (!response.ok) throw new Error("Fetch failed");
       html = await response.text();
     } catch (e) {
@@ -962,14 +962,13 @@ document.addEventListener("DOMContentLoaded", () => {
 window.currentLanguage = localStorage.getItem("funlish_app_lang") || "id";
 
 document.addEventListener("DOMContentLoaded", async () => {
-  if (!document.getElementById("portal-siswa-content")) return;
   // Load necessary HTML components asynchronously
   try {
     await Promise.all([
-      loadComponent("navbar-container", "/components/navbar.html"),
-      loadComponent("portal-siswa-content", "/components/student-portal.html"),
-      loadComponent("footer-container", "/components/footer.html"),
-      loadComponent("audio-auth-overlay", "/components/audio-auth-modal.html")
+      loadComponent("navbar-container", "components/navbar.html"),
+      loadComponent("portal-siswa-content", "components/student-portal.html"),
+      loadComponent("footer-container", "components/footer.html"),
+      loadComponent("audio-auth-overlay", "components/audio-auth-modal.html")
     ]);
 
     // Apply translations on load
@@ -981,37 +980,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const switcher = document.querySelector(".portal-switcher");
     if (switcher) {
       switcher.style.display = "none";
-    }
-
-    // Auto Preload Logics for Standalone Pages
-    if (window.preloadGrade) {
-      setTimeout(() => {
-        loadStudentGrade(window.preloadGrade);
-      }, 100);
-    } else if (window.preloadLevel) {
-      const lastGrade = localStorage.getItem("funlish_active_grade") || 3;
-      setTimeout(async () => {
-        await loadStudentGrade(parseInt(lastGrade));
-        await startLevel(window.preloadLevel);
-      }, 100);
-    } else if (window.preloadScore) {
-      const lastGrade = localStorage.getItem("funlish_active_grade") || 3;
-      setTimeout(async () => {
-        await loadStudentGrade(parseInt(lastGrade));
-        await startLevel(3);
-        const resultAlert = document.getElementById("challenge-quiz-result");
-        if (resultAlert) {
-          resultAlert.classList.remove("hide");
-          document.getElementById("vocab-view")?.classList.add("hide");
-          document.getElementById("dialog-view")?.classList.add("hide");
-          document.getElementById("quiz-view")?.classList.remove("hide");
-        }
-      }, 100);
-    } else if (window.preloadAbout) {
-      setTimeout(() => {
-        const aboutSec = document.getElementById("about");
-        if (aboutSec) aboutSec.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 150);
     }
   } catch (error) {
     console.error("Critical error during application component initialization:", error);
@@ -2820,26 +2788,26 @@ function stopVideo() {
    ========================================================================== */
 
 // 1. Session Login Security Guard (Redirect immediately if not logged in)
-if (sessionStorage.getItem("funlish_admin_logged_in") !== "true" && !window.location.pathname.includes("login.html")) {
-  window.location.href = "/pages/login.html";
+if (sessionStorage.getItem("funlish_admin_logged_in") !== "true") {
+  window.location.href = "login.html";
 }
+
 
 // Admin Logout Action
 window.adminLogout = function() {
   if (confirm("Apakah Anda yakin ingin keluar dari Dashboard Admin?")) {
     sessionStorage.removeItem("funlish_admin_logged_in");
-    window.location.href = "/pages/login.html";
+    window.location.href = "login.html";
   }
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  if (!document.getElementById("admin-dashboard-content")) return;
   try {
     // 1. Load components dynamically
     await Promise.all([
-      loadComponent("navbar-container", "/components/navbar.html"),
-      loadComponent("admin-dashboard-content", "/components/teacher-portal.html"),
-      loadComponent("footer-container", "/components/footer.html")
+      loadComponent("navbar-container", "components/navbar.html"),
+      loadComponent("admin-dashboard-content", "components/teacher-portal.html"),
+      loadComponent("footer-container", "components/footer.html")
     ]);
 
     // 2. Adjust Navbar visual style for Admin Mode
@@ -2997,8 +2965,8 @@ function initNavbarToggle() {
    ========================================================================== */
 
 // 1. Session Login Security Guard (Redirect immediately if not logged in)
-if (sessionStorage.getItem("funlish_admin_logged_in") !== "true" && !window.location.pathname.includes("login.html")) {
-  window.location.href = "/pages/login.html";
+if (sessionStorage.getItem("funlish_admin_logged_in") !== "true") {
+  window.location.href = "login.html";
 }
 
 window.currentCrudGrade = 3;
@@ -3007,18 +2975,17 @@ window.currentCrudGrade = 3;
 window.adminLogout = function() {
   if (confirm("Apakah Anda yakin ingin keluar dari Dashboard Admin?")) {
     sessionStorage.removeItem("funlish_admin_logged_in");
-    window.location.href = "/pages/login.html";
+    window.location.href = "login.html";
   }
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  if (!document.getElementById("admin-crud-content")) return;
   try {
     // 1. Load components dynamically
     await Promise.all([
-      loadComponent("navbar-container", "/components/navbar.html"),
-      loadComponent("admin-crud-content", "/components/crud-portal.html"),
-      loadComponent("footer-container", "/components/footer.html")
+      loadComponent("navbar-container", "components/navbar.html"),
+      loadComponent("admin-crud-content", "components/crud-portal.html"),
+      loadComponent("footer-container", "components/footer.html")
     ]);
 
     // 2. Adjust Navbar visual style for Admin Mode
