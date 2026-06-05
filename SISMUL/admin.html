@@ -14,30 +14,28 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   
-  <!-- Custom Stylesheets (Modularized Design System) -->
+  <!-- Design System -->
   <link rel="stylesheet" href="assets/css/variables.css" />
+  <!-- Student playful theme (light, pastel, Fredoka) -->
   <link rel="stylesheet" href="assets/css/student.css" />
-  <link rel="stylesheet" href="assets/css/teacher.css" />
+  <!-- Admin playful overrides (replaces dark teacher styles) -->
+  <link rel="stylesheet" href="assets/css/admin-playful.css" />
   <link rel="stylesheet" href="assets/css/printable.css" />
 </head>
-<body class="theme-teacher"> <!-- Uses the dark HSL theme from teacher.css -->
-  
-  <!-- Custom Navbar for Admin Page -->
-  <header class="navbar" id="navbar-container">
-    <!-- Loaded dynamically from components/navbar.html -->
-  </header>
 
-  <!-- Main Content Container -->
+<!-- theme-student = light pastel background, Fredoka font, cyan/green/yellow palette -->
+<body class="theme-student">
+  
+  <!-- Navbar -->
+  <header class="navbar" id="navbar-container"></header>
+
+  <!-- Main Content -->
   <main class="main-content">
-    <div id="admin-dashboard-content">
-      <!-- Loaded dynamically from components/teacher-portal.html (contains CRUD + SISMUL Lab) -->
-    </div>
+    <div id="admin-dashboard-content"></div>
   </main>
 
   <!-- Footer -->
-  <footer class="main-footer no-print" id="footer-container">
-    <!-- Loaded dynamically from components/footer.html -->
-  </footer>
+  <footer class="main-footer no-print" id="footer-container"></footer>
 
   <!-- Scripts -->
   <script src="assets/js/challenge-data.js"></script>

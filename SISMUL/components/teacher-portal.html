@@ -12,6 +12,7 @@
       <button class="nav-tab-dark" data-tab="audio"><i class="fa-solid fa-wave-square"></i> Audio</button>
       <button class="nav-tab-dark" data-tab="video"><i class="fa-solid fa-video"></i> Video</button>
       <button class="nav-tab-dark" data-tab="guideline"><i class="fa-solid fa-book"></i> Laporan/Guideline</button>
+      <button class="nav-tab-dark" data-tab="database"><i class="fa-solid fa-database"></i> Database</button>
     </nav>
   </div>
 
@@ -888,4 +889,115 @@
       </article>
     </div>
   </div>
+
+  <!-- ==================== DATABASE TAB ==================== -->
+  <div id="tab-database" class="tab-panel">
+    <div class="section-header">
+      <h2><i class="fa-solid fa-database"></i> Manajemen Database</h2>
+      <p>Kelola data kelas, kuis, dan materi langsung dari dashboard. Terhubung ke MySQL via REST API (api-server.js).</p>
+    </div>
+
+    <!-- DB Status Bar -->
+    <div class="db-status-bar">
+      <div class="db-status-left">
+        <span id="db-status-dot" class="db-dot checking"></span>
+        <span id="db-status-label" class="db-status-label">Memeriksa koneksi...</span>
+      </div>
+      <div class="db-status-right">
+        <span class="db-info-chip"><i class="fa-solid fa-server"></i> localhost:3001</span>
+        <span class="db-info-chip"><i class="fa-solid fa-database"></i> db_funlish</span>
+        <button class="db-btn-sm primary" onclick="checkDbStatus(); loadKelasData(); loadQuizData(); loadMateriData();">
+          <i class="fa-solid fa-rotate"></i> Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- Setup Notice -->
+    <div class="db-notice">
+      <i class="fa-solid fa-circle-info"></i>
+      <div>
+        <strong>Setup:</strong> Jalankan <code>node api-server.js</code> di terminal, lalu pastikan MySQL & <code>db_funlish</code> sudah aktif.
+        Lihat file <code>db_funlish.sql</code> untuk inisialisasi database.
+      </div>
+    </div>
+
+    <div class="db-grid">
+
+      <!-- KELAS CARD -->
+      <div class="db-card">
+        <div class="db-card-header">
+          <h3><i class="fa-solid fa-school"></i> Kelas</h3>
+          <button class="db-btn-sm primary" onclick="loadKelasData()"><i class="fa-solid fa-rotate"></i></button>
+        </div>
+        <div class="db-add-row">
+          <input type="text" id="input-nama-kelas" class="db-input" placeholder="Nama kelas baru (e.g. Kelas 3 SD)" />
+          <button class="db-btn-sm success" onclick="addKelas()"><i class="fa-solid fa-plus"></i> Tambah</button>
+        </div>
+        <div class="db-table-wrap">
+          <table class="db-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nama Kelas</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tbl-kelas-body">
+              <tr><td colspan="3" class="tbl-loading"><i class="fa-solid fa-spinner fa-spin"></i> Klik "Refresh"...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- QUIZ CARD -->
+      <div class="db-card">
+        <div class="db-card-header">
+          <h3><i class="fa-solid fa-clipboard-question"></i> Quiz</h3>
+          <button class="db-btn-sm primary" onclick="loadQuizData()"><i class="fa-solid fa-rotate"></i></button>
+        </div>
+        <div class="db-table-wrap">
+          <table class="db-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Judul Quiz</th>
+                <th>Kelas</th>
+                <th>Level</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tbl-quiz-body">
+              <tr><td colspan="5" class="tbl-loading"><i class="fa-solid fa-spinner fa-spin"></i> Klik "Refresh"...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MATERI CARD -->
+      <div class="db-card">
+        <div class="db-card-header">
+          <h3><i class="fa-solid fa-book-open"></i> Materi</h3>
+          <button class="db-btn-sm primary" onclick="loadMateriData()"><i class="fa-solid fa-rotate"></i></button>
+        </div>
+        <div class="db-table-wrap">
+          <table class="db-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Judul</th>
+                <th>Kelas</th>
+                <th>Kategori</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tbl-materi-body">
+              <tr><td colspan="5" class="tbl-loading"><i class="fa-solid fa-spinner fa-spin"></i> Klik "Refresh"...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- .db-grid -->
+  </div><!-- #tab-database -->
+
 </section>
