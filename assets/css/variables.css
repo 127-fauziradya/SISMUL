@@ -803,3 +803,28 @@ body.theme-teacher .nav-status {
     font-size: 1.02rem;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FOOTER CENTER OVERRIDE
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.footer-top {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.footer-brand {
+  justify-self: center !important;
+  text-align: center !important;
+  max-width: 100% !important;
+}
+
+.footer-bottom {
+  text-align: center !important;
+}
+
+.footer-copy {
+  text-align: center !important;
+}

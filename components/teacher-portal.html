@@ -1,17 +1,15 @@
 <section class="lab-dark-container" id="lab-sismul">
   <div class="section-header-dark">
-    <span class="sub-title-dark">DASHBOARD MULTIMEDIA GURU & DEVELOPER</span>
-    <h2>Lab Pemrosesan & Keamanan Multimedia</h2>
-    <p>Pemrosesan aset media kosa kata, vokal vokal pengajar, dan enkripsi jawaban aplikasi FUNLISH secara waktu-nyata.</p>
+    <span class="sub-title-dark">DASHBOARD KELOLA MATERI & MULTIMEDIA GURU</span>
+    <h2>Kelola Materi Pembelajaran & Lab Pemrosesan Multimedia</h2>
+    <p>Kelola kosakata dan percakapan untuk siswa, plus pemrosesan aset media, enkripsi jawaban, dan DSP multimedia secara waktu-nyata.</p>
     
-    <!-- Tabbed layout to navigate between DSP sub-modules -->
-    <nav class="nav-links-dark" id="teacher-nav" aria-label="Navigasi Lab">
+    <!-- Tabbed layout to navigate between Content Management and DSP sub-modules -->
+    <nav class="nav-links-dark" id="teacher-nav" aria-label="Navigasi Kelola Materi">
       <button class="nav-tab-dark active" data-tab="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
-      <button class="nav-tab-dark" data-tab="teks"><i class="fa-solid fa-file-lines"></i> Teks</button>
-      <button class="nav-tab-dark" data-tab="gambar"><i class="fa-solid fa-image"></i> Gambar</button>
-      <button class="nav-tab-dark" data-tab="audio"><i class="fa-solid fa-wave-square"></i> Audio</button>
-      <button class="nav-tab-dark" data-tab="video"><i class="fa-solid fa-video"></i> Video</button>
-      <button class="nav-tab-dark" data-tab="guideline"><i class="fa-solid fa-book"></i> Laporan/Guideline</button>
+      <button class="nav-tab-dark" data-tab="vocabulary"><i class="fa-solid fa-book-open"></i> Kosakata</button>
+      <button class="nav-tab-dark" data-tab="conversation"><i class="fa-solid fa-comments"></i> Percakapan</button>
+      <button class="nav-tab-dark" data-tab="guideline"><i class="fa-solid fa-book"></i> Laporan</button>
     </nav>
   </div>
 
@@ -20,559 +18,742 @@
     <div class="hero-banner">
       <div class="hero-overlay"></div>
       <div class="hero-body">
-        <p class="hero-subtitle">Pengolahan & Keamanan Sinyal</p>
+        <p class="hero-subtitle">Kelola Materi & Pemrosesan Sinyal</p>
         <h1>FUNLISH Studio</h1>
         <p class="hero-desc">
-          Pusat manajemen dan manipulasi aset multimedia untuk aplikasi FUNLISH. Di sini Guru/Admin dapat melakukan kompresi materi pelajaran, enkripsi kunci jawaban kuis, pemrosesan citra kartu kosakata, DSP audio pelafalan, dan perekaman green screen (chroma key).
+          Pusat manajemen konten pembelajaran dan manipulasi aset multimedia untuk aplikasi FUNLISH. Di sini Guru/Admin dapat mengelola kosakata & percakapan siswa, melakukan kompresi materi pelajaran, enkripsi kunci jawaban kuis, pemrosesan citra kartu kosakata, DSP audio pelafalan, dan perekaman green screen (chroma key).
         </p>
         <div class="hero-badges">
-          <span><i class="fa-solid fa-bolt"></i> 100% Client-Side</span>
+          <span><i class="fa-solid fa-database"></i> Kelola Konten Real-time</span>
+          <span><i class="fa-solid fa-bolt"></i> 100% Client-Side DSP</span>
           <span><i class="fa-solid fa-shield-halved"></i> Sandboxed Processing</span>
-          <span><i class="fa-solid fa-file-pdf"></i> Auto PDF Report</span>
         </div>
       </div>
+    </div>
+
+    <div class="section-header">
+      <h2><i class="fa-solid fa-layer-group"></i> Manajemen Konten Pembelajaran</h2>
+      <p>Kelola materi kosakata dan percakapan untuk Vocabulary Explorer dan Conversation Builder.</p>
     </div>
 
     <div class="dashboard-grid">
-      <!-- Text Card -->
+      <!-- Vocabulary Management Card -->
       <article class="dash-card">
-        <div class="dash-card-icon blue"><i class="fa-solid fa-file-lines"></i></div>
-        <h3>Kompresi & Keamanan Teks</h3>
-        <p>Kompresi data ringkasan materi menggunakan RLE and Huffman Coding untuk penghematan bandwidth siswa SD, serta Enkripsi XOR untuk mengamankan Kunci Jawaban Kuis.</p>
+        <div class="dash-card-icon blue"><i class="fa-solid fa-book-open"></i></div>
+        <h3>Kelola Kosakata (Vocabulary)</h3>
+        <p>Tambah, edit, atau hapus kartu kosakata untuk Level 1. Pilih antara emoji atau gambar untuk flashcard. Proses gambar dengan DSP (Brightness, Contrast, Filter, Watermark) dan kompresi JPEG.</p>
         <div class="dash-card-footer">
-          <span class="tech-badge">RLE</span>
-          <span class="tech-badge">Huffman</span>
-          <span class="tech-badge">XOR Cipher</span>
-          <button class="btn-go" onclick="switchLabTab('teks')">Buka <i class="fa-solid fa-arrow-right"></i></button>
+          <span class="tech-badge">CRUD + DSP</span>
+          <span class="tech-badge">Image Processing</span>
+          <button class="btn-go" onclick="switchLabTab('vocabulary')">Kelola <i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </article>
 
-      <!-- Image Card -->
+      <!-- Conversation Management Card -->
       <article class="dash-card">
-        <div class="dash-card-icon emerald"><i class="fa-solid fa-image"></i></div>
-        <h3>Filter & Keamanan Flashcard</h3>
-        <p>Terapkan filter penajaman konvolusi 3x3 pada gambar kartu kosakata, tambahkan watermark hak cipta, kompresi kualitas JPEG, dan sisipkan teks jawaban dengan steganografi LSB.</p>
+        <div class="dash-card-icon emerald"><i class="fa-solid fa-comments"></i></div>
+        <h3>Kelola Percakapan (Conversation)</h3>
+        <p>Buat atau ubah dialog percakapan untuk Level 2. Pilih antara API voice atau upload audio manual. Proses audio dengan DSP filter (Low-pass, High-pass, Band-pass, Downsampling, Watermark).</p>
         <div class="dash-card-footer">
-          <span class="tech-badge">Convolution Filter</span>
-          <span class="tech-badge">LSB Stego</span>
-          <span class="tech-badge">JPEG Canvas</span>
-          <button class="btn-go" onclick="switchLabTab('gambar')">Buka <i class="fa-solid fa-arrow-right"></i></button>
+          <span class="tech-badge">CRUD + DSP</span>
+          <span class="tech-badge">Audio Processing</span>
+          <button class="btn-go" onclick="switchLabTab('conversation')">Kelola <i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </article>
 
-      <!-- Audio Card -->
+      <!-- Laporan Card -->
       <article class="dash-card">
-        <div class="dash-card-icon purple"><i class="fa-solid fa-wave-square"></i></div>
-        <h3>DSP Audio Pelafalan</h3>
-        <p>Saring frekuensi vokal vokal guru dengan filter biquad Web Audio API, kompresi downsampling bitdepth/samplerate, watermark suara frekuensi tinggi, dan visualisasi bar spektrum.</p>
+        <div class="dash-card-icon purple"><i class="fa-solid fa-book"></i></div>
+        <h3>Laporan & Dokumentasi</h3>
+        <p>Cetak dokumentasi proyek dalam format PDF A4. Berisi penjelasan lengkap tentang teknologi multimedia yang digunakan dalam aplikasi FUNLISH.</p>
         <div class="dash-card-footer">
-          <span class="tech-badge">Web Audio DSP</span>
-          <span class="tech-badge">Bitcrusher</span>
-          <span class="tech-badge">Spectrogram</span>
-          <button class="btn-go" onclick="switchLabTab('audio')">Buka <i class="fa-solid fa-arrow-right"></i></button>
+          <span class="tech-badge">PDF Export</span>
+          <span class="tech-badge">Print Ready</span>
+          <button class="btn-go" onclick="switchLabTab('guideline')">Buka <i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </article>
-
-      <!-- Video Card -->
-      <article class="dash-card">
-        <div class="dash-card-icon coral"><i class="fa-solid fa-video"></i></div>
-        <h3>Chroma Key Video Guru</h3>
-        <p>Perekaman webcam guru untuk materi video e-learning secara real-time, lengkap dengan pemotongan background warna hijau (Chroma Keying) diganti ruang kelas virtual.</p>
-        <div class="dash-card-footer">
-          <span class="tech-badge">Chroma Key</span>
-          <span class="tech-badge">Realtime Canvas</span>
-          <span class="tech-badge">Webcam API</span>
-          <button class="btn-go" onclick="switchLabTab('video')">Buka <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-      </article>
-    </div>
-
-    <div class="lab-specs">
-      <div class="spec-title">
-        <h2>Korelasi dengan Pembelajaran FUNLISH</h2>
-        <p>Bagaimana metode pemrosesan multimedia diaplikasikan secara nyata dalam platform pembelajaran bahasa Inggris:</p>
-      </div>
-      <div class="spec-list">
-        <div class="spec-item">
-          <i class="fa-solid fa-compress"></i>
-          <div>
-            <h4>Optimalisasi Bandwidth Siswa</h4>
-            <p>Materi teks pelajaran dikompresi (RLE/Huffman) dan gambar flashcard dikompresi kualitasnya (JPEG) agar siswa dengan jaringan seluler lambat di daerah pedesaan tetap dapat mengakses portal FUNLISH secara lancar.</p>
-          </div>
-        </div>
-        <div class="spec-item">
-          <i class="fa-solid fa-key"></i>
-          <div>
-            <h4>Anti-Contek (Kuis & Jawaban Aman)</h4>
-            <p>Mencegah kebocoran kunci jawaban ujian kuis Kelas 6 dengan mengenkripsi teks kunci menggunakan XOR biner atau menyisipkannya tersembunyi ke dalam bit piksel LSB gambar apel/kucing flashcard.</p>
-          </div>
-        </div>
-        <div class="spec-item">
-          <i class="fa-solid fa-sliders"></i>
-          <div>
-            <h4>Kejelasan Audio & Visual E-learning</h4>
-            <p>Filter biquad memangkas noise dengung AC mic guru agar instruksi pelafalan kata bahasa Inggris terdengar jernih oleh anak-anak, sementara video green screen memberikan visual ruang kelas kartun yang interaktif.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- ==================== TEKS TAB ==================== -->
-  <div id="tab-teks" class="tab-panel">
-    <div class="section-header">
-      <h2>Modul Pemrosesan Teks Pelajaran</h2>
-      <p>Eksperimen kompresi data lossless untuk materi dan enkripsi kunci jawaban kuis FUNLISH.</p>
-    </div>
-
-    <div class="workspace-grid">
-      <div class="panel card">
-        <div class="panel-header">
-          <h3><i class="fa-solid fa-pen-to-square"></i> Input Materi / Kunci Jawaban</h3>
-        </div>
-        <div class="panel-body">
-          <textarea id="text-input" placeholder="Masukkan materi teks pelajaran atau kunci jawaban di sini..." rows="8">Kunci Jawaban Ujian Kuis Kelas 6 FUNLISH: [1:Elephant, 2:Good Morning, 3:Three, 4:reading]. AAAAAAAAAAAABBBBBBBB</textarea>
-          <div class="input-actions">
-            <button class="btn btn-secondary" onclick="loadSampleText(1)">Ringkasan Materi Pelajaran</button>
-            <button class="btn btn-secondary" onclick="loadSampleText(2)">Data Jawaban Berulang</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel card">
-        <div class="panel-header">
-          <h3><i class="fa-solid fa-gear"></i> Kontrol & Hasil Pemrosesan</h3>
-          <div class="tab-sub-nav">
-            <button class="sub-tab active" data-sub="rle">RLE</button>
-            <button class="sub-tab" data-sub="huffman">Huffman</button>
-            <button class="sub-tab" data-sub="xor">XOR Kunci Jawaban</button>
-          </div>
-        </div>
-        <div class="panel-body">
-          <!-- RLE -->
-          <div id="sub-panel-rle" class="sub-panel active">
-            <div class="info-box info">
-              <strong>Run-Length Encoding (RLE)</strong> memampatkan materi pelajaran yang berulang. Sangat cocok untuk mengompres data kode atau log aktivitas ujian siswa yang panjang.
-            </div>
-            <button class="btn btn-primary" onclick="processRLE()"><i class="fa-solid fa-compress"></i> Jalankan Kompresi RLE</button>
-            
-            <div class="result-box hide" id="rle-result-container">
-              <h4>Hasil Kompresi RLE:</h4>
-              <div class="code-output" id="rle-output"></div>
-              <div class="stats-grid">
-                <div class="stat-item">
-                  <span class="label">Ukuran Awal</span>
-                  <strong id="rle-size-orig">0 bytes</strong>
-                </div>
-                <div class="stat-item">
-                  <span class="label">Ukuran Kompresi</span>
-                  <strong id="rle-size-comp">0 bytes</strong>
-                </div>
-                <div class="stat-item">
-                  <span class="label">Rasio Hemat</span>
-                  <strong class="text-green" id="rle-ratio">0%</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Huffman -->
-          <div id="sub-panel-huffman" class="sub-panel">
-            <div class="info-box info">
-              <strong>Huffman Coding</strong> mengkodekan teks materi bahasa Inggris dengan panjang bit variabel. Karakter huruf yang paling sering muncul mendapat kode biner terpendek.
-            </div>
-            <button class="btn btn-primary" onclick="processHuffman()"><i class="fa-solid fa-compress"></i> Jalankan Kompresi Huffman</button>
-            
-            <div class="result-box hide" id="huffman-result-container">
-              <h4>Hasil Analisis Huffman:</h4>
-              <div class="stats-grid">
-                <div class="stat-item">
-                  <span class="label">Ukuran Asli (8-bit)</span>
-                  <strong id="huff-size-orig">0 bits</strong>
-                </div>
-                <div class="stat-item">
-                  <span class="label">Ukuran Huffman</span>
-                  <strong id="huff-size-comp">0 bits</strong>
-                </div>
-                <div class="stat-item">
-                  <span class="label">Rasio Hemat</span>
-                  <strong class="text-green" id="huff-ratio">0%</strong>
-                </div>
-              </div>
-              
-              <div class="code-book-container">
-                <h5>Tabel Kode Huffman & Frekuensi:</h5>
-                <div class="table-wrapper">
-                  <table class="data-table">
-                    <thead>
-                      <tr>
-                        <th>Huruf</th>
-                        <th>Frekuensi</th>
-                        <th>Kode Biner</th>
-                        <th>Panjang</th>
-                      </tr>
-                    </thead>
-                    <tbody id="huffman-table-body">
-                      <!-- Filled by JS -->
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- XOR Security -->
-          <div id="sub-panel-xor" class="sub-panel">
-            <div class="info-box warning">
-              <strong>XOR Encryption</strong> mengamankan teks kunci jawaban kuis agar tidak disalin siswa. Hasil berupa nilai heksadesimal acak yang hanya dapat diuraikan/dekripsi kembali jika kunci sandi guru dimasukkan secara tepat.
-            </div>
-            
-            <div class="form-group">
-              <label for="xor-key">Kunci Sandi Guru (Karakter):</label>
-              <input type="text" id="xor-key" value="GURUBING" placeholder="Masukkan kunci..." />
-            </div>
-            
-            <div class="button-group">
-              <button class="btn btn-primary" onclick="encryptXOR()"><i class="fa-solid fa-lock"></i> Enkripsi Kunci</button>
-              <button class="btn btn-accent" onclick="decryptXOR()"><i class="fa-solid fa-lock-open"></i> Dekripsi Kunci</button>
-            </div>
-
-            <div class="result-box hide" id="xor-result-container">
-              <h4 id="xor-status-title">Hasil Kriptografi:</h4>
-              <textarea id="xor-output" readonly rows="4" class="code-output-textarea"></textarea>
-              <p class="small-text text-secondary" id="xor-info-format">Hasil cipher teks biner ditampilkan dalam format Heksadesimal.</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
-  <!-- ==================== GAMBAR TAB ==================== -->
-  <div id="tab-gambar" class="tab-panel">
+  <!-- ==================== VOCABULARY TAB ==================== -->
+  <div id="tab-vocabulary" class="tab-panel">
     <div class="section-header">
-      <h2>Modul Pemrosesan Flashcard Gambar</h2>
-      <p>Pemrosesan citra kartu kosakata bahasa Inggris: filter spasial citra, steganografi kunci kuis, watermark hak cipta, dan kompresi JPEG.</p>
+      <h2><i class="fa-solid fa-book-open"></i> Kelola Kosakata (Vocabulary Explorer - Level 1)</h2>
+      <p>Tambah, edit, atau hapus kartu kosakata untuk setiap kelas. Pilih antara emoji atau gambar untuk flashcard. Proses gambar dengan DSP Image Processing.</p>
+    </div>
+
+    <!-- Grade Selector Tabs -->
+    <div class="tab-sub-nav">
+      <button class="sub-tab active" data-vocab-grade="3" onclick="loadVocabGrade(3)">Kelas 3</button>
+      <button class="sub-tab" data-vocab-grade="4" onclick="loadVocabGrade(4)">Kelas 4</button>
+      <button class="sub-tab" data-vocab-grade="5" onclick="loadVocabGrade(5)">Kelas 5</button>
+      <button class="sub-tab" data-vocab-grade="6" onclick="loadVocabGrade(6)">Kelas 6</button>
     </div>
 
     <div class="workspace-layout-split">
+      <!-- Sidebar: Vocabulary Form & Image Processing -->
       <aside class="sidebar-controls card">
         <div class="control-section">
-          <h3><i class="fa-solid fa-file-image"></i> 1. Gambar Kosakata</h3>
-          <div class="file-upload-zone" id="image-dropzone">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            <p>Unggah gambar kosakata baru (.png/.jpg) atau <strong>klik di sini</strong></p>
-            <input type="file" id="image-file-input" accept="image/*" class="hide" />
+          <h3><i class="fa-solid fa-plus-circle"></i> Tambah/Edit Kosakata</h3>
+          
+          <div class="info-box info">
+            <strong>Petunjuk:</strong> Pilih tipe kartu (Emoji atau Gambar), lalu isi form. Untuk edit, klik item dari daftar kanan.
           </div>
-          <div class="image-actions">
-            <button class="btn btn-secondary w-full" id="btn-use-sample-image"><i class="fa-solid fa-image"></i> Gunakan Gambar Sampel</button>
+
+          <input type="hidden" id="vocab-edit-index" value="-1" />
+          
+          <div class="form-group">
+            <label for="vocab-type">Tipe Kartu Flashcard:</label>
+            <select id="vocab-type" onchange="toggleVocabType()">
+              <option value="emoji">Emoji (Ikon)</option>
+              <option value="image">Gambar (Upload)</option>
+            </select>
           </div>
-          <div class="image-meta hide" id="image-meta-info">
-            <span id="img-meta-dims">Dimensi: -</span>
-            <span id="img-meta-size">Ukuran: -</span>
+
+          <div class="form-group">
+            <label for="vocab-eng">Kata Bahasa Inggris:</label>
+            <input type="text" id="vocab-eng" placeholder="Contoh: Good Morning" />
+          </div>
+
+          <div class="form-group">
+            <label for="vocab-ind">Terjemahan Indonesia:</label>
+            <input type="text" id="vocab-ind" placeholder="Contoh: Selamat Pagi" />
+          </div>
+
+          <!-- Emoji Mode -->
+          <div class="form-group" id="vocab-emoji-group">
+            <label>Emoji (Ikon Visual):</label>
+            <div class="emoji-radio-grid">
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🌅" />
+                <span class="emoji-display">🌅</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🌞" />
+                <span class="emoji-display">🌞</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🌙" />
+                <span class="emoji-display">🌙</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="⭐" />
+                <span class="emoji-display">⭐</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="☁️" />
+                <span class="emoji-display">☁️</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🌈" />
+                <span class="emoji-display">🌈</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🌸" />
+                <span class="emoji-display">🌸</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🌺" />
+                <span class="emoji-display">🌺</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🌻" />
+                <span class="emoji-display">🌻</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🌹" />
+                <span class="emoji-display">🌹</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🌷" />
+                <span class="emoji-display">🌷</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🍎" />
+                <span class="emoji-display">🍎</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🍊" />
+                <span class="emoji-display">🍊</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🍋" />
+                <span class="emoji-display">🍋</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🍌" />
+                <span class="emoji-display">🍌</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🍉" />
+                <span class="emoji-display">🍉</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🍇" />
+                <span class="emoji-display">🍇</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🍓" />
+                <span class="emoji-display">🍓</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🥝" />
+                <span class="emoji-display">🥝</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🥑" />
+                <span class="emoji-display">🥑</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🍅" />
+                <span class="emoji-display">🍅</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🥕" />
+                <span class="emoji-display">🥕</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="�" />
+                <span class="emoji-display">🌽</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🥔" />
+                <span class="emoji-display">🥔</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐶" />
+                <span class="emoji-display">🐶</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐱" />
+                <span class="emoji-display">🐱</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐭" />
+                <span class="emoji-display">🐭</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐹" />
+                <span class="emoji-display">🐹</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐰" />
+                <span class="emoji-display">🐰</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🦊" />
+                <span class="emoji-display">🦊</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐻" />
+                <span class="emoji-display">🐻</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐼" />
+                <span class="emoji-display">🐼</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐨" />
+                <span class="emoji-display">🐨</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐯" />
+                <span class="emoji-display">🐯</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🦁" />
+                <span class="emoji-display">🦁</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐮" />
+                <span class="emoji-display">🐮</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐷" />
+                <span class="emoji-display">🐷</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐸" />
+                <span class="emoji-display">🐸</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐵" />
+                <span class="emoji-display">🐵</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐔" />
+                <span class="emoji-display">🐔</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐧" />
+                <span class="emoji-display">🐧</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐦" />
+                <span class="emoji-display">🐦</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🦆" />
+                <span class="emoji-display">🦆</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🦅" />
+                <span class="emoji-display">🦅</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🦋" />
+                <span class="emoji-display">🦋</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐌" />
+                <span class="emoji-display">🐌</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐛" />
+                <span class="emoji-display">🐛</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐝" />
+                <span class="emoji-display">🐝</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🐞" />
+                <span class="emoji-display">🐞</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="⚽" />
+                <span class="emoji-display">⚽</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🏀" />
+                <span class="emoji-display">🏀</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🏈" />
+                <span class="emoji-display">🏈</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="⚾" />
+                <span class="emoji-display">⚾</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🎾" />
+                <span class="emoji-display">🎾</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🏐" />
+                <span class="emoji-display">🏐</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="📚" />
+                <span class="emoji-display">📚</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="📖" />
+                <span class="emoji-display">📖</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="✏️" />
+                <span class="emoji-display">✏️</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="📝" />
+                <span class="emoji-display">📝</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🎒" />
+                <span class="emoji-display">🎒</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="vocab-emoji" value="🏫" />
+                <span class="emoji-display">🏫</span>
+              </label>
+            </div>
+            <div class="emoji-manual-input">
+              <input type="text" id="vocab-emoji-manual" placeholder="Atau ketik emoji..." maxlength="4" />
+              <button type="button" class="btn btn-secondary btn-sm" onclick="useManualVocabEmoji()">
+                <i class="fa-solid fa-check"></i> Gunakan
+              </button>
+            </div>
+          </div>
+
+          <!-- Image Mode -->
+          <div class="form-group hide" id="vocab-image-group">
+            <label>Upload Gambar Flashcard:</label>
+            <div class="file-upload-zone" id="vocab-dropzone" style="padding: 20px;">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p>Unggah gambar (.png/.jpg) atau <strong>klik di sini</strong></p>
+              <input type="file" id="vocab-file-input" accept="image/*" class="hide" />
+            </div>
+            <button class="btn btn-secondary w-full mt-5" id="btn-use-vocab-sample"><i class="fa-solid fa-image"></i> Gunakan Gambar Sampel</button>
           </div>
         </div>
 
-        <div class="control-section border-top">
-          <h3><i class="fa-solid fa-screwdriver-wrench"></i> 2. Menu Pemrosesan</h3>
-          <div class="vertical-sub-tabs">
-            <button class="v-sub-tab active" data-img-sub="filters"><i class="fa-solid fa-wand-magic-sparkles"></i> Filter Sinyal Citra</button>
-            <button class="v-sub-tab" data-img-sub="stego"><i class="fa-solid fa-user-secret"></i> Steganografi LSB</button>
-            <button class="v-sub-tab" data-img-sub="watermark"><i class="fa-solid fa-copyright"></i> Watermark Kartu</button>
-            <button class="v-sub-tab" data-img-sub="compress"><i class="fa-solid fa-file-contract"></i> Kompresi JPEG</button>
+        <!-- Image Processing Controls (Only for Image Mode) -->
+        <div class="control-section border-top hide" id="vocab-image-processing">
+          <h3><i class="fa-solid fa-wand-magic-sparkles"></i> DSP Image Processing</h3>
+          
+          <div class="slider-group">
+            <label for="vocab-brightness">Kecerahan: <span class="badge" id="val-vocab-brightness">0</span></label>
+            <input type="range" id="vocab-brightness" min="-100" max="100" value="0" />
           </div>
+
+          <div class="slider-group">
+            <label for="vocab-contrast">Kontras: <span class="badge" id="val-vocab-contrast">0</span></label>
+            <input type="range" id="vocab-contrast" min="-100" max="100" value="0" />
+          </div>
+
+          <div class="button-grid-filters">
+            <button class="btn btn-secondary btn-sm" onclick="applyVocabFilter('grayscale')">Grayscale</button>
+            <button class="btn btn-secondary btn-sm" onclick="applyVocabFilter('sharpen')">Sharpen</button>
+            <button class="btn btn-secondary btn-sm" onclick="applyVocabFilter('blur')">Blur</button>
+            <button class="btn btn-secondary btn-sm" onclick="resetVocabImageFilters()">Reset</button>
+          </div>
+
+          <div class="form-group">
+            <label for="vocab-wm-text">Watermark Text:</label>
+            <input type="text" id="vocab-wm-text" value="FUNLISH © UMS" />
+          </div>
+
+          <button class="btn btn-warning w-full" onclick="applyVocabWatermark()">
+            <i class="fa-solid fa-copyright"></i> Tempel Watermark
+          </button>
         </div>
 
-        <div class="control-section border-top">
-          <!-- Filter Section -->
-          <div id="img-panel-filters" class="img-sub-panel active">
-            <h4>Filter Piksel & Spasial</h4>
-            
-            <div class="slider-group">
-              <label for="slide-brightness">Kecerahan (Brightness): <span class="badge" id="val-brightness">0</span></label>
-              <input type="range" id="slide-brightness" min="-100" max="100" value="0" />
-            </div>
-
-            <div class="slider-group">
-              <label for="slide-contrast">Kontras (Contrast): <span class="badge" id="val-contrast">0</span></label>
-              <input type="range" id="slide-contrast" min="-100" max="100" value="0" />
-            </div>
-
-            <div class="button-grid-filters">
-              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('grayscale')">Grayscale</button>
-              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('sepia')">Sepia</button>
-              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('invert')">Invert</button>
-              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('blur')">Blur Spasial</button>
-              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('sharpen')">Sharpen Spasial</button>
-              <button class="btn btn-secondary btn-sm" onclick="applyPresetFilter('sobel')">Deteksi Tepi Sobel</button>
-            </div>
-
-            <button class="btn btn-accent w-full mt-10" onclick="resetImageFilters()"><i class="fa-solid fa-arrows-rotate"></i> Reset Semua Filter</button>
+        <!-- Image Compression (Only for Image Mode) -->
+        <div class="control-section border-top hide" id="vocab-image-compression">
+          <h3><i class="fa-solid fa-compress"></i> Kompresi Gambar</h3>
+          
+          <div class="info-box info">
+            <strong>JPEG Compression</strong> untuk mengoptimalkan ukuran file gambar flashcard.
           </div>
 
-          <!-- Stego Section -->
-          <div id="img-panel-stego" class="img-sub-panel">
-            <h4>Steganografi LSB (Red Channel)</h4>
-            <p class="small-text text-secondary mb-10">Menyembunyikan kunci kuis di dalam bit terendah komponen merah gambar kosakata secara kasat mata.</p>
-            
-            <div class="tab-mini-nav">
-              <button class="mini-tab active" data-mini="stego-encode">Sisipkan Jawaban</button>
-              <button class="mini-tab" data-mini="stego-decode">Baca Jawaban</button>
-            </div>
+          <div class="slider-group">
+            <label for="vocab-quality">Kualitas JPEG: <span class="badge" id="val-vocab-quality">80</span>%</label>
+            <input type="range" id="vocab-quality" min="10" max="100" value="80" step="5" />
+          </div>
 
-            <!-- Stego Encode -->
-            <div id="mini-panel-stego-encode" class="mini-panel active">
-              <textarea id="stego-message-input" placeholder="Masukkan teks kunci jawaban kuis..." rows="3">Quiz K6: ELEPHANT, GOOD MORNING, THIRTEEN, FOOTBALL</textarea>
-              <button class="btn btn-primary w-full mt-10" onclick="encodeStego()"><i class="fa-solid fa-mask"></i> Sisipkan ke Gambar</button>
-              <button class="btn btn-secondary w-full mt-5 hide" id="btn-download-stego" onclick="downloadStegoImage()"><i class="fa-solid fa-download"></i> Unduh Hasil (.PNG)</button>
-            </div>
+          <div class="slider-group">
+            <label for="vocab-scale">Skala Ukuran: <span class="badge" id="val-vocab-scale">100</span>%</label>
+            <input type="range" id="vocab-scale" min="25" max="100" value="100" step="5" />
+          </div>
 
-            <!-- Stego Decode -->
-            <div id="mini-panel-stego-decode" class="mini-panel">
-              <p class="small-text mb-10">Unggah gambar stego format PNG ke program, lalu klik ekstrak:</p>
-              <button class="btn btn-accent w-full" onclick="decodeStego()"><i class="fa-solid fa-unlock-keyhole"></i> Baca Pesan Rahasia</button>
-              
-              <div class="result-box hide mt-10" id="stego-decode-result-box">
-                <strong>Teks Tersembunyi:</strong>
-                <div class="code-output text-green" id="stego-decoded-message"></div>
+          <div class="result-box hide mt-10" id="vocab-compression-result">
+            <h4>Hasil Kompresi:</h4>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <span class="label">Original</span>
+                <strong id="vocab-size-orig">0 KB</strong>
+              </div>
+              <div class="stat-item">
+                <span class="label">Compressed</span>
+                <strong id="vocab-size-comp">0 KB</strong>
+              </div>
+              <div class="stat-item">
+                <span class="label">Ratio</span>
+                <strong class="text-green" id="vocab-comp-ratio">0%</strong>
               </div>
             </div>
           </div>
 
-          <!-- Watermark Section -->
-          <div id="img-panel-watermark" class="img-sub-panel">
-            <h4>Watermark Kepemilikan</h4>
-            
-            <div class="form-group">
-              <label for="wm-text">Teks Watermark:</label>
-              <input type="text" id="wm-text" value="FUNLISH Hak Cipta UMS" />
-            </div>
+          <button class="btn btn-primary w-full mt-10" onclick="applyVocabCompression()">
+            <i class="fa-solid fa-compress"></i> Kompresi Gambar
+          </button>
+        </div>
 
-            <div class="slider-group">
-              <label for="wm-opacity">Opasitas Watermark: <span class="badge" id="val-wm-opacity">0.3</span></label>
-              <input type="range" id="wm-opacity" min="0.1" max="1.0" step="0.05" value="0.3" />
-            </div>
-
-            <div class="slider-group">
-              <label for="wm-size">Ukuran Huruf: <span class="badge" id="val-wm-size">24px</span></label>
-              <input type="range" id="wm-size" min="10" max="80" value="24" />
-            </div>
-
-            <div class="slider-group">
-              <label for="wm-rotation">Sudut Putar: <span class="badge" id="val-wm-rotation">-30°</span></label>
-              <input type="range" id="wm-rotation" min="-180" max="180" value="-30" />
-            </div>
-
-            <div class="form-group">
-              <label for="wm-position">Posisi Penempatan:</label>
-              <select id="wm-position">
-                <option value="center">Di Tengah</option>
-                <option value="top-left">Kiri Atas</option>
-                <option value="top-right">Kanan Atas</option>
-                <option value="bottom-left">Kiri Bawah</option>
-                <option value="bottom-right" selected>Kanan Bawah</option>
-                <option value="repeat">Ulang Penuh (Tile)</option>
-              </select>
-            </div>
-
-            <button class="btn btn-primary w-full" onclick="applyWatermark()"><i class="fa-solid fa-copyright"></i> Tempel Watermark</button>
-          </div>
-
-          <!-- Compress Section -->
-          <div id="img-panel-compress" class="img-sub-panel">
-            <h4>Kompresi Lossy Gambar JPEG</h4>
-            <p class="small-text text-secondary mb-10">Kompresi kualitas pixel untuk efisiensi loading browser siswa saat membuka flashcard kosakata.</p>
-            
-            <div class="slider-group">
-              <label for="comp-quality">Kualitas Simpan JPEG: <span class="badge" id="val-comp-quality">70%</span></label>
-              <input type="range" id="comp-quality" min="1" max="100" value="70" />
-            </div>
-
-            <div class="slider-group">
-              <label for="comp-scale">Skala Dimensi Gambar: <span class="badge" id="val-comp-scale">100%</span></label>
-              <input type="range" id="comp-scale" min="10" max="100" step="5" value="100" />
-            </div>
-
-            <button class="btn btn-primary w-full" onclick="compressImage()"><i class="fa-solid fa-file-contract"></i> Hitung Rasio Kompresi</button>
-
-            <div class="result-box hide mt-10" id="img-compress-result">
-              <h4>Hasil Kompresi JPEG:</h4>
-              <div class="stats-grid">
-                <div class="stat-item">
-                  <span class="label">Ukuran Asli</span>
-                  <strong id="img-orig-size-display">0 KB</strong>
-                </div>
-                <div class="stat-item">
-                  <span class="label">Ukuran Baru</span>
-                  <strong id="img-comp-size-display">0 KB</strong>
-                </div>
-                <div class="stat-item">
-                  <span class="label">Rasio Hemat</span>
-                  <strong class="text-green" id="img-compress-ratio">0%</strong>
-                </div>
-              </div>
-              <button class="btn btn-secondary btn-sm w-full mt-10" onclick="downloadCompressedImage()"><i class="fa-solid fa-download"></i> Unduh Berkas JPEG</button>
-            </div>
+        <div class="control-section border-top">
+          <div class="button-group">
+            <button class="btn btn-primary" onclick="saveVocabItem()">
+              <i class="fa-solid fa-save"></i> Simpan Kosakata
+            </button>
+            <button class="btn btn-secondary" onclick="resetVocabForm()">
+              <i class="fa-solid fa-times"></i> Batal/Reset
+            </button>
           </div>
         </div>
       </aside>
 
-      <!-- Main Display Canvas -->
-      <section class="main-display card">
-        <div class="display-header">
-          <h3><i class="fa-solid fa-eye"></i> Monitor Citra Flashcard</h3>
-          <div class="display-actions">
-            <label class="toggle-control">
-              <input type="checkbox" id="split-compare-chk" />
-              <span class="toggle-label">Bandingkan Sisi (Split)</span>
-            </label>
+      <!-- Main Display: Vocabulary List & Image Canvas -->
+      <section class="main-display">
+        <!-- Image Canvas Preview Card (Only for Image Mode) -->
+        <div class="vocab-preview-card card hide" id="vocab-canvas-container">
+          <div class="display-header">
+            <h3><i class="fa-solid fa-image"></i> Preview Kartu Flashcard</h3>
+            <span class="canvas-info-badge" id="vocab-status-msg"><i class="fa-solid fa-info-circle"></i> Siap</span>
           </div>
-        </div>
-        <div class="canvas-wrapper">
-          <div class="canvas-container-inner">
-            <canvas id="image-canvas-source" class="hide"></canvas>
-            <canvas id="image-canvas-display"></canvas>
-            
-            <!-- Split comparison element -->
-            <div id="split-slider-bar" class="split-slider hide"></div>
-            
-            <div class="empty-state-message" id="img-empty-message">
-              <i class="fa-solid fa-image-portrait"></i>
-              <p>Unggah gambar flashcard kosakata baru atau klik "Gunakan Gambar Sampel" untuk memulai pemrosesan citra.</p>
+          <div class="canvas-wrapper" style="padding: 24px; display: flex; justify-content: center; align-items: center; min-height: 200px;">
+            <div class="canvas-container-inner" style="max-width: 400px;">
+              <canvas id="vocab-canvas-source" class="hide"></canvas>
+              <canvas id="vocab-canvas-display" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"></canvas>
+              <div class="empty-state-message" id="vocab-empty-canvas">
+                <i class="fa-solid fa-image-portrait"></i>
+                <p>Upload gambar untuk mulai memproses flashcard</p>
+              </div>
             </div>
           </div>
         </div>
-        <div class="canvas-footer" id="image-canvas-footer">
-          <span class="canvas-info-badge"><i class="fa-solid fa-arrows-left-right"></i> Canvas Aktif</span>
-          <span class="canvas-info-badge" id="canvas-status-msg">Siap</span>
+
+        <!-- Vocabulary List Card -->
+        <div class="vocab-list-card card">
+          <div class="display-header">
+            <h3><i class="fa-solid fa-list"></i> Daftar Kosakata <span id="vocab-grade-badge" class="tech-badge">Kelas 3</span></h3>
+            <span class="tech-badge" id="vocab-count-badge">0 Items</span>
+          </div>
+          <div class="vocab-list-wrapper">
+            <div id="vocab-list-container">
+              <!-- Filled by admin.js -->
+            </div>
+          </div>
         </div>
       </section>
     </div>
   </div>
 
-  <!-- ==================== AUDIO TAB ==================== -->
-  <div id="tab-audio" class="tab-panel">
+  <!-- ==================== CONVERSATION TAB ==================== -->
+  <div id="tab-conversation" class="tab-panel">
     <div class="section-header">
-      <h2>Modul DSP Audio Suara Pelafalan</h2>
-      <p>Pemrosesan sinyal suara vokal guru: filter frekuensi audio, simulasi downsampling kompresi, dan visualisasi spektrum vokal.</p>
+      <h2><i class="fa-solid fa-comments"></i> Kelola Percakapan (Conversation Builder - Level 2)</h2>
+      <p>Buat dan edit dialog percakapan chat bubble. Pilih antara API voice atau upload audio manual. Proses audio dengan DSP filter (Low-pass, High-pass, Band-pass, Downsampling, Watermark).</p>
+    </div>
+
+    <!-- Grade Selector Tabs -->
+    <div class="tab-sub-nav">
+      <button class="sub-tab active" data-conv-grade="3" onclick="loadConvGrade(3)">Kelas 3</button>
+      <button class="sub-tab" data-conv-grade="4" onclick="loadConvGrade(4)">Kelas 4</button>
+      <button class="sub-tab" data-conv-grade="5" onclick="loadConvGrade(5)">Kelas 5</button>
+      <button class="sub-tab" data-conv-grade="6" onclick="loadConvGrade(6)">Kelas 6</button>
     </div>
 
     <div class="workspace-layout-split">
+      <!-- Sidebar: Conversation Form & Audio/Text Processing -->
       <aside class="sidebar-controls card">
         <div class="control-section">
-          <h3><i class="fa-solid fa-music"></i> 1. Sumber Suara Guru</h3>
-          <div class="file-upload-zone" id="audio-dropzone">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            <p>Unggah berkas rekaman suara (.mp3/.wav) atau <strong>klik di sini</strong></p>
-            <input type="file" id="audio-file-input" accept="audio/*" class="hide" />
+          <h3><i class="fa-solid fa-message-plus"></i> Tambah/Edit Chat Bubble</h3>
+          
+          <div class="info-box info">
+            <strong>Petunjuk:</strong> Setiap chat bubble adalah satu baris dialog. Atur sisi, avatar, teks, dan pilih jenis audio (API atau Upload).
           </div>
-          <div class="audio-actions mt-10">
-            <button class="btn btn-secondary w-full" id="btn-use-synth-audio"><i class="fa-solid fa-wand-magic-sparkles"></i> Gunakan Audio Sintetis</button>
-          </div>
-          <div class="audio-meta hide mt-10" id="audio-meta-info">
-            <strong id="audio-meta-name">File: -</strong>
-            <span id="audio-meta-duration">Durasi: -</span>
-          </div>
-        </div>
 
-        <div class="control-section border-top">
-          <h3><i class="fa-solid fa-play"></i> 2. Pengendali Putar</h3>
-          <div class="audio-player-controls">
-            <button class="btn-play" id="btn-audio-play" disabled><i class="fa-solid fa-play"></i> Play</button>
-            <button class="btn-pause" id="btn-audio-pause" disabled><i class="fa-solid fa-pause"></i> Pause</button>
-            <button class="btn-stop" id="btn-audio-stop" disabled><i class="fa-solid fa-stop"></i> Stop</button>
-          </div>
-          <div class="slider-group mt-10">
-            <label for="audio-volume">Volume Suara: <span class="badge" id="val-audio-volume">80%</span></label>
-            <input type="range" id="audio-volume" min="0" max="1" step="0.05" value="0.8" />
-          </div>
-          <div class="slider-group">
-            <label for="audio-speed">Kecepatan Pelafalan: <span class="badge" id="val-audio-speed">1.0x</span></label>
-            <input type="range" id="audio-speed" min="0.5" max="2.0" step="0.1" value="1.0" />
-          </div>
-        </div>
-
-        <div class="control-section border-top">
-          <h3><i class="fa-solid fa-sliders"></i> 3. Filter Frekuensi & Watermark</h3>
+          <input type="hidden" id="conv-edit-index" value="-1" />
           
           <div class="form-group">
-            <label for="audio-filter-type">Pilih Filter Sinyal (DSP):</label>
-            <select id="audio-filter-type">
-              <option value="none" selected>Tanpa Filter (Bypass)</option>
-              <option value="lowpass">Low-Pass Filter (Bass Tebal/Redup)</option>
-              <option value="highpass">High-Pass Filter (Potong Humming AC)</option>
-              <option value="bandpass">Band-Pass Filter (Sempit Vokal)</option>
+            <label for="conv-eng">Teks Bahasa Inggris:</label>
+            <textarea id="conv-eng" rows="2" placeholder="Contoh: Hello, good morning! My name is Alex."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="conv-ind">Terjemahan Indonesia:</label>
+            <textarea id="conv-ind" rows="2" placeholder="Contoh: Halo, selamat pagi! Nama saya Alex."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Avatar Emoji:</label>
+            <div class="emoji-radio-grid">
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👦" />
+                <span class="emoji-display">👦</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👧" />
+                <span class="emoji-display">👧</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🧒" />
+                <span class="emoji-display">🧒</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👨" />
+                <span class="emoji-display">👨</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👩" />
+                <span class="emoji-display">👩</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🧑" />
+                <span class="emoji-display">🧑</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👴" />
+                <span class="emoji-display">👴</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👵" />
+                <span class="emoji-display">👵</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👨‍🏫" />
+                <span class="emoji-display">👨‍🏫</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👩‍🏫" />
+                <span class="emoji-display">👩‍🏫</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👨‍🎓" />
+                <span class="emoji-display">👨‍🎓</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👩‍🎓" />
+                <span class="emoji-display">👩‍🎓</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🤵" />
+                <span class="emoji-display">🤵</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="�" />
+                <span class="emoji-display">👸</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🤴" />
+                <span class="emoji-display">🤴</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🦸" />
+                <span class="emoji-display">🦸</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🦹" />
+                <span class="emoji-display">🦹</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🧙" />
+                <span class="emoji-display">🧙</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🧚" />
+                <span class="emoji-display">🧚</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🧛" />
+                <span class="emoji-display">🧛</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🧝" />
+                <span class="emoji-display">🧝</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🎅" />
+                <span class="emoji-display">🎅</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="🤶" />
+                <span class="emoji-display">🤶</span>
+              </label>
+              <label class="emoji-radio-option">
+                <input type="radio" name="conv-avatar" value="👼" />
+                <span class="emoji-display">👼</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="conv-side">Posisi Chat Bubble:</label>
+            <select id="conv-side">
+              <option value="left">Kiri (Left)</option>
+              <option value="right">Kanan (Right)</option>
             </select>
           </div>
 
-          <div class="slider-group filter-control-el hide">
-            <label for="audio-filter-freq">Frekuensi Cutoff ($f_c$): <span class="badge" id="val-audio-filter-freq">1000 Hz</span></label>
-            <input type="range" id="audio-filter-freq" min="40" max="15000" step="10" value="1000" />
+          <div class="form-group">
+            <label for="conv-audio-type">Tipe Audio Voice:</label>
+            <select id="conv-audio-type" onchange="toggleConvAudioType()">
+              <option value="api">Web Speech API (Auto)</option>
+              <option value="upload">Upload Audio Manual (.mp3/.wav)</option>
+            </select>
           </div>
 
-          <div class="slider-group filter-control-el hide">
-            <label for="audio-filter-q">Resonansi Filter (Q): <span class="badge" id="val-audio-filter-q">1.0</span></label>
-            <input type="range" id="audio-filter-q" min="0.1" max="15" step="0.1" value="1.0" />
+          <!-- API Voice Mode -->
+          <div class="form-group" id="conv-api-group">
+            <button class="btn btn-secondary w-full" onclick="testConvSpeech()">
+              <i class="fa-solid fa-volume-high"></i> Test API Voice
+            </button>
           </div>
 
-          <div class="checkbox-group border-top-dash pt-10">
+          <!-- Upload Audio Mode -->
+          <div class="form-group hide" id="conv-upload-group">
+            <div class="file-upload-zone" id="conv-audio-dropzone">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <p>Upload audio (.mp3/.wav)</p>
+              <input type="file" id="conv-audio-input" accept="audio/*" class="hide" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Audio DSP Processing (Only for Upload Mode) -->
+        <div class="control-section border-top hide" id="conv-audio-processing">
+          <h3><i class="fa-solid fa-wave-square"></i> DSP Audio Processing</h3>
+          
+          <div class="form-group">
+            <label for="conv-filter-type">Audio Filter:</label>
+            <select id="conv-filter-type">
+              <option value="none">Bypass (No Filter)</option>
+              <option value="lowpass">Low-Pass (Bass)</option>
+              <option value="highpass">High-Pass (Remove Noise)</option>
+              <option value="bandpass">Band-Pass (Vocal)</option>
+            </select>
+          </div>
+
+          <div class="checkbox-group">
             <label class="checkbox-control">
-              <input type="checkbox" id="chk-audio-crush" />
-              <span class="checkbox-label"><strong>Downsampling (Bitcrusher)</strong></span>
+              <input type="checkbox" id="conv-audio-crush" />
+              <span class="checkbox-label"><strong>Downsampling (Compress)</strong></span>
             </label>
           </div>
 
-          <div class="crush-controls hide">
-            <div class="slider-group">
-              <label for="audio-crush-rate">Laju Sampel (Rate): <span class="badge" id="val-audio-crush-rate">44.1 kHz</span></label>
-              <input type="range" id="audio-crush-rate" min="1000" max="44100" step="500" value="44100" />
-            </div>
-            <div class="slider-group">
-              <label for="audio-crush-bits">Resolusi Bit (Bit Depth): <span class="badge" id="val-audio-crush-bits">16-bit</span></label>
-              <input type="range" id="audio-crush-bits" min="2" max="16" step="1" value="16" />
-            </div>
-            <div class="info-box info">
-              <span>Rasio Hemat Bitrate: <strong class="text-green" id="audio-compress-ratio">0%</strong></span>
-            </div>
-          </div>
-
-          <div class="checkbox-group border-top-dash pt-10">
+          <div class="checkbox-group">
             <label class="checkbox-control">
-              <input type="checkbox" id="chk-audio-watermark" />
-              <span class="checkbox-label"><strong>Sisipkan Watermark Suara</strong></span>
+              <input type="checkbox" id="conv-audio-watermark" />
+              <span class="checkbox-label"><strong>Audio Watermark</strong></span>
             </label>
           </div>
-          <div class="watermark-controls hide">
-            <p class="small-text text-secondary">Menyuntikkan nada sinus 15.000 Hz konstan sebagai tanda digital kepemilikan audio vokal FUNLISH.</p>
+
+          <button class="btn btn-warning w-full" onclick="processConvAudio()">
+            <i class="fa-solid fa-microchip"></i> Proses Audio DSP
+          </button>
+        </div>
+
+        <div class="control-section border-top">
+          <div class="button-group">
+            <button class="btn btn-primary" onclick="saveConvItem()">
+              <i class="fa-solid fa-save"></i> Simpan Chat Bubble
+            </button>
+            <button class="btn btn-secondary" onclick="resetConvForm()">
+              <i class="fa-solid fa-times"></i> Batal/Reset
+            </button>
           </div>
         </div>
       </aside>
 
-      <!-- Main Display Visualizers -->
+      <!-- Main Display: Conversation Preview -->
       <section class="main-display card">
         <div class="display-header">
-          <h3><i class="fa-solid fa-chart-simple"></i> Visualisasi Sinyal Suara Waktu Nyata</h3>
+          <h3><i class="fa-solid fa-eye"></i> Preview Percakapan <span id="conv-grade-badge" class="tech-badge">Kelas 3</span></h3>
+          <span class="tech-badge" id="conv-count-badge">0 Bubbles</span>
+        </div>
+
+        <!-- Info Box - Instructions (Top Position) -->
+        <div class="conv-instructions-box">
+          <div class="info-box warning">
+            <strong><i class="fa-solid fa-arrows-up-down"></i> Urutan Dialog:</strong>
+            <p>Gunakan tombol Atas/Bawah untuk mengatur urutan chat bubble. Gunakan tombol Edit untuk mengubah, dan Hapus untuk menghapus.</p>
+          </div>
         </div>
         
-        <div class="visualizer-container">
-          <div class="visualizer-block">
-            <span class="visualizer-label"><i class="fa-solid fa-grip-lines"></i> Waveform Citra Sinyal (Domain Waktu - Amplitudo)</span>
-            <canvas id="audio-canvas-waveform" width="600" height="150"></canvas>
-          </div>
-
-          <div class="visualizer-block">
-            <span class="visualizer-label"><i class="fa-solid fa-chart-column"></i> Spectrogram Sinyal (Domain Frekuensi - FFT Bar)</span>
-            <canvas id="audio-canvas-frequency" width="600" height="180"></canvas>
+        <!-- Dialog Container -->
+        <div class="conv-preview-wrapper">
+          <div id="conv-preview-container" class="dialog-chat-container">
+            <!-- Filled by admin.js -->
           </div>
         </div>
 
         <div class="canvas-footer">
-          <span class="canvas-info-badge"><i class="fa-solid fa-wave-square"></i> AudioContext: <strong id="audio-context-status">Suspended</strong></span>
-          <span class="canvas-info-badge"><i class="fa-solid fa-clock"></i> Waktu Putar: <strong id="audio-time-display">00:00 / 00:00</strong></span>
+          <span class="canvas-info-badge" id="conv-status-msg"><i class="fa-solid fa-info-circle"></i> Siap</span>
         </div>
       </section>
     </div>
   </div>
-
   <!-- ==================== VIDEO TAB ==================== -->
   <div id="tab-video" class="tab-panel">
     <div class="section-header">

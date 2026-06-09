@@ -263,6 +263,15 @@
   margin-bottom: 5px;
 }
 
+.vocab-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 .vocab-eng {
   font-size: 1.25rem;
   font-weight: 800;
@@ -976,3 +985,49 @@
   font-weight: 600;
 }
 
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FOOTER CENTER & HIDE TRANSLATE WIDGET
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Footer bottom - center text */
+.footer-bottom {
+  text-align: center !important;
+  padding: 24px 20px;
+}
+
+.footer-copy {
+  margin: 0;
+  text-align: center;
+}
+
+/* Footer top - center content */
+.footer-top {
+  text-align: center !important;
+}
+
+.footer-brand {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Hide all translate widgets */
+.goog-te-banner-frame,
+.goog-te-gadget,
+#google_translate_element,
+.skiptranslate,
+body > .skiptranslate,
+.goog-te-spinner-pos,
+.goog-logo-link,
+[id*="translate"],
+[class*="translate-widget"],
+[class*="translate-button"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+body {
+  top: 0 !important;
+  margin-top: 0 !important;
+}

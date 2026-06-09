@@ -264,9 +264,15 @@ async function startLevel(level) {
         const card = document.createElement("div");
         card.className = "vocab-card";
         card.onclick = () => speakEnglish(item.eng);
+        
+        // Check if item has imageData (image mode) or just emoji
+        const iconHtml = item.imageData 
+          ? `<img src="${item.imageData}" alt="${item.eng}" class="vocab-image" />` 
+          : `<div class="vocab-icon">${item.emoji}</div>`;
+        
         card.innerHTML = `
           <span class="vocab-sound-icon"><i class="fa-solid fa-volume-high"></i></span>
-          <div class="vocab-icon">${item.emoji}</div>
+          ${iconHtml}
           <div class="vocab-eng">${item.eng}</div>
           <div class="vocab-ind">${item.ind}</div>
         `;

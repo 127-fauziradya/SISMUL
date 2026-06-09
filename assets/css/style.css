@@ -2153,3 +2153,60 @@
   }
 }
 
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FOOTER CENTER OVERRIDE - Force center alignment
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Override footer-top grid to center */
+.footer-top {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* Center footer brand */
+.footer-brand {
+  max-width: 600px !important;
+  justify-self: center !important;
+  align-self: center !important;
+  text-align: center !important;
+}
+
+/* Center footer logo */
+.footer-logo {
+  display: inline-flex !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+}
+
+/* Center all footer text elements */
+.footer-tagline,
+.footer-description {
+  text-align: center !important;
+}
+
+/* Center footer bottom */
+.footer-bottom {
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Center footer copy */
+.main-footer .footer-copy,
+.footer-copy {
+  text-align: center !important;
+  margin: 0 auto !important;
+  display: block !important;
+  width: 100% !important;
+}
+
+/* Hide footer nav and contact if exists */
+.footer-nav-grid,
+.footer-contact-col {
+  display: none !important;
+}
