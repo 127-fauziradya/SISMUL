@@ -48,10 +48,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const adminNav = document.getElementById("admin-nav");
     if (adminNav) {
       adminNav.style.display = "flex";
-      const crudTab = document.getElementById("nav-admin-crud");
-      if (crudTab) crudTab.classList.remove("active");
-      const labTab = document.getElementById("nav-admin-lab");
-      if (labTab) labTab.classList.add("active");
+      // Set Dashboard as active by default
+      const dashboardTab = document.getElementById("nav-admin-dashboard");
+      if (dashboardTab) dashboardTab.classList.add("active");
     }
 
     initNavbarToggle();
@@ -105,14 +104,9 @@ async function loadComponent(elementId, filePath) {
 
 // Initialize Tabs inside Admin Portal
 function initAdminTabs() {
-  const tabsDark = document.querySelectorAll(".nav-tab-dark");
-  tabsDark.forEach(tab => {
-    tab.addEventListener("click", () => {
-      const tabId = tab.dataset.tab;
-      switchAdminTab(tabId);
-    });
-  });
-
+  // Navigation is now in top navbar - no need to initialize .nav-tab-dark
+  // The navbar links call switchAdminTab() directly via onclick
+  
   // Text Module Sub-tabs
   const textSubTabs = document.querySelectorAll("#tab-teks .sub-tab");
   textSubTabs.forEach(sub => {
@@ -153,10 +147,23 @@ function initAdminTabs() {
   });
 }
 
-// Switch tabs
-function switchAdminTab(tabId) {
+// Switch tabs (make it globally accessible for navbar)
+window.switchAdminTab = function(tabId) {
   console.log(`🔄 Switching to tab: ${tabId}`);
   
+  // Update top navbar active state
+  const navTabs = document.querySelectorAll("#admin-nav .nav-tab");
+  navTabs.forEach(tab => {
+    // Remove active class from all
+    tab.classList.remove("active");
+    
+    // Add active class to matching tab
+    if (tab.id === `nav-admin-${tabId}`) {
+      tab.classList.add("active");
+    }
+  });
+  
+  // Update internal navigation tabs (the green ones inside teacher-portal)
   const tabs = document.querySelectorAll(".nav-tab-dark");
   tabs.forEach(tab => {
     if (tab.dataset.tab === tabId) {
@@ -238,7 +245,7 @@ window.switchToGrade = function(grade) {
   currentVocabGrade = grade;
   currentConvGrade = grade;
   
-  // Switch to grade tab
+  // Switch to grade tab (this will also update navbar)
   switchAdminTab(`grade${grade}`);
   
   // Load vocabulary for that grade
@@ -280,19 +287,27 @@ function switchGradeSub(grade, subTab) {
   // Switch sub-panels
   const vocabPanel = document.getElementById(`grade${grade}-vocabulary`);
   const convPanel = document.getElementById(`grade${grade}-conversation`);
+  const quizPanel = document.getElementById(`grade${grade}-quiz`);
   
   if (subTab === 'vocabulary') {
     if (vocabPanel) vocabPanel.classList.add('active');
     if (convPanel) convPanel.classList.remove('active');
+    if (quizPanel) quizPanel.classList.remove('active');
     loadGradeContent(grade, 'vocabulary');
-  } else {
+  } else if (subTab === 'conversation') {
     if (vocabPanel) vocabPanel.classList.remove('active');
     if (convPanel) convPanel.classList.add('active');
+    if (quizPanel) quizPanel.classList.remove('active');
     loadGradeContent(grade, 'conversation');
+  } else if (subTab === 'quiz') {
+    if (vocabPanel) vocabPanel.classList.remove('active');
+    if (convPanel) convPanel.classList.remove('active');
+    if (quizPanel) quizPanel.classList.add('active');
+    loadGradeContent(grade, 'quiz');
   }
 }
 
-// Load vocabulary or conversation content dynamically
+// Load vocabulary or conversation or quiz content dynamically
 async function loadGradeContent(grade, contentType) {
   const containerId = `grade${grade}-${contentType}`;
   const container = document.getElementById(containerId);
@@ -367,6 +382,32 @@ async function loadGradeContent(grade, contentType) {
           if (typeof initConvAudioHandlers === 'function') {
             initConvAudioHandlers();
           }
+        }, 100);
+      }
+    } else if (contentType === 'quiz') {
+      // Clone quiz tab content
+      const quizTab = document.getElementById('tab-quiz');
+      if (quizTab) {
+        const clonedContent = quizTab.cloneNode(true);
+        clonedContent.id = `${containerId}-content`;
+        clonedContent.style.display = 'block';
+        clonedContent.style.paddingTop = '20px';
+        
+        // Remove section header
+        const sectionHeader = clonedContent.querySelector('.section-header');
+        if (sectionHeader) sectionHeader.remove();
+        
+        // Remove grade selector tabs
+        const gradeNav = clonedContent.querySelector('.tab-sub-nav');
+        if (gradeNav) gradeNav.remove();
+        
+        container.innerHTML = '';
+        container.appendChild(clonedContent);
+        
+        // Load quiz data for this grade
+        setTimeout(() => {
+          currentQuizGrade = grade;
+          loadQuizGrade(grade);
         }, 100);
       }
     }
@@ -1768,4 +1809,215 @@ function initDatabaseModule() {
   }
   // Initial status check
   setTimeout(checkDbStatus, 1500);
+}
+
+
+/* ==========================================================================
+   QUIZ MANAGEMENT MODULE (CRUD SOAL KUIS)
+   Manages quiz questions for Level 3 (Dynamic Quest Quiz)
+   ========================================================================== */
+
+let currentQuizGrade = 3;
+
+// Load quiz for a specific grade
+window.loadQuizGrade = function(grade) {
+  console.log(`📝 Loading quiz for grade ${grade}...`);
+  currentQuizGrade = grade;
+  
+  // Update active tab button
+  document.querySelectorAll('[data-quiz-grade]').forEach(btn => {
+    if (btn.dataset.quizGrade === String(grade)) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  
+  // Update badge
+  const badge = document.getElementById('quiz-grade-badge');
+  if (badge) badge.textContent = `Kelas ${grade}`;
+  
+  // Render questions list
+  renderQuizQuestions();
+  console.log(`✅ Quiz for grade ${grade} loaded successfully`);
+};
+
+// Render quiz questions into table
+function renderQuizQuestions() {
+  console.log('📝 Rendering quiz questions...');
+  const tableBody = document.getElementById('quiz-questions-table-body');
+  if (!tableBody) {
+    console.error('❌ quiz-questions-table-body element not found!');
+    return;
+  }
+  
+  const data = getChallengeDataAdmin();
+  if (!data || !data[currentQuizGrade]) {
+    console.error(`❌ No data found for grade ${currentQuizGrade}`);
+    tableBody.innerHTML = '<tr><td colspan="5" class="info-box error">Data tidak ditemukan!</td></tr>';
+    return;
+  }
+  
+  const questions = data[currentQuizGrade].level3.questions;
+  console.log(`📊 Found ${questions.length} quiz questions`);
+  
+  if (questions.length === 0) {
+    tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:#64748b;">Belum ada soal. Klik "Tambah Soal Baru" untuk mengisi.</td></tr>';
+    return;
+  }
+
+  tableBody.innerHTML = '';
+  questions.forEach((q, index) => {
+    const row = document.createElement('tr');
+    
+    // Formatting options string
+    const optionsText = q.options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`).join('<br/>');
+    
+    row.innerHTML = `
+      <td style="font-weight:800;color:#1cb0f6;font-family:'Fredoka',sans-serif;text-align:center;">${index + 1}</td>
+      <td style="max-width:300px;word-break:break-word;">${q.question}</td>
+      <td style="font-size:0.88rem;line-height:1.6;">${optionsText}</td>
+      <td class="answer-key">${q.answer}</td>
+      <td style="text-align:center;">
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+          <button class="crud-btn edit" onclick="openEditQuestionModal(${index})"><i class="fa-solid fa-edit"></i> Edit</button>
+          <button class="crud-btn del" onclick="deleteQuizQuestion(${index})"><i class="fa-solid fa-trash"></i> Hapus</button>
+        </div>
+      </td>
+    `;
+    tableBody.appendChild(row);
+  });
+  console.log('✅ Quiz questions rendered successfully');
+}
+
+// Open Modal to create new question
+window.openCreateQuestionModal = function() {
+  const modal = document.getElementById('quiz-modal-overlay');
+  if (!modal) {
+    console.error('❌ quiz-modal-overlay element not found!');
+    return;
+  }
+  
+  document.getElementById('quiz-modal-title').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> Tambah Soal Quiz - Kelas ${currentQuizGrade} SD`;
+  document.getElementById('edit-question-index').value = ''; // Empty implies new entry
+  document.getElementById('quiz-question-form').reset();
+  
+  modal.classList.remove('hide');
+};
+
+// Open Modal to edit existing question
+window.openEditQuestionModal = function(index) {
+  const data = getChallengeDataAdmin();
+  if (!data || !data[currentQuizGrade]) return;
+  
+  const q = data[currentQuizGrade].level3.questions[index];
+  if (!q) return;
+
+  document.getElementById('quiz-modal-title').innerHTML = `<i class="fa-solid fa-edit"></i> Edit Soal Quiz - Kelas ${currentQuizGrade} SD`;
+  document.getElementById('edit-question-index').value = index;
+  
+  document.getElementById('form-question').value = q.question;
+  document.getElementById('form-opt-0').value = q.options[0] || '';
+  document.getElementById('form-opt-1').value = q.options[1] || '';
+  document.getElementById('form-opt-2').value = q.options[2] || '';
+  document.getElementById('form-opt-3').value = q.options[3] || '';
+  
+  // Find which option matches correct answer
+  const ansIndex = q.options.indexOf(q.answer);
+  document.getElementById('form-answer').value = ansIndex >= 0 ? ansIndex : '';
+
+  const modal = document.getElementById('quiz-modal-overlay');
+  if (modal) modal.classList.remove('hide');
+};
+
+// Close question Modal
+window.closeQuizQuestionModal = function() {
+  const modal = document.getElementById('quiz-modal-overlay');
+  if (modal) modal.classList.add('hide');
+};
+
+// Save form submit (Create or Update)
+window.saveQuestionForm = function(event) {
+  event.preventDefault();
+  
+  const indexStr = document.getElementById('edit-question-index').value;
+  const question = document.getElementById('form-question').value.trim();
+  const opt0 = document.getElementById('form-opt-0').value.trim();
+  const opt1 = document.getElementById('form-opt-1').value.trim();
+  const opt2 = document.getElementById('form-opt-2').value.trim();
+  const opt3 = document.getElementById('form-opt-3').value.trim();
+  const ansIndex = parseInt(document.getElementById('form-answer').value);
+
+  if (!question || !opt0 || !opt1 || !opt2 || !opt3 || isNaN(ansIndex)) {
+    alert('Mohon lengkapi semua field!');
+    return;
+  }
+
+  const options = [opt0, opt1, opt2, opt3];
+  const answer = options[ansIndex];
+
+  const data = getChallengeDataAdmin();
+  if (!data || !data[currentQuizGrade]) {
+    alert('Data grade tidak ditemukan!');
+    return;
+  }
+  
+  const questions = data[currentQuizGrade].level3.questions;
+
+  const newQuestionObj = { question, options, answer };
+
+  if (indexStr === '') {
+    // Create new
+    questions.push(newQuestionObj);
+  } else {
+    // Update existing
+    const index = parseInt(indexStr);
+    questions[index] = newQuestionObj;
+  }
+
+  if (saveChallengeDataAdmin(data)) {
+    showDbToast(indexStr === '' ? 'Soal berhasil ditambahkan!' : 'Soal berhasil diupdate!', 'success');
+    renderQuizQuestions();
+    closeQuizQuestionModal();
+  } else {
+    showDbToast('Gagal menyimpan soal!', 'error');
+  }
+};
+
+// Delete a question
+window.deleteQuizQuestion = function(index) {
+  if (!confirm('Apakah Anda yakin ingin menghapus soal ini?')) return;
+
+  const data = getChallengeDataAdmin();
+  if (!data || !data[currentQuizGrade]) return;
+  
+  const questions = data[currentQuizGrade].level3.questions;
+  questions.splice(index, 1);
+  
+  if (saveChallengeDataAdmin(data)) {
+    showDbToast('Soal berhasil dihapus!', 'success');
+    renderQuizQuestions();
+  } else {
+    showDbToast('Gagal menghapus soal!', 'error');
+  }
+};
+
+// Reset questions database to default
+window.resetDefaultQuestions = function() {
+  if (!confirm('Apakah Anda yakin ingin mengembalikan semua soal quiz ke setelan awal pabrik? Seluruh penyesuaian Anda akan terhapus.')) return;
+  
+  localStorage.removeItem('funlish_challenge_data');
+  alert('Bank data soal quiz berhasil direset!');
+  location.reload();
+};
+
+// Helper function to show toast notification
+function showDbToast(message, type) {
+  // Simple alert for now - can be enhanced with toast library
+  if (type === 'success') {
+    console.log('✅ ' + message);
+  } else {
+    console.error('❌ ' + message);
+  }
+  alert(message);
 }

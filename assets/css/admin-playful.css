@@ -3867,3 +3867,319 @@ body::after,
     background: #f9f9f9 !important;
   }
 }
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   QUIZ MANAGEMENT (CRUD) STYLING
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.crud-main-panel {
+  background: #ffffff;
+  border: 3px solid #e2ecd9;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 8px 0 #e2ecd9;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.crud-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px dashed #e2ecd9;
+  padding-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.crud-panel-header h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.crud-panel-header h3 i {
+  color: #1cb0f6;
+}
+
+.crud-table-wrap {
+  overflow-x: auto;
+  border: 2px solid #e2ecd9;
+  border-radius: 16px;
+  background: #f9fafb;
+}
+
+.crud-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.crud-table thead tr {
+  background: #f4faf0;
+  border-bottom: 2px solid #e2ecd9;
+}
+
+.crud-table th {
+  padding: 12px 16px;
+  color: #64748b;
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.crud-table td {
+  padding: 12px 16px;
+  color: #475569;
+  border-bottom: 1px dashed #e2ecd9;
+  vertical-align: top;
+  font-size: 0.9rem;
+}
+
+.crud-table tr:last-child td {
+  border-bottom: none;
+}
+
+.crud-table tr:hover td {
+  background: #f4faf0;
+  color: #1e293b;
+}
+
+.answer-key {
+  font-weight: 800;
+  color: #58cc02;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.crud-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 99px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  font-family: 'Fredoka', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.crud-btn.edit {
+  background: #e0f2fe;
+  color: #0284c7;
+  border: 1.5px solid #bae6fd;
+}
+
+.crud-btn.edit:hover {
+  background: #bae6fd;
+  transform: translateY(-1px);
+}
+
+.crud-btn.del {
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1.5px solid #fecdd3;
+}
+
+.crud-btn.del:hover {
+  background: #fecdd3;
+  transform: translateY(-1px);
+}
+
+/* Modal overlay */
+.crud-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.crud-modal-box {
+  background: white;
+  border: 3px solid #e2ecd9;
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 12px 0 #e2ecd9;
+  width: 100%;
+  max-width: 560px;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.crud-modal-box h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #1e293b;
+  margin-bottom: 20px;
+  border-bottom: 2px dashed #e2ecd9;
+  padding-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.crud-modal-box h3 i {
+  color: #1cb0f6;
+}
+
+.crud-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.crud-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.crud-form label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #64748b;
+  font-family: 'Fredoka', sans-serif;
+}
+
+.crud-form input[type="text"],
+.crud-form select {
+  padding: 11px 16px;
+  border: 2px solid #e2ecd9;
+  background: #f9fafb;
+  color: #1e293b;
+  border-radius: 14px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.crud-form input[type="text"]:focus,
+.crud-form select:focus {
+  outline: none;
+  border-color: #1cb0f6;
+  box-shadow: 0 0 0 3px rgba(28,176,246,0.12);
+}
+
+.crud-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.crud-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+  justify-content: flex-end;
+}
+
+.btn-crud-cancel {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+  border-radius: 99px;
+  padding: 10px 22px;
+  font-weight: 700;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.92rem;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #cbd5e1;
+  transition: all 0.2s ease;
+}
+
+.btn-crud-cancel:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 #cbd5e1;
+}
+
+.btn-crud-save {
+  background: #1cb0f6;
+  color: white;
+  border: none;
+  border-radius: 99px;
+  padding: 10px 24px;
+  font-weight: 700;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.92rem;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #0093d9;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.btn-crud-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #0093d9;
+}
+
+.btn-crud-save:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #0093d9;
+}
+
+.btn-reset-soal {
+  width: 100%;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 11px;
+  font-weight: 700;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #e65252;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: all 0.2s ease;
+}
+
+.btn-reset-soal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #e65252;
+}
+
+.btn-add-soal {
+  background: #58cc02;
+  color: white;
+  border: none;
+  border-radius: 99px;
+  padding: 10px 22px;
+  font-weight: 700;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #43a000;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s ease;
+}
+
+.btn-add-soal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #43a000;
+}
+
+.btn-add-soal:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #43a000;
+}

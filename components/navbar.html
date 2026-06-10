@@ -17,8 +17,24 @@
     
     <!-- Navigation links for Admin Page -->
     <nav class="nav-links" id="admin-nav" aria-label="Navigasi Admin" style="display: none;">
-      <a class="nav-tab" href="crud.html" id="nav-admin-crud"><i class="fa-solid fa-pen-to-square"></i> Kelola Kuis</a>
-      <a class="nav-tab" href="admin.html" id="nav-admin-lab"><i class="fa-solid fa-flask"></i> Kelola Materi</a>
+      <a class="nav-tab" href="#" onclick="switchAdminTab('dashboard'); return false;" id="nav-admin-dashboard">
+        <i class="fa-solid fa-chart-line"></i> Dashboard
+      </a>
+      <a class="nav-tab" href="#" onclick="switchAdminTab('grade3'); return false;" id="nav-admin-grade3">
+        3️⃣ Kelas 3
+      </a>
+      <a class="nav-tab" href="#" onclick="switchAdminTab('grade4'); return false;" id="nav-admin-grade4">
+        4️⃣ Kelas 4
+      </a>
+      <a class="nav-tab" href="#" onclick="switchAdminTab('grade5'); return false;" id="nav-admin-grade5">
+        5️⃣ Kelas 5
+      </a>
+      <a class="nav-tab" href="#" onclick="switchAdminTab('grade6'); return false;" id="nav-admin-grade6">
+        6️⃣ Kelas 6
+      </a>
+      <a class="nav-tab" href="#" onclick="switchAdminTab('laporan'); return false;" id="nav-admin-laporan">
+        <i class="fa-solid fa-file-chart-line"></i> Laporan
+      </a>
     </nav>
     
     <!-- Actions (Language Switcher, Portal/Logout Switcher, & Status) -->

@@ -1,20 +1,4 @@
 <section class="lab-dark-container" id="lab-sismul">
-  <div class="section-header-dark">
-    <span class="sub-title-dark">DASHBOARD KELOLA MATERI & MULTIMEDIA GURU</span>
-    <h2>Kelola Materi Pembelajaran & Lab Pemrosesan Multimedia</h2>
-    <p>Kelola kosakata dan percakapan untuk siswa, plus pemrosesan aset media, enkripsi jawaban, dan DSP multimedia secara waktu-nyata.</p>
-    
-    <!-- Tabbed layout to navigate between Content Management and DSP sub-modules -->
-    <nav class="nav-links-dark" id="teacher-nav" aria-label="Navigasi Kelola Materi">
-      <button class="nav-tab-dark active" data-tab="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
-      <button class="nav-tab-dark" data-tab="grade3">3️⃣ Kelas 3</button>
-      <button class="nav-tab-dark" data-tab="grade4">4️⃣ Kelas 4</button>
-      <button class="nav-tab-dark" data-tab="grade5">5️⃣ Kelas 5</button>
-      <button class="nav-tab-dark" data-tab="grade6">6️⃣ Kelas 6</button>
-      <button class="nav-tab-dark" data-tab="laporan"><i class="fa-solid fa-file-chart-line"></i> Laporan</button>
-    </nav>
-  </div>
-
   <!-- ==================== DASHBOARD TAB ==================== -->
   <div id="tab-dashboard" class="tab-panel active">
     <div class="hero-banner">
@@ -96,13 +80,16 @@
       <p>Kelola kosakata dan percakapan untuk siswa kelas 3 Sekolah Dasar.</p>
     </div>
 
-    <!-- Sub-tabs for Vocabulary and Conversation -->
+    <!-- Sub-tabs for Vocabulary, Conversation, and Quiz -->
     <div class="tab-sub-nav">
       <button class="sub-tab active" data-grade3-sub="vocabulary" onclick="switchGrade3Sub('vocabulary')">
         <i class="fa-solid fa-book-open"></i> Kosakata
       </button>
       <button class="sub-tab" data-grade3-sub="conversation" onclick="switchGrade3Sub('conversation')">
         <i class="fa-solid fa-comments"></i> Percakapan
+      </button>
+      <button class="sub-tab" data-grade3-sub="quiz" onclick="switchGrade3Sub('quiz')">
+        <i class="fa-solid fa-pen-to-square"></i> Quiz
       </button>
     </div>
 
@@ -116,6 +103,12 @@
     <div id="grade3-conversation" class="grade-sub-panel">
       <!-- Conversation content will be loaded here dynamically -->
       <div class="loading-message">Memuat percakapan kelas 3...</div>
+    </div>
+
+    <!-- Quiz Content for Grade 3 -->
+    <div id="grade3-quiz" class="grade-sub-panel">
+      <!-- Quiz content will be loaded here dynamically -->
+      <div class="loading-message">Memuat quiz kelas 3...</div>
     </div>
   </div>
 
@@ -133,6 +126,9 @@
       <button class="sub-tab" data-grade4-sub="conversation" onclick="switchGrade4Sub('conversation')">
         <i class="fa-solid fa-comments"></i> Percakapan
       </button>
+      <button class="sub-tab" data-grade4-sub="quiz" onclick="switchGrade4Sub('quiz')">
+        <i class="fa-solid fa-pen-to-square"></i> Quiz
+      </button>
     </div>
 
     <div id="grade4-vocabulary" class="grade-sub-panel active">
@@ -141,6 +137,10 @@
 
     <div id="grade4-conversation" class="grade-sub-panel">
       <div class="loading-message">Memuat percakapan kelas 4...</div>
+    </div>
+
+    <div id="grade4-quiz" class="grade-sub-panel">
+      <div class="loading-message">Memuat quiz kelas 4...</div>
     </div>
   </div>
 
@@ -158,6 +158,9 @@
       <button class="sub-tab" data-grade5-sub="conversation" onclick="switchGrade5Sub('conversation')">
         <i class="fa-solid fa-comments"></i> Percakapan
       </button>
+      <button class="sub-tab" data-grade5-sub="quiz" onclick="switchGrade5Sub('quiz')">
+        <i class="fa-solid fa-pen-to-square"></i> Quiz
+      </button>
     </div>
 
     <div id="grade5-vocabulary" class="grade-sub-panel active">
@@ -166,6 +169,10 @@
 
     <div id="grade5-conversation" class="grade-sub-panel">
       <div class="loading-message">Memuat percakapan kelas 5...</div>
+    </div>
+
+    <div id="grade5-quiz" class="grade-sub-panel">
+      <div class="loading-message">Memuat quiz kelas 5...</div>
     </div>
   </div>
 
@@ -183,6 +190,9 @@
       <button class="sub-tab" data-grade6-sub="conversation" onclick="switchGrade6Sub('conversation')">
         <i class="fa-solid fa-comments"></i> Percakapan
       </button>
+      <button class="sub-tab" data-grade6-sub="quiz" onclick="switchGrade6Sub('quiz')">
+        <i class="fa-solid fa-pen-to-square"></i> Quiz
+      </button>
     </div>
 
     <div id="grade6-vocabulary" class="grade-sub-panel active">
@@ -191,6 +201,10 @@
 
     <div id="grade6-conversation" class="grade-sub-panel">
       <div class="loading-message">Memuat percakapan kelas 6...</div>
+    </div>
+
+    <div id="grade6-quiz" class="grade-sub-panel">
+      <div class="loading-message">Memuat quiz kelas 6...</div>
     </div>
   </div>
 
@@ -879,6 +893,107 @@
       </section>
     </div>
   </div>
+
+  <!-- ==================== QUIZ TAB (OLD - KEEP FOR DYNAMIC LOADING) ==================== -->
+  <div id="tab-quiz" class="tab-panel" style="display: none !important;">
+    <div class="section-header">
+      <h2><i class="fa-solid fa-pen-to-square"></i> Kelola Quiz (Level 3 Quiz Management)</h2>
+      <p>Tambahkan, edit, atau hapus soal-soal pilihan ganda. Perubahan akan tersinkronisasi otomatis dengan Portal Siswa.</p>
+    </div>
+
+    <!-- Grade Selector Tabs -->
+    <div class="tab-sub-nav">
+      <button class="sub-tab active" data-quiz-grade="3" onclick="loadQuizGrade(3)">Kelas 3</button>
+      <button class="sub-tab" data-quiz-grade="4" onclick="loadQuizGrade(4)">Kelas 4</button>
+      <button class="sub-tab" data-quiz-grade="5" onclick="loadQuizGrade(5)">Kelas 5</button>
+      <button class="sub-tab" data-quiz-grade="6" onclick="loadQuizGrade(6)">Kelas 6</button>
+    </div>
+
+    <!-- Quiz Management Panel -->
+    <div class="crud-main-panel" style="margin-top: 20px;">
+      <div class="crud-panel-header">
+        <h3 id="quiz-grade-header"><i class="fa-solid fa-graduation-cap"></i> Daftar Soal — <span id="quiz-grade-badge">Kelas 3</span></h3>
+        <button class="btn-add-soal" onclick="openCreateQuestionModal()">
+          <i class="fa-solid fa-plus"></i> Tambah Soal Baru
+        </button>
+      </div>
+
+      <div class="crud-table-wrap">
+        <table class="crud-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">No</th>
+              <th>Pertanyaan</th>
+              <th>Pilihan Jawaban</th>
+              <th style="width: 120px;">Kunci</th>
+              <th style="width: 140px; text-align:center;">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="quiz-questions-table-body">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 20px; padding-top: 20px; border-top: 2px dashed #e2ecd9;">
+        <button class="btn-reset-soal" onclick="resetDefaultQuestions()">
+          <i class="fa-solid fa-arrows-rotate"></i> Reset Semua Soal ke Default Bawaan
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal Tambah/Edit Soal -->
+    <div class="crud-modal-overlay hide" id="quiz-modal-overlay">
+      <div class="crud-modal-box">
+        <h3 id="quiz-modal-title"><i class="fa-solid fa-pen-to-square"></i> Tambah Soal Quiz</h3>
+
+        <form id="quiz-question-form" onsubmit="saveQuestionForm(event)" class="crud-form">
+          <input type="hidden" id="edit-question-index" value="" />
+
+          <div class="form-group">
+            <label for="form-question">Pertanyaan:</label>
+            <input type="text" id="form-question" required placeholder="Contoh: What is the English word for 'Kucing'?" />
+          </div>
+
+          <div class="crud-options-grid">
+            <div class="form-group">
+              <label for="form-opt-0">Pilihan A:</label>
+              <input type="text" id="form-opt-0" required placeholder="Pilihan A" />
+            </div>
+            <div class="form-group">
+              <label for="form-opt-1">Pilihan B:</label>
+              <input type="text" id="form-opt-1" required placeholder="Pilihan B" />
+            </div>
+            <div class="form-group">
+              <label for="form-opt-2">Pilihan C:</label>
+              <input type="text" id="form-opt-2" required placeholder="Pilihan C" />
+            </div>
+            <div class="form-group">
+              <label for="form-opt-3">Pilihan D:</label>
+              <input type="text" id="form-opt-3" required placeholder="Pilihan D" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="form-answer">Kunci Jawaban yang Benar:</label>
+            <select id="form-answer" required>
+              <option value="" disabled selected>Pilih Kunci Jawaban...</option>
+              <option value="0">Pilihan A</option>
+              <option value="1">Pilihan B</option>
+              <option value="2">Pilihan C</option>
+              <option value="3">Pilihan D</option>
+            </select>
+          </div>
+
+          <div class="crud-modal-actions">
+            <button type="button" class="btn-crud-cancel" onclick="closeQuizQuestionModal()">Batal</button>
+            <button type="submit" class="btn-crud-save"><i class="fa-solid fa-floppy-disk"></i> Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== VIDEO TAB ==================== -->
   <div id="tab-video" class="tab-panel">
     <div class="section-header">
