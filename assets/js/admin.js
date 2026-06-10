@@ -12,7 +12,7 @@ window.adminLogout = function() {
   }
 };
 
-.6document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async () => {
   try {
     // 1. Load components dynamically
     await Promise.all([
@@ -58,13 +58,40 @@ window.adminLogout = function() {
 
     // 3. Initialize Teacher / DSP Lab modules
     initAdminTabs();
-    initTextModule();
-    initImageModule();
-    initAudioModule();
-    initVideoModule();
-    initDatabaseModule();
+    
+    // Initialize vocabulary and conversation modules (new structure)
+    // Load default grade data
+    setTimeout(() => {
+      if (typeof loadVocabGrade === 'function') {
+        loadVocabGrade(3); // Load grade 3 by default
+      }
+      if (typeof loadConvGrade === 'function') {
+        loadConvGrade(3); // Load grade 3 by default
+      }
+    }, 300);
+    
+    // Old DSP modules initialization (only if tabs exist)
+    if (document.getElementById('tab-teks') && typeof initTextModule === 'function') {
+      initTextModule();
+    }
+    if (document.getElementById('tab-gambar') && typeof initImageModule === 'function') {
+      initImageModule();
+    }
+    if (document.getElementById('tab-audio') && typeof initAudioModule === 'function') {
+      initAudioModule();
+    }
+    if (document.getElementById('tab-video') && typeof initVideoModule === 'function') {
+      initVideoModule();
+    }
+    
+    if (typeof initDatabaseModule === 'function') {
+      initDatabaseModule();
+    }
+    
+    console.log("✅ Dashboard Admin berhasil dimuat!");
   } catch (error) {
-    console.error("Gagal menginisialisasi Dashboard Admin:", error);
+    console.error("❌ Gagal menginisialisasi Dashboard Admin:", error);
+    alert("Terjadi kesalahan saat memuat dashboard. Silakan refresh halaman atau hubungi administrator.");
   }
 });
 
@@ -128,6 +155,8 @@ function initAdminTabs() {
 
 // Switch tabs
 function switchAdminTab(tabId) {
+  console.log(`🔄 Switching to tab: ${tabId}`);
+  
   const tabs = document.querySelectorAll(".nav-tab-dark");
   tabs.forEach(tab => {
     if (tab.dataset.tab === tabId) {
@@ -138,13 +167,32 @@ function switchAdminTab(tabId) {
   });
 
   const panels = document.querySelectorAll(".tab-panel");
+  console.log(`📄 Found ${panels.length} tab panels`);
+  
   panels.forEach(panel => {
     if (panel.id === `tab-${tabId}`) {
       panel.classList.add("active");
+      console.log(`✅ Activated panel: tab-${tabId}`);
     } else {
       panel.classList.remove("active");
     }
   });
+
+  // Stop ALL audio/video processes first
+  if (typeof stopAudio === "function") {
+    try {
+      stopAudio();
+    } catch(e) {
+      console.log('Audio already stopped');
+    }
+  }
+  if (typeof stopVideo === "function") {
+    try {
+      stopVideo();
+    } catch(e) {
+      console.log('Video already stopped');
+    }
+  }
 
   // Initialize tab-specific data
   if (tabId === "vocabulary") {
@@ -161,16 +209,175 @@ function switchAdminTab(tabId) {
         initConvAudioHandlers();
       }
     }, 100);
+  } else if (tabId === "grade3" || tabId === "grade4" || tabId === "grade5" || tabId === "grade6") {
+    // Handle grade tabs - extract grade number
+    const gradeNum = parseInt(tabId.replace('grade', ''));
+    console.log(`📚 Loading grade ${gradeNum} tab...`);
+    
+    // Set current grade
+    currentVocabGrade = gradeNum;
+    currentConvGrade = gradeNum;
+    
+    // Load vocabulary by default when switching to grade tab
+    setTimeout(() => {
+      loadGradeContent(gradeNum, 'vocabulary');
+    }, 100);
+  } else if (tabId === "laporan") {
+    console.log(`📊 Loading laporan tab...`);
   }
-
-  // Stop video/audio processes if navigating away
-  if (tabId !== "audio" && typeof stopAudio === "function") stopAudio();
-  if (tabId !== "video" && typeof stopVideo === "function") stopVideo();
 }
 
 // Dashboard cards use this public lab-specific name.
 window.switchLabTab = switchAdminTab;
 
+// Switch to specific grade from dashboard
+window.switchToGrade = function(grade) {
+  console.log(`🔄 Switching to grade ${grade} management`);
+  
+  // Update current grade
+  currentVocabGrade = grade;
+  currentConvGrade = grade;
+  
+  // Switch to grade tab
+  switchAdminTab(`grade${grade}`);
+  
+  // Load vocabulary for that grade
+  setTimeout(() => {
+    loadGradeContent(grade, 'vocabulary');
+  }, 100);
+};
+
+// Switch grade sub-tabs (vocabulary/conversation)
+window.switchGrade3Sub = function(subTab) {
+  switchGradeSub(3, subTab);
+};
+
+window.switchGrade4Sub = function(subTab) {
+  switchGradeSub(4, subTab);
+};
+
+window.switchGrade5Sub = function(subTab) {
+  switchGradeSub(5, subTab);
+};
+
+window.switchGrade6Sub = function(subTab) {
+  switchGradeSub(6, subTab);
+};
+
+function switchGradeSub(grade, subTab) {
+  console.log(`📚 Switching grade ${grade} to ${subTab}`);
+  
+  // Update sub-tab buttons
+  const buttons = document.querySelectorAll(`[data-grade${grade}-sub]`);
+  buttons.forEach(btn => {
+    if (btn.dataset[`grade${grade}Sub`] === subTab) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  
+  // Switch sub-panels
+  const vocabPanel = document.getElementById(`grade${grade}-vocabulary`);
+  const convPanel = document.getElementById(`grade${grade}-conversation`);
+  
+  if (subTab === 'vocabulary') {
+    if (vocabPanel) vocabPanel.classList.add('active');
+    if (convPanel) convPanel.classList.remove('active');
+    loadGradeContent(grade, 'vocabulary');
+  } else {
+    if (vocabPanel) vocabPanel.classList.remove('active');
+    if (convPanel) convPanel.classList.add('active');
+    loadGradeContent(grade, 'conversation');
+  }
+}
+
+// Load vocabulary or conversation content dynamically
+async function loadGradeContent(grade, contentType) {
+  const containerId = `grade${grade}-${contentType}`;
+  const container = document.getElementById(containerId);
+  
+  if (!container) {
+    console.error(`Container ${containerId} not found`);
+    return;
+  }
+  
+  // Check if content already loaded
+  if (container.dataset.loaded === 'true') {
+    console.log(`✅ Content for grade ${grade} ${contentType} already loaded`);
+    return;
+  }
+  
+  console.log(`🔄 Loading ${contentType} for grade ${grade}...`);
+  
+  try {
+    if (contentType === 'vocabulary') {
+      // Clone vocabulary tab content
+      const vocabTab = document.getElementById('tab-vocabulary');
+      if (vocabTab) {
+        const clonedContent = vocabTab.cloneNode(true);
+        clonedContent.id = `${containerId}-content`;
+        clonedContent.style.display = 'block';
+        clonedContent.style.paddingTop = '20px';
+        
+        // Remove section header (already shown in parent)
+        const sectionHeader = clonedContent.querySelector('.section-header');
+        if (sectionHeader) sectionHeader.remove();
+        
+        // Remove grade selector tabs
+        const gradeNav = clonedContent.querySelector('.tab-sub-nav');
+        if (gradeNav) gradeNav.remove();
+        
+        container.innerHTML = '';
+        container.appendChild(clonedContent);
+        
+        // Load data for this grade
+        setTimeout(() => {
+          currentVocabGrade = grade;
+          loadVocabGrade(grade);
+          if (typeof initVocabImageHandlers === 'function') {
+            initVocabImageHandlers();
+          }
+        }, 100);
+      }
+    } else if (contentType === 'conversation') {
+      // Clone conversation tab content
+      const convTab = document.getElementById('tab-conversation');
+      if (convTab) {
+        const clonedContent = convTab.cloneNode(true);
+        clonedContent.id = `${containerId}-content`;
+        clonedContent.style.display = 'block';
+        clonedContent.style.paddingTop = '20px';
+        
+        // Remove section header
+        const sectionHeader = clonedContent.querySelector('.section-header');
+        if (sectionHeader) sectionHeader.remove();
+        
+        // Remove grade selector tabs
+        const gradeNav = clonedContent.querySelector('.tab-sub-nav');
+        if (gradeNav) gradeNav.remove();
+        
+        container.innerHTML = '';
+        container.appendChild(clonedContent);
+        
+        // Load data for this grade
+        setTimeout(() => {
+          currentConvGrade = grade;
+          loadConvGrade(grade);
+          if (typeof initConvAudioHandlers === 'function') {
+            initConvAudioHandlers();
+          }
+        }, 100);
+      }
+    }
+    
+    container.dataset.loaded = 'true';
+    console.log(`✅ ${contentType} for grade ${grade} loaded successfully`);
+  } catch (error) {
+    console.error(`❌ Failed to load ${contentType} for grade ${grade}:`, error);
+    container.innerHTML = `<div class="info-box error">Gagal memuat konten. Silakan refresh halaman.</div>`;
+  }
+}
 // Mobile Navbar Hamburger Toggle Logic
 function initNavbarToggle() {
   const toggleBtn = document.getElementById("nav-toggle");
@@ -191,6 +398,13 @@ function initNavbarToggle() {
     });
   }
 }
+
+// Download Guidebook as PDF
+window.downloadPDF = function() {
+  window.print();
+  // Note: Browser's built-in print to PDF functionality
+  alert('Gunakan "Save as PDF" pada dialog print untuk menyimpan guidebook sebagai PDF.');
+};
 
 /* ==========================================================================
    DATABASE API CONNECTION MODULE
@@ -236,6 +450,7 @@ function saveChallengeDataAdmin(data) {
 // ══════════════════════════════════════════════════════════════════════════
 
 window.loadVocabGrade = function(grade) {
+  console.log(`📚 Loading vocabulary for grade ${grade}...`);
   currentVocabGrade = grade;
   
   // Update active tab button
@@ -256,14 +471,20 @@ window.loadVocabGrade = function(grade) {
   
   // Render list
   renderVocabList();
+  console.log(`✅ Vocabulary for grade ${grade} loaded successfully`);
 };
 
 function renderVocabList() {
+  console.log('🎨 Rendering vocabulary list...');
   const container = document.getElementById('vocab-list-container');
-  if (!container) return;
+  if (!container) {
+    console.error('❌ vocab-list-container element not found!');
+    return;
+  }
   
   const data = getChallengeDataAdmin();
   if (!data || !data[currentVocabGrade]) {
+    console.error(`❌ No data found for grade ${currentVocabGrade}`);
     container.innerHTML = '<div class="info-box error">Data tidak ditemukan!</div>';
     return;
   }
@@ -271,6 +492,8 @@ function renderVocabList() {
   const items = data[currentVocabGrade].level1.items;
   const countBadge = document.getElementById('vocab-count-badge');
   if (countBadge) countBadge.textContent = `${items.length} Items`;
+  
+  console.log(`📊 Found ${items.length} vocabulary items`);
   
   if (items.length === 0) {
     container.innerHTML = '<div class="info-box warning">Belum ada kosakata. Tambahkan kosakata baru di form sebelah kiri.</div>';
@@ -289,11 +512,11 @@ function renderVocabList() {
         ${iconHtml}
         <div class="vocab-eng">${item.eng}</div>
         <div class="vocab-ind">${item.ind}</div>
-        <div style="display: flex; gap: 6px; margin-top: 12px; justify-content: center; flex-wrap: wrap;">
-          <button class="btn btn-secondary btn-sm" onclick="editVocabItem(${index})">
+        <div style="display: flex; gap: 4px; margin-top: 8px; justify-content: center; flex-wrap: wrap;">
+          <button class="btn btn-secondary btn-sm" onclick="editVocabItem(${index})" title="Edit">
             <i class="fa-solid fa-edit"></i>
           </button>
-          <button class="btn btn-danger btn-sm" onclick="deleteVocabItem(${index})">
+          <button class="btn btn-danger btn-sm" onclick="deleteVocabItem(${index})" title="Hapus">
             <i class="fa-solid fa-trash"></i>
           </button>
         </div>
@@ -303,6 +526,7 @@ function renderVocabList() {
   html += '</div>';
   
   container.innerHTML = html;
+  console.log('✅ Vocabulary list rendered successfully');
 }
 
 window.editVocabItem = function(index) {
@@ -477,6 +701,7 @@ window.testVocabSpeech = function() {
 // ══════════════════════════════════════════════════════════════════════════
 
 window.loadConvGrade = function(grade) {
+  console.log(`💬 Loading conversation for grade ${grade}...`);
   currentConvGrade = grade;
   
   // Update active tab button
@@ -497,14 +722,20 @@ window.loadConvGrade = function(grade) {
   
   // Render preview
   renderConvPreview();
+  console.log(`✅ Conversation for grade ${grade} loaded successfully`);
 };
 
 function renderConvPreview() {
+  console.log('💬 Rendering conversation preview...');
   const container = document.getElementById('conv-preview-container');
-  if (!container) return;
+  if (!container) {
+    console.error('❌ conv-preview-container element not found!');
+    return;
+  }
   
   const data = getChallengeDataAdmin();
   if (!data || !data[currentConvGrade]) {
+    console.error(`❌ No data found for grade ${currentConvGrade}`);
     container.innerHTML = '<div class="info-box error">Data tidak ditemukan!</div>';
     return;
   }
@@ -512,6 +743,8 @@ function renderConvPreview() {
   const items = data[currentConvGrade].level2.items;
   const countBadge = document.getElementById('conv-count-badge');
   if (countBadge) countBadge.textContent = `${items.length} Bubbles`;
+  
+  console.log(`📊 Found ${items.length} conversation items`);
   
   if (items.length === 0) {
     container.innerHTML = '<div class="info-box warning">Belum ada percakapan. Tambahkan chat bubble baru di form sebelah kiri.</div>';
@@ -551,6 +784,7 @@ function renderConvPreview() {
   });
   
   container.innerHTML = html;
+  console.log('✅ Conversation preview rendered successfully');
 }
 
 window.editConvItem = function(index) {
@@ -759,6 +993,99 @@ window.toggleVocabType = function() {
     imageCompression.classList.remove('hide');
     canvasContainer.classList.remove('hide');
   }
+};
+
+// Manual emoji input for vocabulary
+window.useManualVocabEmoji = function() {
+  const manualInput = document.getElementById('vocab-emoji-manual');
+  const emoji = manualInput.value.trim();
+  
+  if (!emoji) {
+    alert('⚠️ Ketik emoji terlebih dahulu!');
+    manualInput.focus();
+    return;
+  }
+  
+  // First, uncheck all existing radio buttons
+  document.querySelectorAll('input[name="vocab-emoji"]').forEach(radio => {
+    radio.checked = false;
+  });
+  
+  // Check if emoji exists in the radio grid
+  const existingRadio = document.querySelector(`input[name="vocab-emoji"][value="${emoji}"]`);
+  if (existingRadio) {
+    // If emoji exists in grid, select it
+    existingRadio.checked = true;
+    showDbToast(`✅ Emoji "${emoji}" dipilih!`, 'success');
+  } else {
+    // If emoji not in grid, create a temporary hidden radio button
+    const tempRadio = document.createElement('input');
+    tempRadio.type = 'radio';
+    tempRadio.name = 'vocab-emoji';
+    tempRadio.value = emoji;
+    tempRadio.checked = true;
+    tempRadio.style.display = 'none';
+    tempRadio.id = 'vocab-emoji-temp';
+    
+    // Remove old temp if exists
+    const oldTemp = document.getElementById('vocab-emoji-temp');
+    if (oldTemp) oldTemp.remove();
+    
+    // Add to emoji group
+    document.getElementById('vocab-emoji-group').appendChild(tempRadio);
+    showDbToast(`✅ Emoji kustom "${emoji}" digunakan!`, 'success');
+  }
+  
+  // Clear manual input
+  manualInput.value = '';
+};
+
+// Manual avatar input for conversation
+window.useManualConvAvatar = function() {
+  const manualInput = document.getElementById('conv-avatar-manual');
+  const emoji = manualInput.value.trim();
+  
+  if (!emoji) {
+    alert('⚠️ Ketik emoji terlebih dahulu!');
+    manualInput.focus();
+    return;
+  }
+  
+  // First, uncheck all existing radio buttons
+  document.querySelectorAll('input[name="conv-avatar"]').forEach(radio => {
+    radio.checked = false;
+  });
+  
+  // Check if emoji exists in the radio grid
+  const existingRadio = document.querySelector(`input[name="conv-avatar"][value="${emoji}"]`);
+  if (existingRadio) {
+    // If emoji exists in grid, select it
+    existingRadio.checked = true;
+    showDbToast(`✅ Avatar "${emoji}" dipilih!`, 'success');
+  } else {
+    // If emoji not in grid, create a temporary hidden radio button
+    const tempRadio = document.createElement('input');
+    tempRadio.type = 'radio';
+    tempRadio.name = 'conv-avatar';
+    tempRadio.value = emoji;
+    tempRadio.checked = true;
+    tempRadio.style.display = 'none';
+    tempRadio.id = 'conv-avatar-temp';
+    
+    // Remove old temp if exists
+    const oldTemp = document.getElementById('conv-avatar-temp');
+    if (oldTemp) oldTemp.remove();
+    
+    // Add to avatar group (find the parent form-group)
+    const emojiGrid = document.querySelector('input[name="conv-avatar"]').closest('.form-group');
+    if (emojiGrid) {
+      emojiGrid.appendChild(tempRadio);
+    }
+    showDbToast(`✅ Avatar kustom "${emoji}" digunakan!`, 'success');
+  }
+  
+  // Clear manual input
+  manualInput.value = '';
 };
 
 let vocabOriginalImage = null;

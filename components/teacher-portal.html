@@ -7,9 +7,11 @@
     <!-- Tabbed layout to navigate between Content Management and DSP sub-modules -->
     <nav class="nav-links-dark" id="teacher-nav" aria-label="Navigasi Kelola Materi">
       <button class="nav-tab-dark active" data-tab="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
-      <button class="nav-tab-dark" data-tab="vocabulary"><i class="fa-solid fa-book-open"></i> Kosakata</button>
-      <button class="nav-tab-dark" data-tab="conversation"><i class="fa-solid fa-comments"></i> Percakapan</button>
-      <button class="nav-tab-dark" data-tab="guideline"><i class="fa-solid fa-book"></i> Laporan</button>
+      <button class="nav-tab-dark" data-tab="grade3">3️⃣ Kelas 3</button>
+      <button class="nav-tab-dark" data-tab="grade4">4️⃣ Kelas 4</button>
+      <button class="nav-tab-dark" data-tab="grade5">5️⃣ Kelas 5</button>
+      <button class="nav-tab-dark" data-tab="grade6">6️⃣ Kelas 6</button>
+      <button class="nav-tab-dark" data-tab="laporan"><i class="fa-solid fa-file-chart-line"></i> Laporan</button>
     </nav>
   </div>
 
@@ -32,51 +34,168 @@
     </div>
 
     <div class="section-header">
-      <h2><i class="fa-solid fa-layer-group"></i> Manajemen Konten Pembelajaran</h2>
-      <p>Kelola materi kosakata dan percakapan untuk Vocabulary Explorer dan Conversation Builder.</p>
+      <h2><i class="fa-solid fa-chalkboard-user"></i> Pilih Kelas untuk Dikelola</h2>
+      <p>Pilih kelas yang ingin Anda kelola untuk mulai mengedit kosakata dan percakapan.</p>
     </div>
 
     <div class="dashboard-grid">
-      <!-- Vocabulary Management Card -->
-      <article class="dash-card">
-        <div class="dash-card-icon blue"><i class="fa-solid fa-book-open"></i></div>
-        <h3>Kelola Kosakata (Vocabulary)</h3>
-        <p>Tambah, edit, atau hapus kartu kosakata untuk Level 1. Pilih antara emoji atau gambar untuk flashcard. Proses gambar dengan DSP (Brightness, Contrast, Filter, Watermark) dan kompresi JPEG.</p>
+      <!-- Kelas 3 Card -->
+      <article class="dash-card" onclick="switchToGrade(3)">
+        <div class="dash-card-icon blue"><span class="dash-grade-num">3</span></div>
+        <h3>Kelas 3 SD</h3>
+        <p>Greetings, Numbers & Colors. Materi dasar perkenalan, angka, dan warna untuk siswa kelas 3 Sekolah Dasar.</p>
         <div class="dash-card-footer">
-          <span class="tech-badge">CRUD + DSP</span>
-          <span class="tech-badge">Image Processing</span>
-          <button class="btn-go" onclick="switchLabTab('vocabulary')">Kelola <i class="fa-solid fa-arrow-right"></i></button>
+          <span class="tech-badge"><i class="fa-solid fa-book"></i> 17 Vocab</span>
+          <span class="tech-badge"><i class="fa-solid fa-comments"></i> 7 Dialog</span>
+          <button class="btn-go">Kelola <i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </article>
 
-      <!-- Conversation Management Card -->
-      <article class="dash-card">
-        <div class="dash-card-icon emerald"><i class="fa-solid fa-comments"></i></div>
-        <h3>Kelola Percakapan (Conversation)</h3>
-        <p>Buat atau ubah dialog percakapan untuk Level 2. Pilih antara API voice atau upload audio manual. Proses audio dengan DSP filter (Low-pass, High-pass, Band-pass, Downsampling, Watermark).</p>
+      <!-- Kelas 4 Card -->
+      <article class="dash-card" onclick="switchToGrade(4)">
+        <div class="dash-card-icon emerald"><span class="dash-grade-num">4</span></div>
+        <h3>Kelas 4 SD</h3>
+        <p>Daily Activities & Animals. Materi aktivitas sehari-hari dan nama-nama hewan untuk siswa kelas 4 SD.</p>
         <div class="dash-card-footer">
-          <span class="tech-badge">CRUD + DSP</span>
-          <span class="tech-badge">Audio Processing</span>
-          <button class="btn-go" onclick="switchLabTab('conversation')">Kelola <i class="fa-solid fa-arrow-right"></i></button>
+          <span class="tech-badge"><i class="fa-solid fa-book"></i> 16 Vocab</span>
+          <span class="tech-badge"><i class="fa-solid fa-comments"></i> 7 Dialog</span>
+          <button class="btn-go">Kelola <i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </article>
 
-      <!-- Laporan Card -->
-      <article class="dash-card">
-        <div class="dash-card-icon purple"><i class="fa-solid fa-book"></i></div>
-        <h3>Laporan & Dokumentasi</h3>
-        <p>Cetak dokumentasi proyek dalam format PDF A4. Berisi penjelasan lengkap tentang teknologi multimedia yang digunakan dalam aplikasi FUNLISH.</p>
+      <!-- Kelas 5 Card -->
+      <article class="dash-card" onclick="switchToGrade(5)">
+        <div class="dash-card-icon coral"><span class="dash-grade-num">5</span></div>
+        <h3>Kelas 5 SD</h3>
+        <p>Hobbies & Common Places. Materi tentang hobi dan tempat-tempat umum untuk siswa kelas 5 SD.</p>
         <div class="dash-card-footer">
-          <span class="tech-badge">PDF Export</span>
-          <span class="tech-badge">Print Ready</span>
-          <button class="btn-go" onclick="switchLabTab('guideline')">Buka <i class="fa-solid fa-arrow-right"></i></button>
+          <span class="tech-badge"><i class="fa-solid fa-book"></i> 16 Vocab</span>
+          <span class="tech-badge"><i class="fa-solid fa-comments"></i> 6 Dialog</span>
+          <button class="btn-go">Kelola <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </article>
+
+      <!-- Kelas 6 Card -->
+      <article class="dash-card" onclick="switchToGrade(6)">
+        <div class="dash-card-icon purple"><span class="dash-grade-num">6</span></div>
+        <h3>Kelas 6 SD</h3>
+        <p>Directions & Occupations. Materi petunjuk arah dan profesi pekerjaan untuk siswa kelas 6 SD.</p>
+        <div class="dash-card-footer">
+          <span class="tech-badge"><i class="fa-solid fa-book"></i> 16 Vocab</span>
+          <span class="tech-badge"><i class="fa-solid fa-comments"></i> 6 Dialog</span>
+          <button class="btn-go">Kelola <i class="fa-solid fa-arrow-right"></i></button>
         </div>
       </article>
     </div>
   </div>
 
-  <!-- ==================== VOCABULARY TAB ==================== -->
-  <div id="tab-vocabulary" class="tab-panel">
+  <!-- ==================== KELAS 3 TAB ==================== -->
+  <div id="tab-grade3" class="tab-panel">
+    <div class="section-header">
+      <h2>3️⃣ Kelas 3 SD - Greetings, Numbers & Colors</h2>
+      <p>Kelola kosakata dan percakapan untuk siswa kelas 3 Sekolah Dasar.</p>
+    </div>
+
+    <!-- Sub-tabs for Vocabulary and Conversation -->
+    <div class="tab-sub-nav">
+      <button class="sub-tab active" data-grade3-sub="vocabulary" onclick="switchGrade3Sub('vocabulary')">
+        <i class="fa-solid fa-book-open"></i> Kosakata
+      </button>
+      <button class="sub-tab" data-grade3-sub="conversation" onclick="switchGrade3Sub('conversation')">
+        <i class="fa-solid fa-comments"></i> Percakapan
+      </button>
+    </div>
+
+    <!-- Vocabulary Content for Grade 3 -->
+    <div id="grade3-vocabulary" class="grade-sub-panel active">
+      <!-- Vocabulary content will be loaded here dynamically -->
+      <div class="loading-message">Memuat kosakata kelas 3...</div>
+    </div>
+
+    <!-- Conversation Content for Grade 3 -->
+    <div id="grade3-conversation" class="grade-sub-panel">
+      <!-- Conversation content will be loaded here dynamically -->
+      <div class="loading-message">Memuat percakapan kelas 3...</div>
+    </div>
+  </div>
+
+  <!-- ==================== KELAS 4 TAB ==================== -->
+  <div id="tab-grade4" class="tab-panel">
+    <div class="section-header">
+      <h2>4️⃣ Kelas 4 SD - Daily Activities & Animals</h2>
+      <p>Kelola kosakata dan percakapan untuk siswa kelas 4 Sekolah Dasar.</p>
+    </div>
+
+    <div class="tab-sub-nav">
+      <button class="sub-tab active" data-grade4-sub="vocabulary" onclick="switchGrade4Sub('vocabulary')">
+        <i class="fa-solid fa-book-open"></i> Kosakata
+      </button>
+      <button class="sub-tab" data-grade4-sub="conversation" onclick="switchGrade4Sub('conversation')">
+        <i class="fa-solid fa-comments"></i> Percakapan
+      </button>
+    </div>
+
+    <div id="grade4-vocabulary" class="grade-sub-panel active">
+      <div class="loading-message">Memuat kosakata kelas 4...</div>
+    </div>
+
+    <div id="grade4-conversation" class="grade-sub-panel">
+      <div class="loading-message">Memuat percakapan kelas 4...</div>
+    </div>
+  </div>
+
+  <!-- ==================== KELAS 5 TAB ==================== -->
+  <div id="tab-grade5" class="tab-panel">
+    <div class="section-header">
+      <h2>5️⃣ Kelas 5 SD - Hobbies & Common Places</h2>
+      <p>Kelola kosakata dan percakapan untuk siswa kelas 5 Sekolah Dasar.</p>
+    </div>
+
+    <div class="tab-sub-nav">
+      <button class="sub-tab active" data-grade5-sub="vocabulary" onclick="switchGrade5Sub('vocabulary')">
+        <i class="fa-solid fa-book-open"></i> Kosakata
+      </button>
+      <button class="sub-tab" data-grade5-sub="conversation" onclick="switchGrade5Sub('conversation')">
+        <i class="fa-solid fa-comments"></i> Percakapan
+      </button>
+    </div>
+
+    <div id="grade5-vocabulary" class="grade-sub-panel active">
+      <div class="loading-message">Memuat kosakata kelas 5...</div>
+    </div>
+
+    <div id="grade5-conversation" class="grade-sub-panel">
+      <div class="loading-message">Memuat percakapan kelas 5...</div>
+    </div>
+  </div>
+
+  <!-- ==================== KELAS 6 TAB ==================== -->
+  <div id="tab-grade6" class="tab-panel">
+    <div class="section-header">
+      <h2>6️⃣ Kelas 6 SD - Directions & Occupations</h2>
+      <p>Kelola kosakata dan percakapan untuk siswa kelas 6 Sekolah Dasar.</p>
+    </div>
+
+    <div class="tab-sub-nav">
+      <button class="sub-tab active" data-grade6-sub="vocabulary" onclick="switchGrade6Sub('vocabulary')">
+        <i class="fa-solid fa-book-open"></i> Kosakata
+      </button>
+      <button class="sub-tab" data-grade6-sub="conversation" onclick="switchGrade6Sub('conversation')">
+        <i class="fa-solid fa-comments"></i> Percakapan
+      </button>
+    </div>
+
+    <div id="grade6-vocabulary" class="grade-sub-panel active">
+      <div class="loading-message">Memuat kosakata kelas 6...</div>
+    </div>
+
+    <div id="grade6-conversation" class="grade-sub-panel">
+      <div class="loading-message">Memuat percakapan kelas 6...</div>
+    </div>
+  </div>
+
+  <!-- ==================== VOCABULARY TAB (OLD - KEEP FOR DYNAMIC LOADING) ==================== -->
+  <div id="tab-vocabulary" class="tab-panel" style="display: none !important;">
     <div class="section-header">
       <h2><i class="fa-solid fa-book-open"></i> Kelola Kosakata (Vocabulary Explorer - Level 1)</h2>
       <p>Tambah, edit, atau hapus kartu kosakata untuk setiap kelas. Pilih antara emoji atau gambar untuk flashcard. Proses gambar dengan DSP Image Processing.</p>
@@ -509,8 +628,8 @@
     </div>
   </div>
 
-  <!-- ==================== CONVERSATION TAB ==================== -->
-  <div id="tab-conversation" class="tab-panel">
+  <!-- ==================== CONVERSATION TAB (OLD - KEEP FOR DYNAMIC LOADING) ==================== -->
+  <div id="tab-conversation" class="tab-panel" style="display: none !important;">
     <div class="section-header">
       <h2><i class="fa-solid fa-comments"></i> Kelola Percakapan (Conversation Builder - Level 2)</h2>
       <p>Buat dan edit dialog percakapan chat bubble. Pilih antara API voice atau upload audio manual. Proses audio dengan DSP filter (Low-pass, High-pass, Band-pass, Downsampling, Watermark).</p>
@@ -645,6 +764,12 @@
                 <input type="radio" name="conv-avatar" value="👼" />
                 <span class="emoji-display">👼</span>
               </label>
+            </div>
+            <div class="emoji-manual-input">
+              <input type="text" id="conv-avatar-manual" placeholder="Atau ketik emoji..." maxlength="4" />
+              <button type="button" class="btn btn-secondary btn-sm" onclick="useManualConvAvatar()">
+                <i class="fa-solid fa-check"></i> Gunakan
+              </button>
             </div>
           </div>
 
@@ -867,8 +992,8 @@
     </div>
   </div>
 
-  <!-- ==================== GUIDELINE TAB ==================== -->
-  <div id="tab-guideline" class="tab-panel">
+  <!-- ==================== LAPORAN TAB ==================== -->
+  <div id="tab-laporan" class="tab-panel">
     <div class="report-container">
       <div class="report-actions card">
         <h4>Aksi Laporan</h4>
@@ -976,97 +1101,8 @@
             Operasi ini bersifat simetris; mengenkripsi ulang ciphertext Hex dengan Kunci ($K$) yang sama akan mengembalikan plaintext ($P$) secara presisi.
           </p>
         </div>
-
-        <!-- Page 4: Image Processing Theory -->
-        <div class="report-page">
-          <h2>3. Pengolahan Media Flashcard Gambar</h2>
-
-          <h3>A. Pemrosesan Citra: Filter Konvolusi Matriks</h3>
-          <p>
-            Aplikasi FUNLISH mengandalkan kartu gambar kosakata (flashcard). Guru dapat memodifikasi citra kartu menggunakan matriks konvolusi spasial $3 \times 3$ yang memanipulasi piksel $g(x,y)$ berdasarkan piksel tetangga $f(x,y)$:
-          </p>
-          <div class="equation">
-            $$g(x,y) = \sum_{s=-1}^{1} \sum_{t=-1}^{1} \omega(s,t) \cdot f(x+s, y+t)$$
-          </div>
-          <p>
-            Operasi ini meliputi filter <strong>Sharpen</strong> (menajamkan batas objek kartu), <strong>Blur</strong> (memotong frekuensi tinggi spasial), dan <strong>Sobel Edge Detection</strong> (menghitung magnitude gradien horizontal/vertikal citra untuk deteksi tepi).
-          </p>
-
-          <h3>B. Keamanan: Steganografi LSB (Least Significant Bit)</h3>
-          <p>
-            Steganografi LSB menyembunyikan kunci jawaban kuis di dalam bit terendah (bit ke-0) komponen warna merah piksel gambar flashcard. Perubahan bit 0 ini hanya merubah intensitas warna piksel sebesar $1/255$ tingkat, sehingga perbedaan tersebut tidak tampak secara visual. Format output wajib berupa PNG (lossless) agar bit LSB tidak rusak oleh kompresi warna JPEG.
-          </p>
-
-          <h3>C. Kompresi JPEG & Watermarking</h3>
-          <p>
-            Penyisipan watermark digital mencegah pencurian kartu kosakata karya sekolah dengan rumus pencampuran linier parameter transparansi $\alpha$ (opacity):
-          </p>
-          <div class="equation">
-            $$O(x,y) = (1 - \alpha) \cdot I(x,y) + \alpha \cdot W(x,y)$$
-          </div>
-          <p>
-            Sementara kompresi JPEG lossy menurunkan file size kartu gambar secara drastis melalui pengurangan resolusi visual canvas dan penyesuaian kualitas encoding JPEG (1% - 100%).
-          </p>
-        </div>
-
-        <!-- Page 5: Audio Processing Theory -->
-        <div class="report-page">
-          <h2>4. Pengolahan Suara Pelafalan Bahasa Inggris</h2>
-
-          <h3>A. Biquad Filters DSP (Web Audio API)</h3>
-          <p>
-            Kejelasan pelafalan kata bahasa Inggris sangat penting bagi anak SD. Sinyal audio rekaman guru dialirkan secara terarah melalui node BiquadFilterNode untuk pemrosesan frekuensi digital:
-          </p>
-          <ul>
-            <li><strong>Low-Pass Filter:</strong> Memotong frekuensi di atas batas cutoff ($f_c$), meloloskan bass suara agar terasa penuh.</li>
-            <li><strong>High-Pass Filter:</strong> Memotong gemuruh rendah dan kebisingan AC ruangan dari mikrofon guru di bawah $f_c$.</li>
-            <li><strong>Band-Pass Filter:</strong> Memfokuskan pita frekuensi sempit khusus vokal manusia.</li>
-          </ul>
-
-          <h3>B. Simulasi Downsampling Kompresi</h3>
-          <p>
-            Simulasi kompresi lossy audio mereproduksi penurunan laju sampel (downsampling) dan kedalaman bit (bit depth) melalui ScriptProcessorNode. Laju sampel dibatasi (misal 44,1 kHz ke 8 kHz) dan amplitudo dikuantisasi (16-bit ke 4-bit) untuk mensimulasikan bitrate terkompresi yang menghemat data seluler siswa.
-          </p>
-
-          <h3>C. Visualizer Spectrogram & Watermark</h3>
-          <p>
-            Aplikasi menggambar spektrum suara siswa/guru secara real-time di canvas menggunakan algoritma **Fast Fourier Transform (FFT)** dari AnalyserNode. Selain itu, guru dapat menyuntikkan nada sinus 15.000 Hz sebagai watermark audio pelafalan untuk melindungi lisensi suara sekolah.
-          </p>
-        </div>
-
-        <!-- Page 6: Video Processing & User Manual -->
-        <div class="report-page">
-          <h2>5. Perekaman Video E-Learning (Chroma Key)</h2>
-
-          <h3>A. Pemrosesan Video Canvas</h3>
-          <p>
-            Untuk membuat materi video pengajaran interaktif, kamera web guru diproses secara frame-by-frame pada canvas penampung dengan frame rate 30 FPS memanfaatkan callback perulangan <code>requestAnimationFrame</code>.
-          </p>
-
-          <h3>B. Algoritma Chroma Keying</h3>
-          <p>
-            Teknik Chroma Key mengisolasi tirai hijau latar belakang guru. Jarak warna Euclidean piksel $(R_p, G_p, B_p)$ terhadap warna kunci target $(R_t, G_t, B_t)$ dihitung:
-          </p>
-          <div class="equation">
-            $$\text{Jarak Warna } (d) = \sqrt{(R_p - R_t)^2 + (G_p - G_t)^2 + (B_p - B_t)^2}$$
-          </div>
-          <p>
-            Piksel dengan jarak $d$ di bawah batas toleransi ($T$) akan diset nilai opasitas Alpha channel-nya menjadi $0$ (transparan penuh). Piksel transparan ini kemudian ditumpuk (composited) secara real-time di atas gambar latar kelas virtual kartun FUNLISH yang menarik bagi anak-anak.
-          </p>
-          
-          <div class="section-divider"></div>
-
-          <h2>6. Buku Manual & Cara Kerja Aplikasi</h2>
-          <ol>
-            <li>
-              <strong>Portal Siswa (FUNLISH):</strong> Siswa memilih kelas belajar. Di Kelas 3, 4, 5, siswa mengeklik flashcard bergambar untuk memicu suara pengucapan bahasa Inggris asli. Di Kelas 6, siswa menjawab kuis pilihan ganda. Kunci jawaban dibaca dan divalidasi langsung oleh biner program.
-            </li>
-            <li>
-              <strong>FUNLISH Studio:</strong> Pengelola mengakses menu Lab SISMUL di bagian bawah halaman. Di modul teks, guru mengompres teks atau mengenkripsi kunci XOR. Di modul gambar, guru mengunggah flashcard, menerapkan filter spasial, memasukkan stego, membubuhkan watermark, atau mengompres JPEG. Di modul audio, guru menyaring suara vokal, mengaktifkan downsampling, atau menyalakan watermark audio. Di modul video, guru mengaktifkan kamera web dan menyalakan chroma key.
-            </li>
-          </ol>
-        </div>
       </article>
     </div>
   </div>
+
 </section>
