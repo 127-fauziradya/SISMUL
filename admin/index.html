@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FUNLISH Studio - Dashboard Admin</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="../assets/css/variables.css" />
+  <link rel="stylesheet" href="../assets/css/student.css" />
+  <link rel="stylesheet" href="../assets/css/admin-playful.css" />
+</head>
+<body class="theme-student">
+  
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a class="logo" href="index.html">
+        <i class="fa-solid fa-microchip logo-icon"></i>
+        <span>FUNLISH<span class="highlight">STUDIO</span></span>
+      </a>
+      
+      <div class="nav-menu-wrapper">
+        <nav class="nav-links" id="admin-nav">
+          <a class="nav-tab active" href="index.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+          <a class="nav-tab" href="kelas-3.html">3️⃣ Kelas 3</a>
+          <a class="nav-tab" href="kelas-4.html">4️⃣ Kelas 4</a>
+          <a class="nav-tab" href="kelas-5.html">5️⃣ Kelas 5</a>
+          <a class="nav-tab" href="kelas-6.html">6️⃣ Kelas 6</a>
+          <a class="nav-tab" href="laporan.html"><i class="fa-solid fa-book"></i> Panduan</a>
+        </nav>
+        
+        <div class="nav-actions">
+          <button class="btn-switch student" onclick="logout()" style="background-color:#ff6b6b;color:white;border:none;box-shadow:0 4px 0 #e65252;padding:10px 20px;border-radius:99px;font-family:'Fredoka',sans-serif;font-weight:700;cursor:pointer;">
+            <i class="fa-solid fa-right-from-bracket"></i> Keluar
+          </button>
+          <div class="nav-status">
+            <span class="status-indicator online"></span>
+            <span class="status-text">Online</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="hero-banner" style="background: linear-gradient(135deg, #a7f3d0 0%, #bfdbfe 50%, #fef08a 100%); position: relative; border: 3px solid #e2ecd9; border-radius: 24px; padding: 60px 50px; overflow: hidden; margin: 20px; box-shadow: 0 10px 0px #e2ecd9;">
+      <div style="position: absolute; top: -40px; right: -40px; width: 280px; height: 280px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); pointer-events: none;"></div>
+      <div style="position: absolute; bottom: -60px; left: 10%; width: 200px; height: 200px; border-radius: 50%; background: rgba(255, 255, 255, 0.18); pointer-events: none;"></div>
+      <div style="position: relative; z-index: 2; max-width: 680px;">
+        <p style="display: inline-block; background-color: #58cc02; color: white; padding: 5px 14px; border-radius: 99px; font-weight: 700; font-size: 0.82rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; box-shadow: 0 3px 0 #43a000;">Kelola Materi & Pemrosesan Sinyal</p>
+        <h1 style="font-family: 'Fredoka', sans-serif; font-size: 3rem; font-weight: 800; color: #1e293b; line-height: 1.15; margin-bottom: 16px;">FUNLISH Studio</h1>
+        <p style="color: #475569; font-size: 1.05rem; line-height: 1.7; margin-bottom: 28px;">
+          Pusat manajemen konten pembelajaran dan manipulasi aset multimedia untuk aplikasi FUNLISH. Di sini Guru/Admin dapat mengelola kosakata & percakapan siswa, melakukan kompresi materi pelajaran, enkripsi kunci jawaban kuis, pemrosesan citra kartu kosakata, DSP audio pelafalan, dan perekaman green screen (chroma key).
+        </p>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <span style="display: inline-flex; align-items: center; gap: 7px; background: rgba(255, 255, 255, 0.7); border: 2px solid rgba(255, 255, 255, 0.9); padding: 8px 16px; border-radius: 99px; font-size: 0.88rem; font-weight: 700; color: #1e293b; box-shadow: 0 2px 0 rgba(0,0,0,0.06);"><i class="fa-solid fa-database" style="color: #58cc02;"></i> Kelola Konten Real-time</span>
+          <span style="display: inline-flex; align-items: center; gap: 7px; background: rgba(255, 255, 255, 0.7); border: 2px solid rgba(255, 255, 255, 0.9); padding: 8px 16px; border-radius: 99px; font-size: 0.88rem; font-weight: 700; color: #1e293b; box-shadow: 0 2px 0 rgba(0,0,0,0.06);"><i class="fa-solid fa-bolt" style="color: #58cc02;"></i> 100% Client-Side DSP</span>
+          <span style="display: inline-flex; align-items: center; gap: 7px; background: rgba(255, 255, 255, 0.7); border: 2px solid rgba(255, 255, 255, 0.9); padding: 8px 16px; border-radius: 99px; font-size: 0.88rem; font-weight: 700; color: #1e293b; box-shadow: 0 2px 0 rgba(0,0,0,0.06);"><i class="fa-solid fa-shield-halved" style="color: #58cc02;"></i> Sandboxed Processing</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 40px;">
+      <h2 style="font-family: 'Fredoka', sans-serif; color: #1e293b; margin-bottom: 24px;">
+        <i class="fa-solid fa-chalkboard-user"></i> Pilih Kelas untuk Dikelola
+      </h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+        <!-- Kelas 3 -->
+        <a href="kelas-3.html" style="text-decoration: none; color: inherit;">
+          <div style="background: white; border-radius: 20px; padding: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'">
+            <div style="width: 60px; height: 60px; background: #1cb0f6; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: 700; margin-bottom: 16px; font-family: 'Fredoka', sans-serif;">3</div>
+            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; margin-bottom: 8px; color: #1e293b;">Kelas 3 SD</h3>
+            <p style="color: #64748b; margin-bottom: 16px; font-size: 0.9rem;">Greetings, Numbers & Colors</p>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+              <span style="background: #e0f2fe; color: #0284c7; padding: 4px 12px; border-radius: 99px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-book"></i> 17 Vocab</span>
+              <span style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 99px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-comments"></i> 7 Dialog</span>
+            </div>
+            <button style="width: 100%; padding: 12px; background: #1cb0f6; color: white; border: none; border-radius: 99px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem; box-shadow: 0 4px 0 #0093d9; transition: all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 0 #0093d9'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 0 #0093d9'">
+              Kelola <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </a>
+
+        <!-- Kelas 4 -->
+        <a href="kelas-4.html" style="text-decoration: none; color: inherit;">
+          <div style="background: white; border-radius: 20px; padding: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'">
+            <div style="width: 60px; height: 60px; background: #10b981; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: 700; margin-bottom: 16px; font-family: 'Fredoka', sans-serif;">4</div>
+            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; margin-bottom: 8px; color: #1e293b;">Kelas 4 SD</h3>
+            <p style="color: #64748b; margin-bottom: 16px; font-size: 0.9rem;">Daily Activities & Animals</p>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+              <span style="background: #e0f2fe; color: #0284c7; padding: 4px 12px; border-radius: 99px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-book"></i> 16 Vocab</span>
+              <span style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 99px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-comments"></i> 7 Dialog</span>
+            </div>
+            <button style="width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 99px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem; box-shadow: 0 4px 0 #059669; transition: all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 0 #059669'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 0 #059669'">
+              Kelola <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </a>
+
+        <!-- Kelas 5 -->
+        <a href="kelas-5.html" style="text-decoration: none; color: inherit;">
+          <div style="background: white; border-radius: 20px; padding: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'">
+            <div style="width: 60px; height: 60px; background: #f59e0b; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: 700; margin-bottom: 16px; font-family: 'Fredoka', sans-serif;">5</div>
+            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; margin-bottom: 8px; color: #1e293b;">Kelas 5 SD</h3>
+            <p style="color: #64748b; margin-bottom: 16px; font-size: 0.9rem;">Hobbies & Common Places</p>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+              <span style="background: #e0f2fe; color: #0284c7; padding: 4px 12px; border-radius: 99px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-book"></i> 16 Vocab</span>
+              <span style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 99px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-comments"></i> 6 Dialog</span>
+            </div>
+            <button style="width: 100%; padding: 12px; background: #f59e0b; color: white; border: none; border-radius: 99px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem; box-shadow: 0 4px 0 #d97706; transition: all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 0 #d97706'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 0 #d97706'">
+              Kelola <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </a>
+
+        <!-- Kelas 6 -->
+        <a href="kelas-6.html" style="text-decoration: none; color: inherit;">
+          <div style="background: white; border-radius: 20px; padding: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 32px rgba(0,0,0,0.12)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.08)'">
+            <div style="width: 60px; height: 60px; background: #8b5cf6; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; font-weight: 700; margin-bottom: 16px; font-family: 'Fredoka', sans-serif;">6</div>
+            <h3 style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; margin-bottom: 8px; color: #1e293b;">Kelas 6 SD</h3>
+            <p style="color: #64748b; margin-bottom: 16px; font-size: 0.9rem;">Directions & Occupations</p>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+              <span style="background: #e0f2fe; color: #0284c7; padding: 4px 12px; border-radius: 99px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-book"></i> 16 Vocab</span>
+              <span style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 99px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-solid fa-comments"></i> 6 Dialog</span>
+            </div>
+            <button style="width: 100%; padding: 12px; background: #8b5cf6; color: white; border: none; border-radius: 99px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem; box-shadow: 0 4px 0 #7c3aed; transition: all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 0 #7c3aed'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 0 #7c3aed'">
+              Kelola <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer-container"></footer>
+
+  <script>
+    // Session guard
+    if (sessionStorage.getItem("funlish_admin_logged_in") !== "true") {
+      window.location.href = "../login.html?redirect=admin/index.html";
+    }
+    
+    function logout() {
+      if (confirm("Apakah Anda yakin ingin keluar?")) {
+        sessionStorage.removeItem("funlish_admin_logged_in");
+        window.location.href = "../login.html";
+      }
+    }
+
+    // Load footer
+    async function loadFooter() {
+      try {
+        const response = await fetch('../components/footer.html');
+        const html = await response.text();
+        document.getElementById('footer-container').innerHTML = html;
+      } catch (error) {
+        console.error('Failed to load footer:', error);
+      }
+    }
+    
+    loadFooter();
+  </script>
+</body>
+</html>

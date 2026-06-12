@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelola Kelas 3 - FUNLISH Studio</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="../assets/css/variables.css" />
+  <link rel="stylesheet" href="../assets/css/student.css" />
+  <link rel="stylesheet" href="../assets/css/admin-playful.css" />
+</head>
+<body class="theme-student">
+  
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a class="logo" href="index.html">
+        <i class="fa-solid fa-microchip logo-icon"></i>
+        <span>FUNLISH<span class="highlight">STUDIO</span></span>
+      </a>
+      
+      <div class="nav-menu-wrapper">
+        <nav class="nav-links">
+          <a class="nav-tab" href="index.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+          <a class="nav-tab active" href="kelas-3.html">3️⃣ Kelas 3</a>
+          <a class="nav-tab" href="kelas-4.html">4️⃣ Kelas 4</a>
+          <a class="nav-tab" href="kelas-5.html">5️⃣ Kelas 5</a>
+          <a class="nav-tab" href="kelas-6.html">6️⃣ Kelas 6</a>
+          <a class="nav-tab" href="laporan.html"><i class="fa-solid fa-book"></i> Panduan</a>
+        </nav>
+        
+        <div class="nav-actions">
+          <button class="btn-switch student" onclick="logout()" style="background-color:#ff6b6b;color:white;border:none;box-shadow:0 4px 0 #e65252;padding:10px 20px;border-radius:99px;font-family:'Fredoka',sans-serif;font-weight:700;cursor:pointer;">
+            <i class="fa-solid fa-right-from-bracket"></i> Keluar
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div style="padding: 20px;" id="main-container">
+      <div style="text-align: center; padding: 60px;">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size: 3rem; color: #1cb0f6;"></i>
+        <p style="margin-top: 20px; font-size: 1.2rem; color: #64748b;">Memuat konten...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Load challenge data and admin.js -->
+  <script src="../assets/js/challenge-data.js"></script>
+  <script src="../assets/js/lab-image.js"></script>
+  <script src="../assets/js/lab-audio.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  
+  <script>
+    // Session guard
+    if (sessionStorage.getItem("funlish_admin_logged_in") !== "true") {
+      window.location.href = "../login.html?redirect=admin/kelas-3.html";
+    }
+    
+    function logout() {
+      if (confirm("Apakah Anda yakin ingin keluar?")) {
+        sessionStorage.removeItem("funlish_admin_logged_in");
+        window.location.href = "../login.html";
+      }
+    }
+
+    // Load vocabulary and conversation content for grade 3
+    async function loadGradeContent() {
+      try {
+        const response = await fetch('../components/teacher-portal.html');
+        const html = await response.text();
+        
+        // Parse HTML to extract vocabulary and conversation tabs
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const vocabTab = doc.getElementById('tab-vocabulary');
+        const convTab = doc.getElementById('tab-conversation');
+        
+        if (vocabTab && convTab) {
+          // Create tabs structure
+          const tabsHTML = `
+            <div class="section-header">
+              <h2>3️⃣ Kelas 3 SD - Greetings, Numbers & Colors</h2>
+              <p>Kelola kosakata dan percakapan untuk siswa kelas 3 Sekolah Dasar.</p>
+            </div>
+
+            <!-- Sub-tabs for Vocabulary and Conversation -->
+            <div class="tab-sub-nav">
+              <button class="sub-tab active" onclick="switchTab('vocab')">
+                <i class="fa-solid fa-book-open"></i> Kosakata
+              </button>
+              <button class="sub-tab" onclick="switchTab('conv')">
+                <i class="fa-solid fa-comments"></i> Percakapan
+              </button>
+              <button class="sub-tab" onclick="switchTab('quiz')">
+                <i class="fa-solid fa-clipboard-question"></i> Quiz
+              </button>
+            </div>
+
+            <!-- Vocabulary Content -->
+            <div id="vocab-content" class="grade-sub-panel active">
+              ${vocabTab.innerHTML}
+            </div>
+
+            <!-- Conversation Content -->
+            <div id="conv-content" class="grade-sub-panel">
+              ${convTab.innerHTML}
+            </div>
+
+            <!-- Quiz Content -->
+            <div id="quiz-content" class="grade-sub-panel">
+              ${doc.getElementById('tab-quiz') ? doc.getElementById('tab-quiz').innerHTML : '<p>Quiz content not found</p>'}
+            </div>
+          `;
+          
+          document.getElementById('main-container').innerHTML = tabsHTML;
+          
+          // Initialize grade 3 data after content is loaded
+          setTimeout(() => {
+            currentVocabGrade = 3;
+            currentConvGrade = 3;
+            currentQuizGrade = 3;
+            
+            if (typeof loadVocabGrade === 'function') {
+              loadVocabGrade(3);
+            }
+            if (typeof loadConvGrade === 'function') {
+              loadConvGrade(3);
+            }
+            if (typeof loadQuizGrade === 'function') {
+              loadQuizGrade(3);
+            }
+            
+            console.log('✅ Grade 3 content loaded');
+          }, 200);
+        }
+      } catch (error) {
+        console.error('Failed to load content:', error);
+        document.getElementById('main-container').innerHTML = `
+          <div style="text-align: center; padding: 60px;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; color: #ff6b6b;"></i>
+            <h2 style="font-family: 'Fredoka', sans-serif; margin-top: 20px;">Error Loading Content</h2>
+            <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 24px; background: #1cb0f6; color: white; border: none; border-radius: 99px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer;">
+              Refresh
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // Switch between vocabulary and conversation tabs
+    function switchTab(tabType) {
+      const vocabContent = document.getElementById('vocab-content');
+      const convContent = document.getElementById('conv-content');
+      const quizContent = document.getElementById('quiz-content');
+      const tabs = document.querySelectorAll('.sub-tab');
+      
+      // Remove active from all
+      vocabContent.classList.remove('active');
+      convContent.classList.remove('active');
+      quizContent.classList.remove('active');
+      tabs.forEach(tab => tab.classList.remove('active'));
+      
+      // Add active to selected
+      if (tabType === 'vocab') {
+        vocabContent.classList.add('active');
+        tabs[0].classList.add('active');
+      } else if (tabType === 'conv') {
+        convContent.classList.add('active');
+        tabs[1].classList.add('active');
+      } else if (tabType === 'quiz') {
+        quizContent.classList.add('active');
+        tabs[2].classList.add('active');
+      }
+    }
+
+    // Load content when page is ready
+    window.addEventListener('load', loadGradeContent);
+  </script>
+</body>
+</html>

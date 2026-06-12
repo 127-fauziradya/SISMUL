@@ -1620,7 +1620,7 @@ canvas {
 }
 
 .display-header {
-  padding: 18px 24px;
+  padding: 20px 28px;
   border-bottom: 2px dashed #e2ecd9;
   display: flex;
   justify-content: space-between;
@@ -1628,6 +1628,9 @@ canvas {
   flex-wrap: wrap;
   gap: 12px;
   background: #f4faf0;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
 }
 
 .display-header h3 {
@@ -4182,4 +4185,46 @@ body::after,
 .btn-add-soal:active {
   transform: translateY(2px);
   box-shadow: 0 1px 0 #43a000;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PREVIEW CARDS FIX - Full Width Display Header
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.vocab-list-card.card,
+.main-display .card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.vocab-list-card .display-header,
+.main-display .card .display-header {
+  width: 100%;
+  margin: 0;
+  padding: 20px 28px;
+  box-sizing: border-box;
+}
+
+/* Ensure content area has proper padding */
+.vocab-list-card > div:not(.display-header),
+.main-display .card > div:not(.display-header) {
+  padding: 24px;
+}
+
+/* Quiz preview content area */
+#quiz-preview-content,
+#conv-bubble-preview {
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* Override any conflicting styles */
+.vocab-list-wrapper {
+  padding: 0;
+}
+
+#quiz-list-container,
+#conv-preview-container {
+  padding: 20px;
 }

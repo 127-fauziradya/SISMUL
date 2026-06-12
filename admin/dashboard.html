@@ -14,31 +14,173 @@
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   
-  <!-- Custom Stylesheets (Modularized Design System) -->
-  <link rel="stylesheet" href="/assets/css/variables.css" />
-  <link rel="stylesheet" href="/assets/css/style.css" />
-  <link rel="stylesheet" href="/assets/css/printable.css" />
-</head>
-<body class="theme-teacher"> <!-- Uses the dark HSL theme from teacher.css -->
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/variables.css" />
+  <link rel="stylesheet" href="../assets/css/student.css" />
+  <link rel="stylesheet" href="../assets/css/admin-playful.css" />
+  <link rel="stylesheet" href="../assets/css/printable.css" />
   
-  <!-- Custom Navbar for Admin Page -->
-  <header class="navbar" id="navbar-container">
-    <!-- Loaded dynamically from components/navbar.html -->
+  <style>
+    /* Quick fix untuk navbar admin */
+    #student-nav {
+      display: none !important;
+    }
+    #admin-nav {
+      display: flex !important;
+    }
+    .language-switcher {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="theme-student">
+  
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a class="logo" href="#" id="app-logo">
+        <i class="fa-solid fa-microchip logo-icon"></i>
+        <span>FUNLISH<span class="highlight">STUDIO</span></span>
+      </a>
+      
+      <div class="nav-menu-wrapper" id="nav-menu-wrapper">
+        <!-- Navigation links for Admin -->
+        <nav class="nav-links" id="admin-nav" aria-label="Navigasi Admin">
+          <a class="nav-tab active" href="#" onclick="switchAdminTab('dashboard'); return false;" id="nav-admin-dashboard">
+            <i class="fa-solid fa-chart-line"></i> Dashboard
+          </a>
+          <a class="nav-tab" href="#" onclick="switchAdminTab('vocabulary'); return false;" id="nav-admin-vocabulary">
+            <i class="fa-solid fa-book-open"></i> Kosakata
+          </a>
+          <a class="nav-tab" href="#" onclick="switchAdminTab('conversation'); return false;" id="nav-admin-conversation">
+            <i class="fa-solid fa-comments"></i> Percakapan
+          </a>
+          <a class="nav-tab" href="#" onclick="switchAdminTab('laporan'); return false;" id="nav-admin-laporan">
+            <i class="fa-solid fa-file-chart-line"></i> Laporan
+          </a>
+        </nav>
+        
+        <div class="nav-actions">
+          <div class="portal-switcher">
+            <button class="btn-switch student" onclick="adminLogout()" style="background-color:#ff6b6b;color:white;border:none;box-shadow:0 4px 0 #e65252;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:0.9rem;padding:10px 20px;border-radius:99px;font-family:'Fredoka',sans-serif;font-weight:700;transition:all 0.2s ease;">
+              <i class="fa-solid fa-right-from-bracket"></i> Keluar
+            </button>
+          </div>
+          
+          <div class="nav-status">
+            <span class="status-indicator online"></span>
+            <span class="status-text">Online</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu">
+        <span class="hamburger"></span>
+      </button>
+    </div>
   </header>
 
-  <!-- Main Content Container -->
+  <!-- Main Content -->
   <main class="main-content">
     <div id="admin-dashboard-content">
-      <!-- Loaded dynamically from components/teacher-portal.html (contains CRUD + SISMUL Lab) -->
+      <div style="padding: 40px; text-align: center;">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size: 3rem; color: #1cb0f6;"></i>
+        <p style="margin-top: 20px; font-size: 1.2rem; color: #64748b;">Memuat konten...</p>
+      </div>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="main-footer no-print" id="footer-container">
-    <!-- Loaded dynamically from components/footer.html -->
-  </footer>
+  <footer class="main-footer no-print" id="footer-container"></footer>
 
   <!-- Scripts -->
-  <script src="/assets/js/script.js"></script>
+  <script>
+    // 1. Session guard
+    if (sessionStorage.getItem("funlish_admin_logged_in") !== "true") {
+      window.location.href = "../login.html?redirect=admin/dashboard.html";
+    }
+
+    // 2. Logout function
+    window.adminLogout = function() {
+      if (confirm("Apakah Anda yakin ingin keluar dari Dashboard Admin?")) {
+        sessionStorage.removeItem("funlish_admin_logged_in");
+        window.location.href = "../login.html";
+      }
+    };
+
+    // 4. Load components
+    async function loadComponent(elementId, filePath) {
+      try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const html = await response.text();
+        document.getElementById(elementId).innerHTML = html;
+      } catch (error) {
+        console.error(`Failed to load ${filePath}:`, error);
+      }
+    }
+
+    // Note: switchAdminTab, switchToGrade, and switchGradeSub functions are defined in admin.js
+    
+    // 5. Initialize on load
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const startTime = performance.now();
+        
+        // Load components in parallel for faster loading
+        await Promise.all([
+          loadComponent("footer-container", "../components/footer.html"),
+          loadComponent("admin-dashboard-content", "../components/teacher-portal.html")
+        ]);
+        
+        // Initialize navbar toggle for mobile
+        const toggleBtn = document.getElementById("nav-toggle");
+        const menuWrapper = document.getElementById("nav-menu-wrapper");
+        if (toggleBtn && menuWrapper) {
+          toggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleBtn.classList.toggle("open");
+            menuWrapper.classList.toggle("open");
+          });
+        }
+        
+        const loadTime = (performance.now() - startTime).toFixed(2);
+        console.log(`✅ Dashboard loaded in ${loadTime}ms`);
+      } catch (error) {
+        console.error("❌ Error loading dashboard:", error);
+        document.getElementById("admin-dashboard-content").innerHTML = `
+          <div style="padding: 40px; text-align: center;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; color: #ff6b6b;"></i>
+            <h2 style="font-family: 'Fredoka', sans-serif; color: #1e293b; margin: 20px 0;">Error Loading Dashboard</h2>
+            <p style="color: #64748b;">Silakan refresh halaman atau hubungi administrator.</p>
+            <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 24px; background: #1cb0f6; color: white; border: none; border-radius: 99px; font-family: 'Fredoka', sans-serif; font-weight: 700; cursor: pointer;">
+              <i class="fa-solid fa-refresh"></i> Refresh
+            </button>
+          </div>
+        `;
+      }
+    });
+  </script>
+  
+  <!-- Load required scripts in order -->
+  <script src="../assets/js/challenge-data.js"></script>
+  <script src="../assets/js/lab-text.js"></script>
+  <script src="../assets/js/lab-image.js"></script>
+  <script src="../assets/js/lab-audio.js"></script>
+  <script src="../assets/js/lab-video.js"></script>
+  
+  <!-- Set flag before loading admin.js to skip duplicate initialization -->
+  <script>
+    window.ADMIN_DASHBOARD_ALREADY_INITIALIZED = true;
+  </script>
+  <script src="../assets/js/admin.js"></script>
+  
+  <script>
+    // Initialize admin functions when components are loaded
+    window.addEventListener('load', () => {
+      console.log('✅ Admin dashboard ready! Click on a grade tab to start managing content.');
+      // Don't preload any grade data - let user select which grade they want to work on
+    });
+  </script>
 </body>
 </html>

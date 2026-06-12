@@ -8,7 +8,7 @@
   <script>
     if (sessionStorage.getItem("funlish_admin_logged_in") === "true") {
       const params = new URLSearchParams(window.location.search);
-      window.location.href = params.get("redirect") || "crud.html";
+      window.location.href = params.get("redirect") || "admin/index.html";
     }
   </script>
 
@@ -318,7 +318,7 @@
         // Hide alerts and redirect
         alertBox.classList.add("hide");
         const params = new URLSearchParams(window.location.search);
-        window.location.href = params.get("redirect") || "crud.html";
+        window.location.href = params.get("redirect") || "admin/index.html";
       } else {
         // Trigger shaking animation and display warning
         alertBox.classList.remove("hide");

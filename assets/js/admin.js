@@ -1,6 +1,6 @@
 // 1. Session Login Security Guard (Redirect immediately if not logged in)
 if (sessionStorage.getItem("funlish_admin_logged_in") !== "true") {
-  window.location.href = "login.html?redirect=admin.html";
+  window.location.href = "../login.html?redirect=admin/dashboard.html";
 }
 
 
@@ -8,19 +8,38 @@ if (sessionStorage.getItem("funlish_admin_logged_in") !== "true") {
 window.adminLogout = function() {
   if (confirm("Apakah Anda yakin ingin keluar dari Dashboard Admin?")) {
     sessionStorage.removeItem("funlish_admin_logged_in");
-    window.location.href = "login.html";
+    window.location.href = "../login.html";
   }
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // Skip if already initialized from dashboard.html
+  if (window.ADMIN_DASHBOARD_ALREADY_INITIALIZED) {
+    console.log('⏭️ Skipping duplicate admin initialization');
+    return;
+  }
+  
   try {
+    // Detect if we're in admin subfolder or root
+    const isInAdminFolder = window.location.pathname.includes('/admin/');
+    const pathPrefix = isInAdminFolder ? '../' : '';
+    
     // 1. Load components dynamically
     await Promise.all([
-      loadComponent("navbar-container", "components/navbar.html"),
-      loadComponent("admin-dashboard-content", "components/teacher-portal.html"),
-      loadComponent("footer-container", "components/footer.html"),
-      loadComponent("audio-auth-overlay", "components/audio-auth-modal.html")
+      loadComponent("navbar-container", `${pathPrefix}components/navbar.html`),
+      loadComponent("admin-dashboard-content", `${pathPrefix}components/teacher-portal.html`),
+      loadComponent("footer-container", `${pathPrefix}components/footer.html`),
+      loadComponent("audio-auth-overlay", `${pathPrefix}components/audio-auth-modal.html`)
     ]);
+
+    // IMMEDIATELY hide student nav and show admin nav (before other operations)
+    const studentNav = document.getElementById("student-nav");
+    if (studentNav) studentNav.style.display = "none";
+    
+    const adminNav = document.getElementById("admin-nav");
+    if (adminNav) {
+      adminNav.style.display = "flex";
+    }
 
     // 2. Adjust Navbar visual style for Admin Mode
     const logo = document.getElementById("app-logo");
@@ -38,26 +57,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
     }
     
-    // Hide language switcher and student nav in admin mode as it is only for students landing page
+    // Hide language switcher in admin mode
     const langSwitcher = document.querySelector(".language-switcher");
     if (langSwitcher) langSwitcher.style.display = "none";
-    
-    const studentNav = document.getElementById("student-nav");
-    if (studentNav) studentNav.style.display = "none";
 
-    const adminNav = document.getElementById("admin-nav");
-    if (adminNav) {
-      adminNav.style.display = "flex";
-      // Set Dashboard as active by default
-      const dashboardTab = document.getElementById("nav-admin-dashboard");
-      if (dashboardTab) dashboardTab.classList.add("active");
-    }
+    // Set Dashboard as active by default
+    const dashboardTab = document.getElementById("nav-admin-dashboard");
+    if (dashboardTab) dashboardTab.classList.add("active");
 
     initNavbarToggle();
 
     // 3. Initialize Teacher / DSP Lab modules
-    initAdminTabs();
+    // initAdminTabs(); // Temporarily disabled for debugging
     
+    /* Temporarily disabled for debugging
     // Initialize vocabulary and conversation modules (new structure)
     // Load default grade data
     setTimeout(() => {
@@ -86,11 +99,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (typeof initDatabaseModule === 'function') {
       initDatabaseModule();
     }
+    */
     
     console.log("✅ Dashboard Admin berhasil dimuat!");
   } catch (error) {
     console.error("❌ Gagal menginisialisasi Dashboard Admin:", error);
-    alert("Terjadi kesalahan saat memuat dashboard. Silakan refresh halaman atau hubungi administrator.");
+    // Don't show alert, just log to console
   }
 });
 
@@ -216,19 +230,6 @@ window.switchAdminTab = function(tabId) {
         initConvAudioHandlers();
       }
     }, 100);
-  } else if (tabId === "grade3" || tabId === "grade4" || tabId === "grade5" || tabId === "grade6") {
-    // Handle grade tabs - extract grade number
-    const gradeNum = parseInt(tabId.replace('grade', ''));
-    console.log(`📚 Loading grade ${gradeNum} tab...`);
-    
-    // Set current grade
-    currentVocabGrade = gradeNum;
-    currentConvGrade = gradeNum;
-    
-    // Load vocabulary by default when switching to grade tab
-    setTimeout(() => {
-      loadGradeContent(gradeNum, 'vocabulary');
-    }, 100);
   } else if (tabId === "laporan") {
     console.log(`📊 Loading laporan tab...`);
   }
@@ -237,188 +238,23 @@ window.switchAdminTab = function(tabId) {
 // Dashboard cards use this public lab-specific name.
 window.switchLabTab = switchAdminTab;
 
-// Switch to specific grade from dashboard
+// Switch to specific grade from dashboard cards
 window.switchToGrade = function(grade) {
-  console.log(`🔄 Switching to grade ${grade} management`);
+  console.log(`🔄 Switching to grade ${grade} vocabulary`);
   
   // Update current grade
   currentVocabGrade = grade;
   currentConvGrade = grade;
   
-  // Switch to grade tab (this will also update navbar)
-  switchAdminTab(`grade${grade}`);
+  // Switch to vocabulary tab
+  switchAdminTab('vocabulary');
   
   // Load vocabulary for that grade
   setTimeout(() => {
-    loadGradeContent(grade, 'vocabulary');
+    loadVocabGrade(grade);
   }, 100);
 };
 
-// Switch grade sub-tabs (vocabulary/conversation)
-window.switchGrade3Sub = function(subTab) {
-  switchGradeSub(3, subTab);
-};
-
-window.switchGrade4Sub = function(subTab) {
-  switchGradeSub(4, subTab);
-};
-
-window.switchGrade5Sub = function(subTab) {
-  switchGradeSub(5, subTab);
-};
-
-window.switchGrade6Sub = function(subTab) {
-  switchGradeSub(6, subTab);
-};
-
-function switchGradeSub(grade, subTab) {
-  console.log(`📚 Switching grade ${grade} to ${subTab}`);
-  
-  // Update sub-tab buttons
-  const buttons = document.querySelectorAll(`[data-grade${grade}-sub]`);
-  buttons.forEach(btn => {
-    if (btn.dataset[`grade${grade}Sub`] === subTab) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
-  });
-  
-  // Switch sub-panels
-  const vocabPanel = document.getElementById(`grade${grade}-vocabulary`);
-  const convPanel = document.getElementById(`grade${grade}-conversation`);
-  const quizPanel = document.getElementById(`grade${grade}-quiz`);
-  
-  if (subTab === 'vocabulary') {
-    if (vocabPanel) vocabPanel.classList.add('active');
-    if (convPanel) convPanel.classList.remove('active');
-    if (quizPanel) quizPanel.classList.remove('active');
-    loadGradeContent(grade, 'vocabulary');
-  } else if (subTab === 'conversation') {
-    if (vocabPanel) vocabPanel.classList.remove('active');
-    if (convPanel) convPanel.classList.add('active');
-    if (quizPanel) quizPanel.classList.remove('active');
-    loadGradeContent(grade, 'conversation');
-  } else if (subTab === 'quiz') {
-    if (vocabPanel) vocabPanel.classList.remove('active');
-    if (convPanel) convPanel.classList.remove('active');
-    if (quizPanel) quizPanel.classList.add('active');
-    loadGradeContent(grade, 'quiz');
-  }
-}
-
-// Load vocabulary or conversation or quiz content dynamically
-async function loadGradeContent(grade, contentType) {
-  const containerId = `grade${grade}-${contentType}`;
-  const container = document.getElementById(containerId);
-  
-  if (!container) {
-    console.error(`Container ${containerId} not found`);
-    return;
-  }
-  
-  // Check if content already loaded
-  if (container.dataset.loaded === 'true') {
-    console.log(`✅ Content for grade ${grade} ${contentType} already loaded`);
-    return;
-  }
-  
-  console.log(`🔄 Loading ${contentType} for grade ${grade}...`);
-  
-  try {
-    if (contentType === 'vocabulary') {
-      // Clone vocabulary tab content
-      const vocabTab = document.getElementById('tab-vocabulary');
-      if (vocabTab) {
-        const clonedContent = vocabTab.cloneNode(true);
-        clonedContent.id = `${containerId}-content`;
-        clonedContent.style.display = 'block';
-        clonedContent.style.paddingTop = '20px';
-        
-        // Remove section header (already shown in parent)
-        const sectionHeader = clonedContent.querySelector('.section-header');
-        if (sectionHeader) sectionHeader.remove();
-        
-        // Remove grade selector tabs
-        const gradeNav = clonedContent.querySelector('.tab-sub-nav');
-        if (gradeNav) gradeNav.remove();
-        
-        container.innerHTML = '';
-        container.appendChild(clonedContent);
-        
-        // Load data for this grade
-        setTimeout(() => {
-          currentVocabGrade = grade;
-          loadVocabGrade(grade);
-          if (typeof initVocabImageHandlers === 'function') {
-            initVocabImageHandlers();
-          }
-        }, 100);
-      }
-    } else if (contentType === 'conversation') {
-      // Clone conversation tab content
-      const convTab = document.getElementById('tab-conversation');
-      if (convTab) {
-        const clonedContent = convTab.cloneNode(true);
-        clonedContent.id = `${containerId}-content`;
-        clonedContent.style.display = 'block';
-        clonedContent.style.paddingTop = '20px';
-        
-        // Remove section header
-        const sectionHeader = clonedContent.querySelector('.section-header');
-        if (sectionHeader) sectionHeader.remove();
-        
-        // Remove grade selector tabs
-        const gradeNav = clonedContent.querySelector('.tab-sub-nav');
-        if (gradeNav) gradeNav.remove();
-        
-        container.innerHTML = '';
-        container.appendChild(clonedContent);
-        
-        // Load data for this grade
-        setTimeout(() => {
-          currentConvGrade = grade;
-          loadConvGrade(grade);
-          if (typeof initConvAudioHandlers === 'function') {
-            initConvAudioHandlers();
-          }
-        }, 100);
-      }
-    } else if (contentType === 'quiz') {
-      // Clone quiz tab content
-      const quizTab = document.getElementById('tab-quiz');
-      if (quizTab) {
-        const clonedContent = quizTab.cloneNode(true);
-        clonedContent.id = `${containerId}-content`;
-        clonedContent.style.display = 'block';
-        clonedContent.style.paddingTop = '20px';
-        
-        // Remove section header
-        const sectionHeader = clonedContent.querySelector('.section-header');
-        if (sectionHeader) sectionHeader.remove();
-        
-        // Remove grade selector tabs
-        const gradeNav = clonedContent.querySelector('.tab-sub-nav');
-        if (gradeNav) gradeNav.remove();
-        
-        container.innerHTML = '';
-        container.appendChild(clonedContent);
-        
-        // Load quiz data for this grade
-        setTimeout(() => {
-          currentQuizGrade = grade;
-          loadQuizGrade(grade);
-        }, 100);
-      }
-    }
-    
-    container.dataset.loaded = 'true';
-    console.log(`✅ ${contentType} for grade ${grade} loaded successfully`);
-  } catch (error) {
-    console.error(`❌ Failed to load ${contentType} for grade ${grade}:`, error);
-    container.innerHTML = `<div class="info-box error">Gagal memuat konten. Silakan refresh halaman.</div>`;
-  }
-}
 // Mobile Navbar Hamburger Toggle Logic
 function initNavbarToggle() {
   const toggleBtn = document.getElementById("nav-toggle");
@@ -444,7 +280,7 @@ function initNavbarToggle() {
 window.downloadPDF = function() {
   window.print();
   // Note: Browser's built-in print to PDF functionality
-  alert('Gunakan "Save as PDF" pada dialog print untuk menyimpan guidebook sebagai PDF.');
+  console.log('Print dialog opened');
 };
 
 /* ==========================================================================
@@ -632,7 +468,7 @@ window.saveVocabItem = function() {
   const editIndex = parseInt(document.getElementById('vocab-edit-index').value);
   
   if (!eng || !ind) {
-    alert('Mohon lengkapi kata Bahasa Inggris dan Terjemahan!');
+    showDbToast('Mohon lengkapi kata Bahasa Inggris dan Terjemahan!', 'warning');
     return;
   }
   
@@ -644,7 +480,7 @@ window.saveVocabItem = function() {
   if (type === 'emoji') {
     const selectedEmoji = document.querySelector('input[name="vocab-emoji"]:checked');
     if (!selectedEmoji) {
-      alert('Mohon pilih emoji untuk mode Emoji!');
+      showDbToast('Mohon pilih emoji untuk mode Emoji!', 'warning');
       return;
     }
     item.emoji = selectedEmoji.value;
@@ -653,7 +489,7 @@ window.saveVocabItem = function() {
     // Image mode - save the processed canvas image as base64
     const canvasDisplay = document.getElementById('vocab-canvas-display');
     if (!canvasDisplay || !vocabCurrentImageState) {
-      alert('Mohon upload gambar terlebih dahulu!');
+      showDbToast('Mohon upload gambar terlebih dahulu!', 'warning');
       return;
     }
     
@@ -731,7 +567,7 @@ window.resetVocabForm = function() {
 window.testVocabSpeech = function() {
   const eng = document.getElementById('vocab-eng').value.trim();
   if (!eng) {
-    alert('Masukkan kata bahasa Inggris terlebih dahulu!');
+    showDbToast('Masukkan kata bahasa Inggris terlebih dahulu!', 'warning');
     return;
   }
   speakEnglish(eng);
@@ -763,6 +599,10 @@ window.loadConvGrade = function(grade) {
   
   // Render preview
   renderConvPreview();
+  
+  // Setup live preview listeners
+  setTimeout(setupConvBubblePreviewListeners, 100);
+  
   console.log(`✅ Conversation for grade ${grade} loaded successfully`);
 };
 
@@ -846,6 +686,11 @@ window.editConvItem = function(index) {
     radioButton.checked = true;
   }
   
+  // Update bubble preview
+  if (typeof updateConvBubblePreview === 'function') {
+    updateConvBubblePreview();
+  }
+  
   // Scroll to form
   document.getElementById('conv-eng').scrollIntoView({ behavior: 'smooth', block: 'center' });
 };
@@ -909,19 +754,19 @@ window.saveConvItem = function() {
   
   // Detailed validation with specific error messages
   if (!eng) {
-    alert('⚠️ Teks Bahasa Inggris belum diisi!');
+    showDbToast('⚠️ Teks Bahasa Inggris belum diisi!', 'warning');
     document.getElementById('conv-eng').focus();
     return;
   }
   
   if (!ind) {
-    alert('⚠️ Terjemahan Indonesia belum diisi!');
+    showDbToast('⚠️ Terjemahan Indonesia belum diisi!', 'warning');
     document.getElementById('conv-ind').focus();
     return;
   }
   
   if (!selectedAvatar) {
-    alert('⚠️ Avatar Emoji belum dipilih!\n\nPilih salah satu emoji dari grid yang tersedia.');
+    showDbToast('⚠️ Avatar Emoji belum dipilih! Pilih salah satu emoji dari grid yang tersedia.', 'warning');
     return;
   }
   
@@ -929,7 +774,7 @@ window.saveConvItem = function() {
   
   const data = getChallengeDataAdmin();
   if (!data || !data[currentConvGrade]) {
-    alert('❌ Error: Data tidak ditemukan untuk kelas ini!');
+    showDbToast('❌ Error: Data tidak ditemukan untuk kelas ini!', 'error');
     return;
   }
   
@@ -998,12 +843,17 @@ window.resetConvForm = function() {
   if (textResult) {
     textResult.classList.add('hide');
   }
+
+  // Update bubble preview
+  if (typeof updateConvBubblePreview === 'function') {
+    updateConvBubblePreview();
+  }
 };
 
 window.testConvSpeech = function() {
   const eng = document.getElementById('conv-eng').value.trim();
   if (!eng) {
-    alert('Masukkan teks bahasa Inggris terlebih dahulu!');
+    showDbToast('Masukkan teks bahasa Inggris terlebih dahulu!', 'warning');
     return;
   }
   speakEnglish(eng);
@@ -1042,7 +892,7 @@ window.useManualVocabEmoji = function() {
   const emoji = manualInput.value.trim();
   
   if (!emoji) {
-    alert('⚠️ Ketik emoji terlebih dahulu!');
+    showDbToast('⚠️ Ketik emoji terlebih dahulu!', 'warning');
     manualInput.focus();
     return;
   }
@@ -1087,7 +937,7 @@ window.useManualConvAvatar = function() {
   const emoji = manualInput.value.trim();
   
   if (!emoji) {
-    alert('⚠️ Ketik emoji terlebih dahulu!');
+    showDbToast('⚠️ Ketik emoji terlebih dahulu!', 'warning');
     manualInput.focus();
     return;
   }
@@ -1283,7 +1133,7 @@ function applyVocabBrightnessContrast() {
 
 window.applyVocabFilter = function(type) {
   if (!vocabOriginalImage || !vocabCurrentImageState) {
-    alert('Upload gambar terlebih dahulu!');
+    showDbToast('Upload gambar terlebih dahulu!', 'warning');
     return;
   }
   
@@ -1333,7 +1183,7 @@ window.resetVocabImageFilters = function() {
 
 window.applyVocabWatermark = function() {
   if (!vocabOriginalImage || !vocabCurrentImageState) {
-    alert('Upload gambar terlebih dahulu!');
+    showDbToast('Upload gambar terlebih dahulu!', 'warning');
     return;
   }
   
@@ -1364,7 +1214,7 @@ window.applyVocabWatermark = function() {
 
 window.applyVocabCompression = function() {
   if (!vocabOriginalImage || !vocabCurrentImageState) {
-    alert('Upload gambar terlebih dahulu!');
+    showDbToast('Upload gambar terlebih dahulu!', 'warning');
     return;
   }
   
@@ -1527,7 +1377,7 @@ window.processConvAudio = function() {
 window.compressConvTextRLE = function() {
   const text = document.getElementById('conv-eng').value;
   if (!text) {
-    alert('Masukkan teks terlebih dahulu!');
+    showDbToast('Masukkan teks terlebih dahulu!', 'warning');
     return;
   }
   
@@ -1549,7 +1399,7 @@ window.compressConvTextRLE = function() {
 window.compressConvTextHuffman = function() {
   const text = document.getElementById('conv-eng').value;
   if (!text) {
-    alert('Masukkan teks terlebih dahulu!');
+    showDbToast('Masukkan teks terlebih dahulu!', 'warning');
     return;
   }
   
@@ -1561,7 +1411,7 @@ window.compressConvTextHuffman = function() {
 window.encryptConvTextXOR = function() {
   const text = document.getElementById('conv-eng').value;
   if (!text) {
-    alert('Masukkan teks terlebih dahulu!');
+    showDbToast('Masukkan teks terlebih dahulu!', 'warning');
     return;
   }
   
@@ -1598,7 +1448,7 @@ function showConvTextResult(output, origSize, procSize) {
 // Shared speech synthesis helper
 function speakEnglish(text) {
   if (!("speechSynthesis" in window)) {
-    alert("Browser Anda tidak mendukung sintesis suara pelafalan.");
+    console.log("Browser tidak support speech synthesis");
     return;
   }
   
@@ -1949,7 +1799,7 @@ window.saveQuestionForm = function(event) {
   const ansIndex = parseInt(document.getElementById('form-answer').value);
 
   if (!question || !opt0 || !opt1 || !opt2 || !opt3 || isNaN(ansIndex)) {
-    alert('Mohon lengkapi semua field!');
+    showDbToast('Mohon lengkapi semua field!', 'warning');
     return;
   }
 
@@ -1958,7 +1808,7 @@ window.saveQuestionForm = function(event) {
 
   const data = getChallengeDataAdmin();
   if (!data || !data[currentQuizGrade]) {
-    alert('Data grade tidak ditemukan!');
+    showDbToast('Data grade tidak ditemukan!', 'error');
     return;
   }
   
@@ -2007,7 +1857,7 @@ window.resetDefaultQuestions = function() {
   if (!confirm('Apakah Anda yakin ingin mengembalikan semua soal quiz ke setelan awal pabrik? Seluruh penyesuaian Anda akan terhapus.')) return;
   
   localStorage.removeItem('funlish_challenge_data');
-  alert('Bank data soal quiz berhasil direset!');
+  showDbToast('Bank data soal quiz berhasil direset!', 'success');
   location.reload();
 };
 
@@ -2019,5 +1869,433 @@ function showDbToast(message, type) {
   } else {
     console.error('❌ ' + message);
   }
-  alert(message);
+  console.log(message);
+}
+
+/* ==========================================================================
+   NEW QUIZ MANAGEMENT FUNCTIONS (Card-based UI)
+   ========================================================================== */
+
+// Render quiz list in card format (similar to vocabulary)
+function renderQuizList() {
+  const container = document.getElementById('quiz-list-container');
+  if (!container) return;
+
+  const data = getChallengeDataAdmin();
+  if (!data || !data[currentQuizGrade]) {
+    container.innerHTML = `
+      <div class="empty-state" style="text-align: center; padding: 60px 20px;">
+        <i class="fa-solid fa-clipboard-question" style="font-size: 4rem; color: #cbd5e1; margin-bottom: 20px;"></i>
+        <h3 style="color: #64748b; margin-bottom: 12px;">Belum Ada Soal Quiz</h3>
+        <p style="color: #94a3b8;">Mulai tambahkan soal quiz menggunakan form di sebelah kiri.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const questions = data[currentQuizGrade].level3.questions;
+  
+  if (!questions || questions.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state" style="text-align: center; padding: 60px 20px;">
+        <i class="fa-solid fa-clipboard-question" style="font-size: 4rem; color: #cbd5e1; margin-bottom: 20px;"></i>
+        <h3 style="color: #64748b; margin-bottom: 12px;">Belum Ada Soal Quiz</h3>
+        <p style="color: #94a3b8;">Mulai tambahkan soal quiz menggunakan form di sebelah kiri.</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Update count badge
+  const countBadge = document.getElementById('quiz-count-badge');
+  if (countBadge) {
+    countBadge.textContent = `${questions.length} Soal`;
+  }
+
+  // Update grade badge
+  const gradeBadge = document.getElementById('quiz-grade-badge');
+  if (gradeBadge) {
+    gradeBadge.textContent = `Kelas ${currentQuizGrade}`;
+  }
+
+  let html = '<div style="display: flex; flex-direction: column; gap: 16px;">';
+  
+  questions.forEach((q, index) => {
+    const correctAnswer = String.fromCharCode(65 + q.answer); // 0->A, 1->B, etc.
+    
+    html += `
+      <div class="quiz-card" style="background: white; border: 2px solid #e2ecd9; border-radius: 16px; padding: 20px; transition: all 0.2s;">
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+          <div style="flex: 1;">
+            <div style="display: inline-block; background: #1cb0f6; color: white; padding: 4px 12px; border-radius: 99px; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px;">
+              Soal #${index + 1}
+            </div>
+            <h4 style="color: #1e293b; font-size: 1.1rem; margin-bottom: 12px; line-height: 1.5;">${q.question}</h4>
+          </div>
+          <div style="display: flex; gap: 8px; margin-left: 12px;">
+            <button onclick="editQuizItem(${index})" style="background: transparent; border: none; color: #1cb0f6; cursor: pointer; font-size: 1.1rem; padding: 8px;" title="Edit">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button onclick="deleteQuizItem(${index})" style="background: transparent; border: none; color: #ff6b6b; cursor: pointer; font-size: 1.1rem; padding: 8px;" title="Hapus">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+          ${q.options.map((opt, i) => {
+            const letter = String.fromCharCode(65 + i);
+            const isCorrect = i === q.answer;
+            return `
+              <div style="padding: 8px 12px; background: ${isCorrect ? '#dcfce7' : '#f9fafb'}; border: 2px solid ${isCorrect ? '#10b981' : '#e2ecd9'}; border-radius: 8px; font-size: 0.9rem;">
+                <strong style="color: ${isCorrect ? '#10b981' : '#64748b'};">${letter}.</strong> ${opt}
+                ${isCorrect ? '<i class="fa-solid fa-check-circle" style="color: #10b981; margin-left: 8px;"></i>' : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px dashed #e2ecd9;">
+          <span style="color: #64748b; font-size: 0.85rem;">
+            <i class="fa-solid fa-check-circle" style="color: #10b981;"></i> Jawaban: <strong>${correctAnswer}</strong>
+          </span>
+          <span style="background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 99px; font-size: 0.8rem; font-weight: 700;">
+            <i class="fa-solid fa-star"></i> 10 Poin
+          </span>
+        </div>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// Save quiz item from form
+window.saveQuizItem = function() {
+  const question = document.getElementById('quiz-question').value.trim();
+  const optionA = document.getElementById('quiz-option-a').value.trim();
+  const optionB = document.getElementById('quiz-option-b').value.trim();
+  const optionC = document.getElementById('quiz-option-c').value.trim();
+  const optionD = document.getElementById('quiz-option-d').value.trim();
+  const correct = document.getElementById('quiz-correct').value;
+  const editIndex = document.getElementById('quiz-edit-index').value;
+
+  if (!question || !optionA || !optionB || !optionC || !optionD) {
+    showDbToast('Mohon isi semua field!', 'error');
+    return;
+  }
+
+  const data = getChallengeDataAdmin();
+  if (!data || !data[currentQuizGrade]) {
+    showDbToast('Data grade tidak ditemukan!', 'error');
+    return;
+  }
+
+  const questions = data[currentQuizGrade].level3.questions;
+  const options = [optionA, optionB, optionC, optionD];
+  const answerIndex = { a: 0, b: 1, c: 2, d: 3 }[correct];
+
+  const questionObj = {
+    question: question,
+    options: options,
+    answer: answerIndex
+  };
+
+  if (editIndex !== '' && editIndex !== '-1') {
+    // Edit existing
+    questions[parseInt(editIndex)] = questionObj;
+    showDbToast('Soal quiz berhasil diupdate!', 'success');
+  } else {
+    // Add new
+    questions.push(questionObj);
+    showDbToast('Soal quiz berhasil ditambahkan!', 'success');
+  }
+
+  if (saveChallengeDataAdmin(data)) {
+    renderQuizList();
+    resetQuizForm();
+  } else {
+    showDbToast('Gagal menyimpan soal!', 'error');
+  }
+};
+
+// Edit quiz item
+window.editQuizItem = function(index) {
+  const data = getChallengeDataAdmin();
+  if (!data || !data[currentQuizGrade]) return;
+
+  const q = data[currentQuizGrade].level3.questions[index];
+  if (!q) return;
+
+  document.getElementById('quiz-question').value = q.question;
+  document.getElementById('quiz-option-a').value = q.options[0];
+  document.getElementById('quiz-option-b').value = q.options[1];
+  document.getElementById('quiz-option-c').value = q.options[2];
+  document.getElementById('quiz-option-d').value = q.options[3];
+  
+  const correctLetter = ['a', 'b', 'c', 'd'][q.answer];
+  document.getElementById('quiz-correct').value = correctLetter;
+  
+  document.getElementById('quiz-edit-index').value = index;
+
+  // Update preview
+  updateQuizPreview();
+
+  // Scroll to form
+  document.querySelector('.sidebar-controls').scrollIntoView({ behavior: 'smooth' });
+};
+
+// Delete quiz item
+window.deleteQuizItem = function(index) {
+  if (!confirm('Apakah Anda yakin ingin menghapus soal ini?')) return;
+
+  const data = getChallengeDataAdmin();
+  if (!data || !data[currentQuizGrade]) return;
+
+  const questions = data[currentQuizGrade].level3.questions;
+  questions.splice(index, 1);
+
+  if (saveChallengeDataAdmin(data)) {
+    showDbToast('Soal berhasil dihapus!', 'success');
+    renderQuizList();
+  } else {
+    showDbToast('Gagal menghapus soal!', 'error');
+  }
+};
+
+// Reset quiz form
+window.resetQuizForm = function() {
+  document.getElementById('quiz-question').value = '';
+  document.getElementById('quiz-option-a').value = '';
+  document.getElementById('quiz-option-b').value = '';
+  document.getElementById('quiz-option-c').value = '';
+  document.getElementById('quiz-option-d').value = '';
+  document.getElementById('quiz-correct').value = 'a';
+  document.getElementById('quiz-edit-index').value = '-1';
+  
+  // Update preview
+  updateQuizPreview();
+};
+
+// Toggle quiz encryption (placeholder for now)
+window.toggleQuizEncryption = function() {
+  const btn = document.getElementById('quiz-encrypt-text');
+  if (btn.textContent === 'Aktifkan Enkripsi') {
+    btn.textContent = 'Nonaktifkan Enkripsi';
+    showDbToast('Enkripsi jawaban diaktifkan!', 'success');
+  } else {
+    btn.textContent = 'Aktifkan Enkripsi';
+    showDbToast('Enkripsi jawaban dinonaktifkan!', 'success');
+  }
+};
+
+// Update loadQuizGrade to use new render function
+window.loadQuizGrade = function(grade) {
+  console.log(`📝 Loading quiz for grade ${grade}...`);
+  currentQuizGrade = grade;
+  renderQuizList();
+  
+  // Setup preview listeners after content is loaded
+  setTimeout(setupQuizPreviewListeners, 100);
+};
+
+// Setup event listeners for live preview
+function setupQuizPreviewListeners() {
+  const fields = [
+    'quiz-question',
+    'quiz-option-a',
+    'quiz-option-b',
+    'quiz-option-c',
+    'quiz-option-d',
+    'quiz-correct'
+  ];
+
+  fields.forEach(fieldId => {
+    const element = document.getElementById(fieldId);
+    if (element) {
+      element.addEventListener('input', updateQuizPreview);
+      element.addEventListener('change', updateQuizPreview);
+    }
+  });
+
+  // Initial preview
+  updateQuizPreview();
+}
+
+// Update quiz preview in real-time
+function updateQuizPreview() {
+  const previewContent = document.getElementById('quiz-preview-content');
+  if (!previewContent) return;
+
+  const question = document.getElementById('quiz-question')?.value.trim() || '';
+  const optionA = document.getElementById('quiz-option-a')?.value.trim() || '';
+  const optionB = document.getElementById('quiz-option-b')?.value.trim() || '';
+  const optionC = document.getElementById('quiz-option-c')?.value.trim() || '';
+  const optionD = document.getElementById('quiz-option-d')?.value.trim() || '';
+  const correct = document.getElementById('quiz-correct')?.value || 'a';
+
+  // If all fields are empty, show empty state
+  if (!question && !optionA && !optionB && !optionC && !optionD) {
+    previewContent.innerHTML = `
+      <div class="empty-state" style="text-align: center; padding: 40px 20px;">
+        <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 16px;"></i>
+        <h4 style="color: #64748b; margin-bottom: 8px;">Preview Soal</h4>
+        <p style="color: #94a3b8; font-size: 0.9rem;">Isi form di sebelah kiri untuk melihat preview soal quiz</p>
+      </div>
+    `;
+    
+    // Reset parent container style
+    previewContent.style.padding = '24px';
+    previewContent.style.background = 'transparent';
+    return;
+  }
+
+  const answerIndex = { a: 0, b: 1, c: 2, d: 3 }[correct];
+  const options = [optionA, optionB, optionC, optionD];
+  const correctLetter = correct.toUpperCase();
+
+  // Set background gradient on parent
+  previewContent.style.padding = '0';
+  previewContent.style.background = 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)';
+
+  previewContent.innerHTML = `
+    <div style="padding: 24px;">
+      <div style="background: white; border: 2px solid #bae6fd; border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        <div style="display: inline-block; background: #0284c7; color: white; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; font-weight: 700; margin-bottom: 16px; box-shadow: 0 3px 0 #0369a1;">
+          <i class="fa-solid fa-eye"></i> Preview
+        </div>
+        
+        <h4 style="color: #0c4a6e; font-size: 1.15rem; margin-bottom: 16px; line-height: 1.6; font-family: 'Fredoka', sans-serif;">
+          ${question || '<span style="color: #94a3b8; font-style: italic;">Pertanyaan belum diisi...</span>'}
+        </h4>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+          ${options.map((opt, i) => {
+            const letter = String.fromCharCode(65 + i);
+            const isCorrect = i === answerIndex;
+            const isEmpty = !opt;
+            
+            return `
+              <div style="padding: 12px 16px; background: ${isCorrect ? '#dcfce7' : '#f9fafb'}; border: 2px solid ${isCorrect ? '#10b981' : '#e0f2fe'}; border-radius: 12px; font-size: 0.95rem; transition: all 0.2s; ${isEmpty ? 'opacity: 0.5;' : ''}">
+                <strong style="color: ${isCorrect ? '#10b981' : '#0284c7'}; font-family: 'Fredoka', sans-serif;">${letter}.</strong> 
+                ${opt || `<span style="color: #cbd5e1; font-style: italic;">Pilihan ${letter}</span>`}
+                ${isCorrect && opt ? '<i class="fa-solid fa-check-circle" style="color: #10b981; margin-left: 8px; float: right;"></i>' : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 2px dashed #e0f2fe;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="background: #dcfce7; color: #10b981; padding: 6px 12px; border-radius: 99px; font-size: 0.85rem; font-weight: 700;">
+              <i class="fa-solid fa-check-circle"></i> Jawaban Benar: ${correctLetter}
+            </span>
+          </div>
+          <span style="background: #fef3c7; color: #d97706; padding: 6px 14px; border-radius: 99px; font-size: 0.85rem; font-weight: 700;">
+            <i class="fa-solid fa-star"></i> 10 Poin
+          </span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ==========================================================================
+   CONVERSATION BUBBLE LIVE PREVIEW
+   ========================================================================== */
+
+// Setup event listeners for conversation bubble live preview
+function setupConvBubblePreviewListeners() {
+  const fields = ['conv-eng', 'conv-ind'];
+  
+  fields.forEach(fieldId => {
+    const element = document.getElementById(fieldId);
+    if (element) {
+      element.addEventListener('input', updateConvBubblePreview);
+      element.addEventListener('change', updateConvBubblePreview);
+    }
+  });
+
+  // Listen to avatar selection
+  document.querySelectorAll('input[name="conv-avatar"]').forEach(radio => {
+    radio.addEventListener('change', updateConvBubblePreview);
+  });
+
+  // Listen to speaker selection
+  const speakerSelect = document.getElementById('conv-speaker');
+  if (speakerSelect) {
+    speakerSelect.addEventListener('change', updateConvBubblePreview);
+  }
+
+  // Initial preview
+  updateConvBubblePreview();
+}
+
+// Update conversation bubble preview in real-time
+function updateConvBubblePreview() {
+  const previewContent = document.getElementById('conv-bubble-preview');
+  if (!previewContent) return;
+
+  const eng = document.getElementById('conv-eng')?.value.trim() || '';
+  const ind = document.getElementById('conv-ind')?.value.trim() || '';
+  
+  // Get selected avatar
+  let avatar = '👤';
+  const selectedAvatar = document.querySelector('input[name="conv-avatar"]:checked');
+  if (selectedAvatar) {
+    avatar = selectedAvatar.value;
+  }
+
+  // Get speaker type
+  const speaker = document.getElementById('conv-speaker')?.value || 'male';
+  const speakerIcon = speaker === 'male' ? '♂️' : '♀️';
+  const speakerColor = speaker === 'male' ? '#3b82f6' : '#ec4899';
+
+  // If all fields are empty, show empty state
+  if (!eng && !ind) {
+    previewContent.innerHTML = `
+      <div class="empty-state" style="text-align: center; padding: 40px 20px;">
+        <i class="fa-solid fa-comments" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 16px;"></i>
+        <h4 style="color: #64748b; margin-bottom: 8px;">Preview Bubble Chat</h4>
+        <p style="color: #94a3b8; font-size: 0.9rem;">Isi form di sebelah kiri untuk melihat preview chat bubble</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Render bubble chat preview
+  previewContent.innerHTML = `
+    <div style="max-width: 600px; margin: 0 auto;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+        <span style="background: ${speakerColor}; color: white; padding: 4px 12px; border-radius: 99px; font-size: 0.75rem; font-weight: 700;">
+          ${speakerIcon} ${speaker === 'male' ? 'Laki-laki' : 'Perempuan'}
+        </span>
+        <span style="background: #e0f2fe; color: #0284c7; padding: 4px 12px; border-radius: 99px; font-size: 0.75rem; font-weight: 700;">
+          <i class="fa-solid fa-eye"></i> Preview
+        </span>
+      </div>
+
+      <div class="chat-bubble left" style="display: flex; gap: 12px; align-items: flex-start; max-width: 100%;">
+        <div class="chat-avatar" style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-size: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3); flex-shrink: 0;">
+          ${avatar}
+        </div>
+        <div class="chat-text-wrapper" style="background: white; padding: 16px 20px; border-radius: 20px; border-top-left-radius: 4px; max-width: calc(100% - 62px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #e0f2fe; word-wrap: break-word; overflow-wrap: break-word;">
+          <div class="chat-eng" style="font-size: 1.05rem; font-weight: 700; color: #0c4a6e; display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; font-family: 'Fredoka', sans-serif; word-wrap: break-word; overflow-wrap: break-word;">
+            <span style="flex: 1; word-break: break-word;">
+              ${eng || '<span style="color: #cbd5e1; font-style: italic;">Teks bahasa Inggris...</span>'}
+            </span>
+            ${eng ? '<button style="background: transparent; border: none; color: #0284c7; cursor: pointer; font-size: 0.9rem; flex-shrink: 0; padding: 0; margin-top: 2px;"><i class="fa-solid fa-volume-high"></i></button>' : ''}
+          </div>
+          ${ind ? `<div class="chat-ind" style="font-size: 0.9rem; color: #64748b; font-style: italic; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word;">${ind}</div>` : '<div style="font-size: 0.9rem; color: #cbd5e1; font-style: italic;">Terjemahan Indonesia...</div>'}
+        </div>
+      </div>
+
+      <div style="margin-top: 12px; text-align: center;">
+        <span style="background: #dcfce7; color: #10b981; padding: 6px 14px; border-radius: 99px; font-size: 0.8rem; font-weight: 700;">
+          <i class="fa-solid fa-check-circle"></i> Bubble chat siap ditambahkan
+        </span>
+      </div>
+    </div>
+  `;
 }
