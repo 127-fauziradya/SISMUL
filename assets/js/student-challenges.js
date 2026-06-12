@@ -263,7 +263,10 @@ async function startLevel(level) {
       data.level1.items.forEach(item => {
         const card = document.createElement("div");
         card.className = "vocab-card";
-        card.onclick = () => speakEnglish(item.eng);
+        
+        // Prioritize uploaded audio if exists, otherwise use TTS
+        const audioData = (item.audioType === 'upload' && item.audioData) ? item.audioData : null;
+        card.onclick = () => speakEnglish(item.eng, audioData);
         
         // Check if item has imageData (image mode) or just emoji
         const iconHtml = item.imageData 
@@ -290,21 +293,30 @@ async function startLevel(level) {
       const dialogContainer = document.getElementById("challenge-dialog-container");
       dialogContainer.innerHTML = "";
 
-      data.level2.items.forEach(bubble => {
+      data.level2.items.forEach((bubble, index) => {
         const chat = document.createElement("div");
         chat.className = `chat-bubble ${bubble.side}`;
+        
+        // Store audio data for this bubble
+        const audioData = (bubble.audioType === 'upload' && bubble.audioData) ? bubble.audioData : null;
+        
         chat.innerHTML = `
           <div class="chat-avatar">${bubble.avatar}</div>
           <div class="chat-text-wrapper">
             <div class="chat-eng">
               <span>${bubble.eng}</span>
-              <button class="chat-speech-btn" onclick="speakEnglish('${bubble.eng.replace(/'/g, "\\'")}')" title="Dengarkan Suara">
+              <button class="chat-speech-btn" data-bubble-index="${index}" title="Dengarkan Suara">
                 <i class="fa-solid fa-volume-high"></i>
               </button>
             </div>
             <div class="chat-ind">${bubble.ind}</div>
           </div>
         `;
+        
+        // Add click listener to speech button with proper audio data
+        const speechBtn = chat.querySelector('.chat-speech-btn');
+        speechBtn.onclick = () => speakEnglish(bubble.eng, audioData);
+        
         dialogContainer.appendChild(chat);
       });
 
@@ -445,7 +457,28 @@ function retryLevelQuiz() {
 }
 
 // Shared browser speech synthesizer helper
-function speakEnglish(text) {
+function speakEnglish(text, audioData = null) {
+  // If custom uploaded audio exists, prioritize it
+  if (audioData) {
+    try {
+      const audio = new Audio(audioData);
+      audio.play().catch(err => {
+        console.error('Error playing uploaded audio:', err);
+        // Fallback to TTS if uploaded audio fails
+        speakEnglishTTS(text);
+      });
+      return;
+    } catch (err) {
+      console.error('Error with uploaded audio:', err);
+      // Fallback to TTS
+    }
+  }
+  
+  // Default: use TTS
+  speakEnglishTTS(text);
+}
+
+function speakEnglishTTS(text) {
   if (!("speechSynthesis" in window)) {
     alert("Browser Anda tidak mendukung sintesis suara pelafalan.");
     return;

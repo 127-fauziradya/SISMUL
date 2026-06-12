@@ -310,10 +310,35 @@
       const alertBox = document.getElementById("error-alert");
       const alertText = document.getElementById("error-text");
 
+      // Get admins from localStorage
+      const adminsData = localStorage.getItem('funlish_admins');
+      let admins = [];
+      
+      // Initialize default admin if not exists
+      if (!adminsData) {
+        admins = [
+          {
+            username: 'admin',
+            password: 'admin123',
+            fullname: 'Administrator Utama',
+            email: 'admin@funlish.com',
+            isMain: true
+          }
+        ];
+        localStorage.setItem('funlish_admins', JSON.stringify(admins));
+      } else {
+        admins = JSON.parse(adminsData);
+      }
+
+      // Find matching admin
+      const admin = admins.find(a => a.username === user);
+
       // Validate credentials
-      if (user === "admin" && pass === "admin123") {
+      if (admin && admin.password === pass) {
         // Save session in sessionStorage (expires when browser window is closed)
         sessionStorage.setItem("funlish_admin_logged_in", "true");
+        sessionStorage.setItem("funlish_admin_username", user);
+        sessionStorage.setItem("funlish_admin_fullname", admin.fullname || user);
         
         // Hide alerts and redirect
         alertBox.classList.add("hide");
@@ -327,7 +352,7 @@
         alertBox.offsetHeight; /* trigger reflow */
         alertBox.style.animation = null; 
         
-        if (user !== "admin") {
+        if (!admin) {
           alertText.textContent = "Username salah atau tidak terdaftar!";
         } else {
           alertText.textContent = "Password yang Anda masukkan salah!";

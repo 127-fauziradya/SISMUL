@@ -105,6 +105,35 @@
             <input type="text" id="vocab-ind" placeholder="Contoh: Selamat Pagi" />
           </div>
 
+          <!-- Audio Type Selection -->
+          <div class="form-group">
+            <label for="vocab-audio-type">Audio Pelafalan:</label>
+            <select id="vocab-audio-type" onchange="toggleVocabAudioType()">
+              <option value="api">Text-to-Speech API</option>
+              <option value="upload">Upload Audio Manual</option>
+            </select>
+          </div>
+
+          <!-- API Mode: Test Speech Button -->
+          <div class="form-group" id="vocab-audio-api-group">
+            <button class="btn btn-warning w-full" onclick="testVocabSpeech()">
+              <i class="fa-solid fa-volume-high"></i> Test Pelafalan dengan API
+            </button>
+          </div>
+
+          <!-- Upload Mode: File Input -->
+          <div class="form-group hide" id="vocab-audio-upload-group">
+            <label>Upload File Audio (.mp3, .wav):</label>
+            <div class="file-upload-zone" onclick="document.getElementById('vocab-audio-input').click()" style="padding: 20px; cursor: pointer;">
+              <i class="fa-solid fa-file-audio"></i>
+              <p id="vocab-audio-filename">Belum ada file dipilih</p>
+              <input type="file" id="vocab-audio-input" accept="audio/*" class="hide" onchange="handleVocabAudioUpload()" />
+            </div>
+            <button class="btn btn-warning w-full mt-5" onclick="testVocabUploadedAudio()" id="btn-test-vocab-audio">
+              <i class="fa-solid fa-play"></i> Test Audio yang Diupload
+            </button>
+          </div>
+
           <!-- Emoji Mode -->
           <div class="form-group" id="vocab-emoji-group">
             <label>Emoji (Ikon Visual):</label>
@@ -651,11 +680,14 @@
 
           <!-- Upload Audio Mode -->
           <div class="form-group hide" id="conv-upload-group">
-            <div class="file-upload-zone" id="conv-audio-dropzone">
+            <div class="file-upload-zone" id="conv-audio-dropzone" onclick="document.getElementById('conv-audio-input').click()">
               <i class="fa-solid fa-cloud-arrow-up"></i>
               <p>Upload audio (.mp3/.wav)</p>
-              <input type="file" id="conv-audio-input" accept="audio/*" class="hide" />
+              <input type="file" id="conv-audio-input" accept="audio/*" class="hide" onchange="handleConvAudioUploadDirect()" />
             </div>
+            <button class="btn btn-warning w-full mt-5" onclick="testConvUploadedAudio()">
+              <i class="fa-solid fa-play"></i> Test Audio yang Diupload
+            </button>
           </div>
         </div>
 
@@ -707,13 +739,13 @@
       <!-- Main Display: Conversation Preview -->
       <section class="main-display">
         <!-- Live Preview Card -->
-        <div class="vocab-list-card card" style="margin-bottom: 24px;">
+        <div class="vocab-list-card card" style="margin-bottom: 24px; overflow: hidden;">
           <div class="display-header">
             <h3><i class="fa-solid fa-wand-magic-sparkles"></i> Preview Bubble Chat</h3>
             <span class="tech-badge" style="background: #fef3c7; color: #d97706;">Live Preview</span>
           </div>
-          <div style="padding: 0; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); min-height: 200px;">
-            <div id="conv-bubble-preview" style="padding: 24px;">
+          <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); min-height: 200px; width: 100%; margin: 0; padding: 0;">
+            <div id="conv-bubble-preview" style="padding: 24px; width: 100%; box-sizing: border-box;">
               <div class="empty-state" style="text-align: center; padding: 40px 20px;">
                 <i class="fa-solid fa-comments" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 16px;"></i>
                 <h4 style="color: #64748b; margin-bottom: 8px;">Preview Bubble Chat</h4>
@@ -1066,13 +1098,13 @@
       <!-- Main Display: Quiz List -->
       <section class="main-display">
         <!-- Quiz Preview Card -->
-        <div class="vocab-list-card card" id="quiz-preview-card" style="margin-bottom: 24px;">
+        <div class="vocab-list-card card" id="quiz-preview-card" style="margin-bottom: 24px; overflow: hidden;">
           <div class="display-header">
             <h3><i class="fa-solid fa-eye"></i> Preview Soal Quiz</h3>
             <span class="tech-badge" style="background: #fef3c7; color: #d97706;">Live Preview</span>
           </div>
-          <div style="padding: 0;">
-            <div id="quiz-preview-content" style="padding: 24px;">
+          <div style="width: 100%; margin: 0; padding: 0;">
+            <div id="quiz-preview-content" style="padding: 24px; width: 100%; box-sizing: border-box;">
               <div class="empty-state" style="text-align: center; padding: 40px 20px;">
                 <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 16px;"></i>
                 <h4 style="color: #64748b; margin-bottom: 8px;">Preview Soal</h4>
@@ -1097,6 +1129,72 @@
                 <p style="color: #94a3b8;">Mulai tambahkan soal quiz menggunakan form di sebelah kiri.</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ==================== KELOLA ADMIN TAB ==================== -->
+  <div id="tab-kelola-admin" class="tab-panel">
+    <div class="section-header">
+      <h2><i class="fa-solid fa-users-gear"></i> Kelola Data Administrator</h2>
+      <p>Manage admin accounts. Admin utama (username: admin) tidak dapat diubah atau dihapus.</p>
+    </div>
+
+    <div class="workspace-grid">
+      <!-- Form Panel -->
+      <aside class="panel card">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-user-plus"></i> Tambah/Edit Admin</h3>
+        </div>
+        <div class="panel-body">
+          <input type="hidden" id="admin-edit-index" value="-1" />
+          
+          <div class="info-box warning">
+            <strong>Perhatian:</strong> Admin utama (username: admin, password: admin123) tidak dapat diubah atau dihapus.
+          </div>
+
+          <div class="form-group">
+            <label for="admin-username">Username:</label>
+            <input type="text" id="admin-username" placeholder="Masukkan username" />
+          </div>
+
+          <div class="form-group">
+            <label for="admin-password">Password:</label>
+            <input type="password" id="admin-password" placeholder="Masukkan password" />
+          </div>
+
+          <div class="form-group">
+            <label for="admin-fullname">Nama Lengkap:</label>
+            <input type="text" id="admin-fullname" placeholder="Contoh: Budi Santoso" />
+          </div>
+
+          <div class="form-group">
+            <label for="admin-email">Email:</label>
+            <input type="email" id="admin-email" placeholder="Contoh: budi@example.com" />
+          </div>
+
+          <div class="button-group">
+            <button class="btn btn-primary" onclick="saveAdmin()">
+              <i class="fa-solid fa-save"></i> Simpan Admin
+            </button>
+            <button class="btn btn-secondary" onclick="resetAdminForm()">
+              <i class="fa-solid fa-times"></i> Batal
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- List Panel -->
+      <section class="panel card">
+        <div class="panel-header">
+          <h3><i class="fa-solid fa-list"></i> Daftar Administrator</h3>
+          <span class="tech-badge" id="admin-count-badge">0 Admin</span>
+        </div>
+        <div class="panel-body" style="overflow-y: auto; max-height: 600px;">
+          <div id="admin-list-container">
+            <!-- Filled by JavaScript -->
           </div>
         </div>
       </section>

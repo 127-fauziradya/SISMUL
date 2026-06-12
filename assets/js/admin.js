@@ -230,6 +230,12 @@ window.switchAdminTab = function(tabId) {
         initConvAudioHandlers();
       }
     }, 100);
+  } else if (tabId === "kelola-admin") {
+    setTimeout(() => {
+      if (typeof loadKelolaAdminTab === 'function') {
+        loadKelolaAdminTab();
+      }
+    }, 100);
   } else if (tabId === "laporan") {
     console.log(`📊 Loading laporan tab...`);
   }
@@ -417,6 +423,20 @@ window.editVocabItem = function(index) {
   document.getElementById('vocab-ind').value = item.ind;
   document.getElementById('vocab-edit-index').value = index;
   
+  // Load audio settings if exists
+  if (item.audioType) {
+    document.getElementById('vocab-audio-type').value = item.audioType;
+    toggleVocabAudioType();
+    
+    if (item.audioType === 'upload' && item.audioData) {
+      vocabAudioBlob = item.audioData;
+      const filenameDisplay = document.getElementById('vocab-audio-filename');
+      if (filenameDisplay) {
+        filenameDisplay.textContent = 'Audio tersimpan (klik test untuk mendengar)';
+      }
+    }
+  }
+  
   // Check if item has imageData (image mode) or emoji
   if (item.imageData) {
     // Switch to image mode
@@ -499,6 +519,19 @@ window.saveVocabItem = function() {
     item.emoji = '🖼️'; // Default icon for image type
   }
   
+  // Add audio type and data
+  const audioType = document.getElementById('vocab-audio-type').value;
+  item.audioType = audioType;
+  
+  if (audioType === 'upload') {
+    if (vocabAudioBlob) {
+      item.audioData = vocabAudioBlob; // Store base64 audio data
+    } else {
+      showDbToast('⚠️ Mohon upload file audio terlebih dahulu!', 'warning');
+      return;
+    }
+  }
+  
   if (editIndex >= 0) {
     // Edit existing
     data[currentVocabGrade].level1.items[editIndex] = item;
@@ -525,6 +558,17 @@ window.resetVocabForm = function() {
   document.querySelectorAll('input[name="vocab-emoji"]').forEach(radio => {
     radio.checked = false;
   });
+  
+  // Reset audio
+  vocabAudioBlob = null;
+  const audioInput = document.getElementById('vocab-audio-input');
+  if (audioInput) audioInput.value = '';
+  const filenameDisplay = document.getElementById('vocab-audio-filename');
+  if (filenameDisplay) filenameDisplay.textContent = 'Belum ada file dipilih';
+  
+  // Reset to API mode
+  document.getElementById('vocab-audio-type').value = 'api';
+  toggleVocabAudioType();
   
   // Reset image canvas
   vocabOriginalImage = null;
@@ -632,39 +676,50 @@ function renderConvPreview() {
     return;
   }
   
-  let html = '';
+  container.innerHTML = ''; // Clear first
+  
   items.forEach((bubble, index) => {
-    html += `
-      <div class="chat-bubble ${bubble.side}" style="position: relative;">
-        <div class="chat-avatar">${bubble.avatar}</div>
-        <div class="chat-text-wrapper">
-          <div class="chat-eng">
-            <span>${bubble.eng}</span>
-            <button class="chat-speech-btn" onclick="speakEnglish('${bubble.eng.replace(/'/g, "\\'")}')">
-              <i class="fa-solid fa-volume-high"></i>
-            </button>
-          </div>
-          <div class="chat-ind">${bubble.ind}</div>
-          <div style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;">
-            <button class="btn btn-secondary btn-sm" onclick="moveConvUp(${index})" ${index === 0 ? 'disabled' : ''} style="font-size: 0.7rem; padding: 3px 8px;">
-              <i class="fa-solid fa-arrow-up"></i> Atas
-            </button>
-            <button class="btn btn-secondary btn-sm" onclick="moveConvDown(${index})" ${index === items.length - 1 ? 'disabled' : ''} style="font-size: 0.7rem; padding: 3px 8px;">
-              <i class="fa-solid fa-arrow-down"></i> Bawah
-            </button>
-            <button class="btn btn-primary btn-sm" onclick="editConvItem(${index})" style="font-size: 0.7rem; padding: 3px 8px;">
-              <i class="fa-solid fa-edit"></i> Edit
-            </button>
-            <button class="btn btn-danger btn-sm" onclick="deleteConvItem(${index})" style="font-size: 0.7rem; padding: 3px 8px;">
-              <i class="fa-solid fa-trash"></i> Hapus
-            </button>
-          </div>
+    const chatDiv = document.createElement('div');
+    chatDiv.className = `chat-bubble ${bubble.side}`;
+    chatDiv.style.position = 'relative';
+    
+    // Check if has uploaded audio
+    const audioData = (bubble.audioType === 'upload' && bubble.audioData) ? bubble.audioData : null;
+    
+    chatDiv.innerHTML = `
+      <div class="chat-avatar">${bubble.avatar}</div>
+      <div class="chat-text-wrapper">
+        <div class="chat-eng">
+          <span>${bubble.eng}</span>
+          <button class="chat-speech-btn" data-bubble-index="${index}">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+        </div>
+        <div class="chat-ind">${bubble.ind}</div>
+        <div style="display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;">
+          <button class="btn btn-secondary btn-sm" onclick="moveConvUp(${index})" ${index === 0 ? 'disabled' : ''} style="font-size: 0.7rem; padding: 3px 8px;">
+            <i class="fa-solid fa-arrow-up"></i> Atas
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="moveConvDown(${index})" ${index === items.length - 1 ? 'disabled' : ''} style="font-size: 0.7rem; padding: 3px 8px;">
+            <i class="fa-solid fa-arrow-down"></i> Bawah
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="editConvItem(${index})" style="font-size: 0.7rem; padding: 3px 8px;">
+            <i class="fa-solid fa-edit"></i> Edit
+          </button>
+          <button class="btn btn-danger btn-sm" onclick="deleteConvItem(${index})" style="font-size: 0.7rem; padding: 3px 8px;">
+            <i class="fa-solid fa-trash"></i> Hapus
+          </button>
         </div>
       </div>
     `;
+    
+    // Attach event listener with proper audio data
+    const speechBtn = chatDiv.querySelector('.chat-speech-btn');
+    speechBtn.onclick = () => speakEnglish(bubble.eng, audioData);
+    
+    container.appendChild(chatDiv);
   });
   
-  container.innerHTML = html;
   console.log('✅ Conversation preview rendered successfully');
 }
 
@@ -679,6 +734,21 @@ window.editConvItem = function(index) {
   document.getElementById('conv-ind').value = item.ind;
   document.getElementById('conv-side').value = item.side;
   document.getElementById('conv-edit-index').value = index;
+  
+  // Load audio settings if exists
+  if (item.audioType) {
+    document.getElementById('conv-audio-type').value = item.audioType;
+    toggleConvAudioType();
+    
+    if (item.audioType === 'upload' && item.audioData) {
+      convAudioBlob = item.audioData;
+      const dropzone = document.getElementById('conv-audio-dropzone');
+      if (dropzone) {
+        const p = dropzone.querySelector('p');
+        if (p) p.textContent = '✓ Audio tersimpan (klik test untuk mendengar)';
+      }
+    }
+  }
   
   // Select the radio button with matching avatar
   const radioButton = document.querySelector(`input[name="conv-avatar"][value="${item.avatar}"]`);
@@ -787,12 +857,13 @@ window.saveConvItem = function() {
     audioType: audioType || 'api' // default to api if not set
   };
   
-  // If upload mode, check if audio file is uploaded (optional - just store info)
+  // If upload mode, save the audio blob data
   if (audioType === 'upload') {
-    const audioInput = document.getElementById('conv-audio-input');
-    if (audioInput && audioInput.files && audioInput.files[0]) {
-      item.audioFileName = audioInput.files[0].name;
-      console.log('Audio file attached:', item.audioFileName);
+    if (convAudioBlob) {
+      item.audioData = convAudioBlob; // Store base64 audio data
+    } else {
+      showDbToast('⚠️ Mohon upload file audio terlebih dahulu untuk mode Upload!', 'warning');
+      return;
     }
   }
   
@@ -829,10 +900,18 @@ window.resetConvForm = function() {
     radio.checked = false;
   });
   
-  // Reset audio input file
+  // Reset audio
+  convAudioBlob = null;
   const audioInput = document.getElementById('conv-audio-input');
   if (audioInput) {
     audioInput.value = '';
+  }
+  
+  // Reset dropzone text
+  const dropzone = document.getElementById('conv-audio-dropzone');
+  if (dropzone) {
+    const p = dropzone.querySelector('p');
+    if (p) p.textContent = 'Upload audio (.mp3/.wav)';
   }
   
   // Reset to API mode
@@ -981,6 +1060,54 @@ window.useManualConvAvatar = function() {
 
 let vocabOriginalImage = null;
 let vocabCurrentImageState = null;
+let vocabAudioBlob = null; // Store uploaded audio for vocabulary
+let convAudioBlob = null; // Store uploaded audio for conversation
+
+window.toggleVocabAudioType = function() {
+  const audioType = document.getElementById('vocab-audio-type').value;
+  const apiGroup = document.getElementById('vocab-audio-api-group');
+  const uploadGroup = document.getElementById('vocab-audio-upload-group');
+  
+  if (audioType === 'api') {
+    apiGroup.classList.remove('hide');
+    uploadGroup.classList.add('hide');
+  } else {
+    apiGroup.classList.add('hide');
+    uploadGroup.classList.remove('hide');
+  }
+};
+
+window.handleVocabAudioUpload = function() {
+  const fileInput = document.getElementById('vocab-audio-input');
+  const filenameDisplay = document.getElementById('vocab-audio-filename');
+  
+  if (fileInput.files && fileInput.files[0]) {
+    const file = fileInput.files[0];
+    filenameDisplay.textContent = file.name;
+    
+    // Store the file as blob
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      vocabAudioBlob = e.target.result; // base64 data URL
+      showDbToast('✅ Audio berhasil diupload!', 'success');
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+window.testVocabUploadedAudio = function() {
+  if (!vocabAudioBlob) {
+    showDbToast('⚠️ Belum ada audio yang diupload!', 'warning');
+    return;
+  }
+  
+  // Play the audio
+  const audio = new Audio(vocabAudioBlob);
+  audio.play().catch(err => {
+    console.error('Error playing audio:', err);
+    showDbToast('❌ Gagal memutar audio!', 'error');
+  });
+};
 
 window.initVocabImageHandlers = function() {
   const fileInput = document.getElementById('vocab-file-input');
@@ -1362,17 +1489,305 @@ window.initConvAudioHandlers = function() {
   }
   
   if (fileInput) {
-    fileInput.addEventListener('change', (e) => {
-      if (e.target.files && e.target.files[0]) {
-        showDbToast('Audio uploaded! (Simulasi - belum diproses)', 'success');
-      }
-    });
+    fileInput.addEventListener('change', handleConvAudioUpload);
   }
 };
 
-window.processConvAudio = function() {
-  showDbToast('Audio DSP processing (Simulasi)', 'success');
+function handleConvAudioUpload(e) {
+  const fileInput = document.getElementById('conv-audio-input');
+  
+  if (fileInput.files && fileInput.files[0]) {
+    const file = fileInput.files[0];
+    
+    // Validate file type
+    if (!file.type.startsWith('audio/')) {
+      showDbToast('⚠️ File harus berupa audio (.mp3, .wav, dll)!', 'warning');
+      return;
+    }
+    
+    // Read file as base64
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      convAudioBlob = event.target.result; // Store base64 data URL
+      showDbToast(`✅ Audio "${file.name}" berhasil diupload!`, 'success');
+      
+      // Update dropzone text
+      const dropzone = document.getElementById('conv-audio-dropzone');
+      if (dropzone) {
+        const p = dropzone.querySelector('p');
+        if (p) p.textContent = `✓ ${file.name}`;
+      }
+    };
+    reader.onerror = function() {
+      showDbToast('❌ Gagal membaca file audio!', 'error');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// Direct handler that can be called from HTML onclick
+window.handleConvAudioUploadDirect = function() {
+  const fileInput = document.getElementById('conv-audio-input');
+  
+  if (!fileInput || !fileInput.files || !fileInput.files[0]) {
+    console.log('No file selected');
+    return;
+  }
+  
+  const file = fileInput.files[0];
+  console.log('File selected:', file.name, file.type);
+  
+  // Validate file type
+  if (!file.type.startsWith('audio/')) {
+    showDbToast('⚠️ File harus berupa audio (.mp3, .wav, dll)!', 'warning');
+    fileInput.value = ''; // Reset
+    return;
+  }
+  
+  // Read file as base64
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    convAudioBlob = event.target.result; // Store base64 data URL
+    showDbToast(`✅ Audio "${file.name}" berhasil diupload!`, 'success');
+    console.log('Audio blob saved, size:', convAudioBlob.length);
+    
+    // Update dropzone text
+    const dropzone = document.getElementById('conv-audio-dropzone');
+    if (dropzone) {
+      const p = dropzone.querySelector('p');
+      if (p) p.textContent = `✓ ${file.name}`;
+    }
+  };
+  reader.onerror = function(error) {
+    console.error('FileReader error:', error);
+    showDbToast('❌ Gagal membaca file audio!', 'error');
+  };
+  reader.readAsDataURL(file);
 };
+
+window.testConvUploadedAudio = function() {
+  console.log('testConvUploadedAudio called, convAudioBlob:', convAudioBlob ? 'EXISTS' : 'NULL');
+  
+  if (!convAudioBlob) {
+    showDbToast('⚠️ Belum ada audio yang diupload!', 'warning');
+    return;
+  }
+  
+  console.log('Playing audio, blob size:', convAudioBlob.length);
+  
+  // Play the audio
+  const audio = new Audio(convAudioBlob);
+  audio.play()
+    .then(() => {
+      console.log('Audio playing successfully');
+      showDbToast('▶️ Memutar audio...', 'success');
+    })
+    .catch(err => {
+      console.error('Error playing audio:', err);
+      showDbToast('❌ Gagal memutar audio!', 'error');
+    });
+};
+
+window.processConvAudio = function() {
+  if (!convAudioBlob) {
+    showDbToast('⚠️ Belum ada audio yang diupload untuk diproses!', 'warning');
+    return;
+  }
+  
+  const filterType = document.getElementById('conv-filter-type').value;
+  const downsample = document.getElementById('conv-audio-crush').checked;
+  const watermark = document.getElementById('conv-audio-watermark').checked;
+  
+  // Show info about what will be applied
+  let effectsMsg = 'Efek DSP yang diterapkan:\n';
+  if (filterType !== 'none') {
+    const filterNames = {
+      'lowpass': 'Low-Pass Filter (Bass)',
+      'highpass': 'High-Pass Filter (Noise Reduction)',
+      'bandpass': 'Band-Pass Filter (Vocal Enhancement)'
+    };
+    effectsMsg += `• ${filterNames[filterType]}\n`;
+  }
+  if (downsample) effectsMsg += '• Downsampling (Compression)\n';
+  if (watermark) effectsMsg += '• Audio Watermark (17kHz tone)\n';
+  
+  if (filterType === 'none' && !downsample && !watermark) {
+    showDbToast('⚠️ Pilih minimal 1 efek untuk diproses!', 'warning');
+    return;
+  }
+  
+  showDbToast('🔄 Memproses audio dengan DSP...', 'info');
+  console.log('Processing audio with:', { filterType, downsample, watermark });
+  
+  // Create audio context
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  
+  // Decode audio data
+  fetch(convAudioBlob)
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+    .then(audioBuffer => {
+      // Create offline context for processing
+      const offlineContext = new OfflineAudioContext(
+        audioBuffer.numberOfChannels,
+        audioBuffer.length,
+        audioBuffer.sampleRate
+      );
+      
+      const source = offlineContext.createBufferSource();
+      source.buffer = audioBuffer;
+      
+      let currentNode = source;
+      
+      // Apply filter
+      if (filterType !== 'none') {
+        const filter = offlineContext.createBiquadFilter();
+        
+        switch(filterType) {
+          case 'lowpass':
+            filter.type = 'lowpass';
+            filter.frequency.value = 800;
+            filter.Q.value = 1;
+            break;
+          case 'highpass':
+            filter.type = 'highpass';
+            filter.frequency.value = 200;
+            filter.Q.value = 1;
+            break;
+          case 'bandpass':
+            filter.type = 'bandpass';
+            filter.frequency.value = 1500;
+            filter.Q.value = 1.5;
+            break;
+        }
+        
+        currentNode.connect(filter);
+        currentNode = filter;
+      }
+      
+      // Apply bit crushing (downsampling simulation)
+      if (downsample) {
+        const crusher = offlineContext.createWaveShaper();
+        const n_samples = 44100;
+        const curve = new Float32Array(n_samples);
+        const step = 4; // Bit reduction factor
+        
+        for (let i = 0; i < n_samples; i++) {
+          const x = (i * 2) / n_samples - 1;
+          curve[i] = Math.round(x * step) / step;
+        }
+        
+        crusher.curve = curve;
+        crusher.oversample = 'none';
+        
+        currentNode.connect(crusher);
+        currentNode = crusher;
+      }
+      
+      // Add watermark tone
+      if (watermark) {
+        const oscillator = offlineContext.createOscillator();
+        const gainNode = offlineContext.createGain();
+        
+        oscillator.type = 'sine';
+        oscillator.frequency.value = 17000; // High frequency
+        gainNode.gain.value = 0.005; // Very quiet
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(offlineContext.destination);
+        oscillator.start(0);
+        oscillator.stop(audioBuffer.duration);
+      }
+      
+      // Connect to destination
+      currentNode.connect(offlineContext.destination);
+      source.start(0);
+      
+      // Render audio
+      return offlineContext.startRendering();
+    })
+    .then(renderedBuffer => {
+      // Convert AudioBuffer to Blob
+      const wav = audioBufferToWav(renderedBuffer);
+      const blob = new Blob([wav], { type: 'audio/wav' });
+      
+      // Convert to base64
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        convAudioBlob = event.target.result;
+        showDbToast('✅ Audio berhasil diproses dengan DSP!', 'success');
+        console.log('Processed audio saved');
+        
+        // Update dropzone text
+        const dropzone = document.getElementById('conv-audio-dropzone');
+        if (dropzone) {
+          const p = dropzone.querySelector('p');
+          if (p) p.textContent = '✓ Audio (DSP: ' + (filterType !== 'none' ? filterType : 'effects') + ')';
+        }
+      };
+      reader.readAsDataURL(blob);
+      
+      audioContext.close();
+    })
+    .catch(error => {
+      console.error('Error processing audio:', error);
+      showDbToast('❌ Gagal memproses audio: ' + error.message, 'error');
+      audioContext.close();
+    });
+};
+
+// Helper function to convert AudioBuffer to WAV
+function audioBufferToWav(buffer) {
+  const numOfChan = buffer.numberOfChannels;
+  const length = buffer.length * numOfChan * 2 + 44;
+  const bufferArray = new ArrayBuffer(length);
+  const view = new DataView(bufferArray);
+  const channels = [];
+  let offset = 0;
+  let pos = 0;
+  
+  // Write WAV header
+  setUint32(0x46464952); // "RIFF"
+  setUint32(length - 8); // file length - 8
+  setUint32(0x45564157); // "WAVE"
+  setUint32(0x20746d66); // "fmt " chunk
+  setUint32(16); // length = 16
+  setUint16(1); // PCM (uncompressed)
+  setUint16(numOfChan);
+  setUint32(buffer.sampleRate);
+  setUint32(buffer.sampleRate * 2 * numOfChan); // avg. bytes/sec
+  setUint16(numOfChan * 2); // block-align
+  setUint16(16); // 16-bit
+  setUint32(0x61746164); // "data" - chunk
+  setUint32(length - pos - 4); // chunk length
+  
+  // Write interleaved data
+  for (let i = 0; i < buffer.numberOfChannels; i++) {
+    channels.push(buffer.getChannelData(i));
+  }
+  
+  while (pos < length - 44) {
+    for (let i = 0; i < numOfChan; i++) {
+      let sample = Math.max(-1, Math.min(1, channels[i][offset]));
+      sample = (sample < 0 ? sample * 0x8000 : sample * 0x7FFF) | 0;
+      view.setInt16(pos, sample, true);
+      pos += 2;
+    }
+    offset++;
+  }
+  
+  return bufferArray;
+  
+  function setUint16(data) {
+    view.setUint16(pos, data, true);
+    pos += 2;
+  }
+  
+  function setUint32(data) {
+    view.setUint32(pos, data, true);
+    pos += 4;
+  }
+}
 
 window.compressConvTextRLE = function() {
   const text = document.getElementById('conv-eng').value;
@@ -1446,7 +1861,28 @@ function showConvTextResult(output, origSize, procSize) {
 }
 
 // Shared speech synthesis helper
-function speakEnglish(text) {
+function speakEnglish(text, audioData = null) {
+  // If custom uploaded audio exists, prioritize it
+  if (audioData) {
+    try {
+      const audio = new Audio(audioData);
+      audio.play().catch(err => {
+        console.error('Error playing uploaded audio:', err);
+        // Fallback to TTS if uploaded audio fails
+        speakEnglishTTS(text);
+      });
+      return;
+    } catch (err) {
+      console.error('Error with uploaded audio:', err);
+      // Fallback to TTS
+    }
+  }
+  
+  // Default: use TTS
+  speakEnglishTTS(text);
+}
+
+function speakEnglishTTS(text) {
   if (!("speechSynthesis" in window)) {
     console.log("Browser tidak support speech synthesis");
     return;
@@ -2147,7 +2583,12 @@ function updateQuizPreview() {
     
     // Reset parent container style
     previewContent.style.padding = '24px';
-    previewContent.style.background = 'transparent';
+    previewContent.style.width = '100%';
+    previewContent.style.boxSizing = 'border-box';
+    previewContent.parentElement.style.background = 'transparent';
+    previewContent.parentElement.style.width = '100%';
+    previewContent.parentElement.style.padding = '0';
+    previewContent.parentElement.style.margin = '0';
     return;
   }
 
@@ -2155,12 +2596,17 @@ function updateQuizPreview() {
   const options = [optionA, optionB, optionC, optionD];
   const correctLetter = correct.toUpperCase();
 
-  // Set background gradient on parent
+  // Set background gradient on parent element
   previewContent.style.padding = '0';
-  previewContent.style.background = 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)';
+  previewContent.style.width = '100%';
+  previewContent.style.boxSizing = 'border-box';
+  previewContent.parentElement.style.background = 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)';
+  previewContent.parentElement.style.width = '100%';
+  previewContent.parentElement.style.padding = '0';
+  previewContent.parentElement.style.margin = '0';
 
   previewContent.innerHTML = `
-    <div style="padding: 24px;">
+    <div style="padding: 24px; width: 100%; box-sizing: border-box;">
       <div style="background: white; border: 2px solid #bae6fd; border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
         <div style="display: inline-block; background: #0284c7; color: white; padding: 5px 14px; border-radius: 99px; font-size: 0.8rem; font-weight: 700; margin-bottom: 16px; box-shadow: 0 3px 0 #0369a1;">
           <i class="fa-solid fa-eye"></i> Preview
@@ -2299,3 +2745,237 @@ function updateConvBubblePreview() {
     </div>
   `;
 }
+
+
+// ══════════════════════════════════════════════════════════════════════════
+// ADMIN MANAGEMENT MODULE
+// ══════════════════════════════════════════════════════════════════════════
+
+// Initialize default admins in localStorage if not exists
+function initializeAdmins() {
+  const stored = localStorage.getItem('funlish_admins');
+  if (!stored) {
+    const defaultAdmins = [
+      {
+        username: 'admin',
+        password: 'admin123',
+        fullname: 'Administrator Utama',
+        email: 'admin@funlish.com',
+        isMain: true // Cannot be edited or deleted
+      }
+    ];
+    localStorage.setItem('funlish_admins', JSON.stringify(defaultAdmins));
+  }
+}
+
+// Get all admins from localStorage
+function getAdmins() {
+  initializeAdmins();
+  const stored = localStorage.getItem('funlish_admins');
+  return stored ? JSON.parse(stored) : [];
+}
+
+// Save admins to localStorage
+function saveAdmins(admins) {
+  localStorage.setItem('funlish_admins', JSON.stringify(admins));
+}
+
+// Render admin list
+window.renderAdminList = function() {
+  console.log('📋 Rendering admin list...');
+  const container = document.getElementById('admin-list-container');
+  if (!container) {
+    console.error('❌ admin-list-container not found!');
+    return;
+  }
+
+  const admins = getAdmins();
+  const countBadge = document.getElementById('admin-count-badge');
+  if (countBadge) countBadge.textContent = `${admins.length} Admin`;
+
+  if (admins.length === 0) {
+    container.innerHTML = '<div class="info-box warning">Belum ada data administrator.</div>';
+    return;
+  }
+
+  let html = '';
+  admins.forEach((admin, index) => {
+    const isMain = admin.username === 'admin' || admin.isMain;
+    const lockIcon = isMain ? '<i class="fa-solid fa-lock" style="color: #ff6b6b;"></i>' : '';
+    
+    html += `
+      <div class="admin-item" style="background: white; border: 2px solid #e2ecd9; border-radius: 16px; padding: 20px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 0 #e2ecd9;">
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <strong style="font-size: 1.1rem; color: #1e293b; font-family: 'Fredoka', sans-serif;">
+              ${lockIcon} ${admin.fullname || admin.username}
+            </strong>
+            ${isMain ? '<span class="tech-badge" style="background: #fee2e2; color: #dc2626; border-color: #fecaca;">UTAMA</span>' : ''}
+          </div>
+          <div style="font-size: 0.9rem; color: #64748b;">
+            <i class="fa-solid fa-user"></i> ${admin.username} 
+            ${admin.email ? `<span style="margin-left: 12px;"><i class="fa-solid fa-envelope"></i> ${admin.email}</span>` : ''}
+          </div>
+          <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">
+            <i class="fa-solid fa-key"></i> Password: ${'•'.repeat(admin.password.length)}
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          ${!isMain ? `
+            <button class="btn btn-sm btn-warning" onclick="editAdmin(${index})" style="font-size: 0.85rem;">
+              <i class="fa-solid fa-edit"></i> Edit
+            </button>
+            <button class="btn btn-sm btn-danger" onclick="deleteAdmin(${index})" style="font-size: 0.85rem;">
+              <i class="fa-solid fa-trash"></i> Hapus
+            </button>
+          ` : `
+            <button class="btn btn-sm btn-secondary" disabled style="font-size: 0.85rem; cursor: not-allowed;">
+              <i class="fa-solid fa-lock"></i> Terkunci
+            </button>
+          `}
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+  console.log('✅ Admin list rendered');
+};
+
+// Save admin (add or edit)
+window.saveAdmin = function() {
+  const username = document.getElementById('admin-username').value.trim();
+  const password = document.getElementById('admin-password').value.trim();
+  const fullname = document.getElementById('admin-fullname').value.trim();
+  const email = document.getElementById('admin-email').value.trim();
+  const editIndex = parseInt(document.getElementById('admin-edit-index').value);
+
+  // Validation
+  if (!username) {
+    showDbToast('⚠️ Username harus diisi!', 'warning');
+    return;
+  }
+
+  if (!password) {
+    showDbToast('⚠️ Password harus diisi!', 'warning');
+    return;
+  }
+
+  if (username.length < 3) {
+    showDbToast('⚠️ Username minimal 3 karakter!', 'warning');
+    return;
+  }
+
+  if (password.length < 6) {
+    showDbToast('⚠️ Password minimal 6 karakter!', 'warning');
+    return;
+  }
+
+  const admins = getAdmins();
+
+  // Check if editing main admin (not allowed)
+  if (editIndex >= 0) {
+    const admin = admins[editIndex];
+    if (admin.username === 'admin' || admin.isMain) {
+      showDbToast('⚠️ Admin utama tidak dapat diubah!', 'warning');
+      return;
+    }
+  }
+
+  // Check duplicate username (only when adding or changing username)
+  const duplicateIndex = admins.findIndex((a, idx) => 
+    a.username.toLowerCase() === username.toLowerCase() && idx !== editIndex
+  );
+
+  if (duplicateIndex >= 0) {
+    showDbToast('⚠️ Username sudah digunakan!', 'warning');
+    return;
+  }
+
+  // Prevent creating new admin with username 'admin'
+  if (editIndex < 0 && username.toLowerCase() === 'admin') {
+    showDbToast('⚠️ Username "admin" sudah digunakan oleh admin utama!', 'warning');
+    return;
+  }
+
+  const newAdmin = {
+    username,
+    password,
+    fullname: fullname || username,
+    email,
+    isMain: false
+  };
+
+  if (editIndex >= 0) {
+    // Edit existing
+    admins[editIndex] = newAdmin;
+  } else {
+    // Add new
+    admins.push(newAdmin);
+  }
+
+  saveAdmins(admins);
+  showDbToast(editIndex >= 0 ? '✅ Admin berhasil diupdate!' : '✅ Admin berhasil ditambahkan!', 'success');
+  resetAdminForm();
+  renderAdminList();
+};
+
+// Edit admin
+window.editAdmin = function(index) {
+  const admins = getAdmins();
+  const admin = admins[index];
+
+  if (!admin) return;
+
+  // Check if main admin
+  if (admin.username === 'admin' || admin.isMain) {
+    showDbToast('⚠️ Admin utama tidak dapat diubah!', 'warning');
+    return;
+  }
+
+  document.getElementById('admin-username').value = admin.username;
+  document.getElementById('admin-password').value = admin.password;
+  document.getElementById('admin-fullname').value = admin.fullname || '';
+  document.getElementById('admin-email').value = admin.email || '';
+  document.getElementById('admin-edit-index').value = index;
+
+  // Scroll to form
+  document.getElementById('admin-username').scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+// Delete admin
+window.deleteAdmin = function(index) {
+  const admins = getAdmins();
+  const admin = admins[index];
+
+  if (!admin) return;
+
+  // Check if main admin
+  if (admin.username === 'admin' || admin.isMain) {
+    showDbToast('⚠️ Admin utama tidak dapat dihapus!', 'warning');
+    return;
+  }
+
+  if (!confirm(`Hapus admin "${admin.fullname || admin.username}"?`)) return;
+
+  admins.splice(index, 1);
+  saveAdmins(admins);
+  showDbToast('✅ Admin berhasil dihapus!', 'success');
+  renderAdminList();
+};
+
+// Reset form
+window.resetAdminForm = function() {
+  document.getElementById('admin-username').value = '';
+  document.getElementById('admin-password').value = '';
+  document.getElementById('admin-fullname').value = '';
+  document.getElementById('admin-email').value = '';
+  document.getElementById('admin-edit-index').value = '-1';
+};
+
+// Load admin list when tab is opened
+window.loadKelolaAdminTab = function() {
+  console.log('🔐 Loading Kelola Admin tab...');
+  initializeAdmins();
+  renderAdminList();
+};

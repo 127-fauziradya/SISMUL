@@ -4206,25 +4206,50 @@ body::after,
   box-sizing: border-box;
 }
 
-/* Ensure content area has proper padding */
+/* Ensure preview content areas have NO padding on parent */
 .vocab-list-card > div:not(.display-header),
 .main-display .card > div:not(.display-header) {
-  padding: 24px;
+  padding: 0 !important;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Quiz preview content area */
+/* Quiz preview and conversation bubble preview containers */
 #quiz-preview-content,
 #conv-bubble-preview {
   padding: 24px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 /* Override any conflicting styles */
 .vocab-list-wrapper {
+  padding: 0 !important;
+  width: 100%;
+}
+
+/* Add padding to the inner container instead */
+#vocab-list-container {
+  padding: 24px !important;
+  box-sizing: border-box;
+}
+
+/* Specific padding for vocabulary grid */
+.vocab-list-wrapper .vocab-grid {
   padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
 #quiz-list-container,
 #conv-preview-container {
   padding: 20px;
+}
+
+/* Specific fix for preview background containers */
+.vocab-list-card.card > div[style*="background: linear-gradient"],
+.main-display .card > div[style*="background: linear-gradient"] {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
