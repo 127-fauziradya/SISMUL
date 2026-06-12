@@ -394,12 +394,12 @@
           <!-- Image Mode -->
           <div class="form-group hide" id="vocab-image-group">
             <label>Upload Gambar Flashcard:</label>
-            <div class="file-upload-zone" id="vocab-dropzone" style="padding: 20px;">
+            <div class="file-upload-zone" id="vocab-dropzone" onclick="document.getElementById('vocab-file-input').click()" style="padding: 20px; cursor: pointer;">
               <i class="fa-solid fa-cloud-arrow-up"></i>
               <p>Unggah gambar (.png/.jpg) atau <strong>klik di sini</strong></p>
-              <input type="file" id="vocab-file-input" accept="image/*" class="hide" />
+              <input type="file" id="vocab-file-input" accept="image/*" class="hide" onchange="handleVocabImageUpload()" />
             </div>
-            <button class="btn btn-secondary w-full mt-5" id="btn-use-vocab-sample"><i class="fa-solid fa-image"></i> Gunakan Gambar Sampel</button>
+            <button class="btn btn-secondary w-full mt-5" id="btn-use-vocab-sample" onclick="useVocabSampleImage()"><i class="fa-solid fa-image"></i> Gunakan Gambar Sampel</button>
           </div>
         </div>
 

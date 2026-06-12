@@ -1173,15 +1173,65 @@ window.initVocabImageHandlers = function() {
   }
 };
 
+// Direct handler that can be called from HTML onclick
+window.handleVocabImageUpload = function() {
+  const fileInput = document.getElementById('vocab-file-input');
+  
+  if (!fileInput || !fileInput.files || !fileInput.files[0]) {
+    console.log('No file selected');
+    return;
+  }
+  
+  const file = fileInput.files[0];
+  console.log('Vocab image file selected:', file.name, file.type);
+  
+  // Validate file type
+  if (!file.type.startsWith('image/')) {
+    showDbToast('⚠️ File harus berupa gambar (.png, .jpg, dll)!', 'warning');
+    fileInput.value = ''; // Reset
+    return;
+  }
+  
+  loadVocabImage(file);
+};
+
+// Sample image loader
+window.useVocabSampleImage = function() {
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = '../assets/images/sample.png';
+  img.onload = () => {
+    vocabOriginalImage = img;
+    setupVocabCanvas();
+    showDbToast('✅ Gambar sampel dimuat!', 'success');
+  };
+  img.onerror = () => {
+    showDbToast('❌ Gagal memuat gambar sampel!', 'error');
+  };
+};
+
 function loadVocabImage(file) {
+  console.log('Loading vocab image:', file.name);
+  showDbToast('📤 Memuat gambar...', 'info');
+  
   const reader = new FileReader();
   reader.onload = (event) => {
     const img = new Image();
     img.onload = () => {
       vocabOriginalImage = img;
       setupVocabCanvas();
+      showDbToast(`✅ Gambar "${file.name}" berhasil dimuat!`, 'success');
+      console.log('Vocab image loaded successfully');
+    };
+    img.onerror = () => {
+      showDbToast('❌ Gagal memuat gambar!', 'error');
+      console.error('Failed to load image');
     };
     img.src = event.target.result;
+  };
+  reader.onerror = () => {
+    showDbToast('❌ Gagal membaca file!', 'error');
+    console.error('Failed to read file');
   };
   reader.readAsDataURL(file);
 }

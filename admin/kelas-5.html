@@ -138,6 +138,14 @@
               loadQuizGrade(5);
             }
             
+            // Initialize image and audio handlers
+            if (typeof initVocabImageHandlers === 'function') {
+              initVocabImageHandlers();
+            }
+            if (typeof initConvAudioHandlers === 'function') {
+              initConvAudioHandlers();
+            }
+            
             console.log('✅ Grade 5 content loaded');
           }, 200);
         }
@@ -172,9 +180,21 @@
       if (tabType === 'vocab') {
         vocabContent.classList.add('active');
         tabs[0].classList.add('active');
+        // Re-initialize vocab handlers when switching to vocab tab
+        setTimeout(() => {
+          if (typeof initVocabImageHandlers === 'function') {
+            initVocabImageHandlers();
+          }
+        }, 50);
       } else if (tabType === 'conv') {
         convContent.classList.add('active');
         tabs[1].classList.add('active');
+        // Re-initialize conv handlers when switching to conv tab
+        setTimeout(() => {
+          if (typeof initConvAudioHandlers === 'function') {
+            initConvAudioHandlers();
+          }
+        }, 50);
       } else if (tabType === 'quiz') {
         quizContent.classList.add('active');
         tabs[2].classList.add('active');
